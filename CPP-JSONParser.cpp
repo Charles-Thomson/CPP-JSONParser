@@ -460,8 +460,8 @@ shared_ptr<JSONValue> ParseJson(string inputString) {
 
 }
 
-bool HolderFunc() {
-	return true;
+string HolderFunc() {
+	return "true";
 
 }
 

@@ -56,7 +56,7 @@ istringstream preProcessing(string& inputString);
 
 shared_ptr<JSONValue> ParseJson(string inputString);
 
-bool HolderFunc();
+string HolderFunc();
 
 #endif // !JSON_PARSER_H
 

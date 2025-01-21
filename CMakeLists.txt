@@ -1,7 +1,10 @@
 ﻿# CMakeList.txt : CMake project for CPP-JSONParser, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.12)
+
+set(CMAKE_CXX_STANDARD 20)  # Ensure C++20 is enabled
+set(CMAKE_CXX_STANDARD_REQUIRED ON)  # Require C++20 features
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -12,10 +15,80 @@ endif()
 project ("CPP-JSONParser")
 
 # Add source to this project's executable.
-add_executable (CPP-JSONParser "CPP-JSONParser.cpp" "CPP-JSONParser.h" "Structs/JSONValueStruct.h" "Structs/JSONValueStruct.cpp" "FileReader/FileReader.h" "FileReader/FileReader.cpp")
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET CPP-JSONParser PROPERTY CXX_STANDARD 20)
+# Add a library
+add_library(CPP-JSONParser
+    
+    CPP-JSONParser.h
+    Structs/JSONValueStruct.cpp
+    Structs/JSONValueStruct.h
+    FileReader/FileReader.cpp
+    FileReader/FileReader.h
+)
+
+# Enable testing
+enable_testing()
+
+# Fetch Google Test
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.11.0
+)
+FetchContent_MakeAvailable(googletest)
+
+include(GoogleTest)
+
+# Force consistent runtime 
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MDd")  # Dynamic debug runtime
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MDd")  # Dynamic debug runtime for C
+    set_target_properties(gtest PROPERTIES COMPILE_OPTIONS "/MDd")
+    set_target_properties(gtest_main PROPERTIES COMPILE_OPTIONS "/MDd")
 endif()
 
-# TODO: Add tests and install targets if needed.
+#Executables
+add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp )
+add_executable(parser_tests Testing/ParserTests/ParserTests.cpp )
+
+# Set runtime library for test target (match the option you selected above)
+target_compile_options(file_reader_tests PRIVATE /MDd)
+target_compile_options(parser_tests PRIVATE /MDd)
+
+#Target Libs
+target_include_directories(file_reader_tests PRIVATE
+    "${CMAKE_SOURCE_DIR}"
+    "${CMAKE_SOURCE_DIR}/FileReader"
+    "${CMAKE_SOURCE_DIR}/Structs"
+)
+
+target_include_directories(parser_tests PRIVATE
+    "${CMAKE_SOURCE_DIR}"
+    "${CMAKE_SOURCE_DIR}/FileReader"
+    "${CMAKE_SOURCE_DIR}/Structs"
+)
+
+
+# Pass file path as a compile definition
+target_compile_definitions(file_reader_tests PRIVATE 
+    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
+)
+
+# Target sources
+target_sources(parser_tests PRIVATE CPP-JSONParser.cpp)
+
+
+#Link Google Tests and project Libs
+target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser)
+target_link_libraries(parser_tests PRIVATE gtest gtest_main CPP-JSONParser)
+
+
+#Add Tests
+add_test(NAME FileReaderTests COMMAND file_reader_tests)
+add_test(NAME ParserTests COMMAND parser_tests)
+
+
+#Gtests Discovery 
+gtest_discover_tests(file_reader_tests)
+gtest_discover_tests(parser_tests)

@@ -7,6 +7,7 @@
 #include<unordered_map>
 #include<vector>
 #include<memory>
+#include <variant>
 
 using std::string;
 using std::shared_ptr;
