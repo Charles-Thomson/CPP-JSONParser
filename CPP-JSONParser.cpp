@@ -35,14 +35,6 @@ using std::get;
 using std::make_shared;
 using std::variant;
 
-
-
-int add(int a, int b) {
-	std::variant<int, std::string> var;
-	return a + b;
-}
-
-
 //*
 // @brief Remove whitespace from stream.
 // 
@@ -460,15 +452,7 @@ shared_ptr<JSONValue> ParseJson(string inputString) {
 
 }
 
-string HolderFunc() {
-	return "holder";
 
-}
-
-string NewFunction()
-{
-	return "Hello";
-}
 
 
 
