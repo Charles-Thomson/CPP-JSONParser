@@ -436,22 +436,22 @@ istringstream preProcessing(string& inputString) {
 	return istringstream(inputString);
 }
 
-int main()
-{
-	FileReader newFileReader("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
-
-	/*pair<string,bool> testData = newFileReader.GetFileContents("ValidString.txt");*/
-	/*pair<string, bool> testData = newFileReader.GetFileContents("ValidStringWhiteSpace.txt");*/
-	pair<string, bool> testData = newFileReader.GetFileContents();
-
-	istringstream stream = preProcessing(testData.first);
-
-	shared_ptr<JSONValue> returnedPtr = parseJSON(stream);
-
-	PrintJson(returnedPtr);
-
-	return 0;
-}
+//int main()
+//{
+//	FileReader newFileReader("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
+//
+//	/*pair<string,bool> testData = newFileReader.GetFileContents("ValidString.txt");*/
+//	/*pair<string, bool> testData = newFileReader.GetFileContents("ValidStringWhiteSpace.txt");*/
+//	pair<string, bool> testData = newFileReader.GetFileContents();
+//
+//	istringstream stream = preProcessing(testData.first);
+//
+//	shared_ptr<JSONValue> returnedPtr = parseJSON(stream);
+//
+//	PrintJson(returnedPtr);
+//
+//	return 0;
+//}
 
 shared_ptr<JSONValue> ParseJson(string inputString) {
 	istringstream stream = preProcessing(inputString);
@@ -461,12 +461,16 @@ shared_ptr<JSONValue> ParseJson(string inputString) {
 }
 
 string HolderFunc() {
-	return "true";
+	return "holder";
 
 }
 
+string NewFunction()
+{
+	return "Hello";
+}
 
-// Need to add in a JSONGet function that takes a shared_ptr and returns the object - key and pointer 
+
 
 
 

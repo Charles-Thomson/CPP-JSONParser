@@ -9,13 +9,6 @@
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
 
-
-
-
-using std::string;
-using std::list;
-
-
 //list<string> TEST_FILE_PATHS = {
 //    "ValidStringWhiteSpace.txt",
 //    "ValidString.txt",
@@ -53,7 +46,7 @@ TEST(ParserTests, ParserWhiteSpaceTest) {
     /*shared_ptr<JSONValue> ParsedData = ParseJson(holder);*/
 
 
-    string hO = HolderFunc(); // This is the call to the external JSONParser.h file 
+    /*string hO = HolderFunc();*/ // This is the call to the external JSONParser.h file 
     ASSERT_EQ(1, 1);
 
 
