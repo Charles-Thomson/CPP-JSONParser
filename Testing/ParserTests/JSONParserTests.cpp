@@ -7,10 +7,16 @@
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
 #include "CPP-JSONParser.h"
+#include "ExposedParserFunctions.cpp"
 
+#include <iostream>
+#include <sstream>
+
+using std::stringstream;
 using std::list;
 using std::cout;
 using std::endl;
+using std::getline;
 
 list<string> TEST_DATA_FILE_PATHS = {
 	"ValidStringWhiteSpace.txt",
@@ -25,26 +31,35 @@ list<string> VALID_STRING_TEST_KEYS = {
 	"street"
 };
 
+list<string> keyStringToList(string& keyString) {
+	list<string> keyArray;
+	stringstream ss(keyString);
+	string word;
+
+	while(getline(ss, word, ',')) {
+		keyArray.push_back(word);
+	}
+	return keyArray;
+}
 
 
 TEST(JSONParserTests, ValidStringTest) {
 	
 	FileReader newFileReader("C:/Users/Charl/source/repos/C++/JSONParser/TestStrings/ValidString.txt");
 
-	pair<string, bool> returnedData = newFileReader.GetFileContents();
+	tuple<string,string, bool> returnedData = newFileReader.GetFileContents();
 
-	string data = returnedData.first;
+	string JSONTestString = get<0>(returnedData);
 
-	shared_ptr <JSONValue> ParsedData = ParseJson(data);
+	cout << JSONTestString << endl;
 
-	for (string key : VALID_STRING_TEST_KEYS) {
-		bool holder = CheckKeyExists(ParsedData, key);
-		cout << holder << endl;
+	list<string> keyArray = keyStringToList(get<1>(returnedData));
+
+	shared_ptr <JSONValue> ParsedData = ParseJson(JSONTestString);
+
+	for (string key : keyArray) {
+		bool holder = checkIfContainsKey(ParsedData, key);
+		cout << "The result of the key check: " << key << " is " << holder << endl;
 		ASSERT_TRUE(holder);
-
-	};
-
-	// The issue is due to the nested element containing a key that needs to be checked 
-	// Need to write a func to reach into the nested elements 
-	
+	};	
 }

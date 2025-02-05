@@ -12,9 +12,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <tuple>
 
 #include "FileReader.h"
-
+using std::tuple;
 using std::string;
 using std::cout;
 using std::endl;
@@ -73,19 +74,35 @@ string FileReader::BuildFilePath(const string& fileType) const {
 // @param filePath Path to the stored file
 // @Return The contents of the file as a single string
 // */
-string FileReader::ReadFileContents(const string& filePath) const {
+pair<string, string> FileReader::ReadJSONTestFileContents(const string& filePath) const {
 	ifstream inputFile(filePath);
 	if (!inputFile) {
 		cerr << "Error Opening File: " << filePath << endl;
-		return "";
+		return {"", ""};
 	}
 
 	string fileContent;
+	string contentLine;
+	string keysLine;
 	string line;
-	while (getline(inputFile, line)) {
-		fileContent += line + "\n"; // Accumulate the lines
-	}
-	return fileContent;
+
+	if (getline(inputFile, line)) {
+		contentLine = line;
+
+	};
+
+	if (getline(inputFile, line)) {
+		keysLine = line;
+		
+	};
+
+	cout << keysLine << endl; 
+
+
+	//while (getline(inputFile, line)) {
+	//	fileContent += line + "\n"; // Accumulate the lines
+	//}
+	return {contentLine, keysLine};
 }
 
 //*
@@ -97,7 +114,7 @@ string FileReader::ReadFileContents(const string& filePath) const {
 // @param fileType The type of file to be read(i.e valid, invalid, nested ...)
 // @Return The contents of the file as a single string, bool falg to indicate if read successful
 // */
-pair<string, bool> FileReader::GetFileContents() const {
+tuple<string,string,bool> FileReader::GetFileContents() const {
 
 	// Build the FullFile Path
 	/*string FullFilePath = BuildFilePath(fileType);*/
@@ -105,10 +122,12 @@ pair<string, bool> FileReader::GetFileContents() const {
 	// Check the Path is valid
 	if (!CheckFilePathValidity(INPUT_FILE_PATH)) {
 		cout << "File Path is Invalid" << endl;
-		return { " ", false };
+		return { "", "", false};
 	}
 
-	return { ReadFileContents(INPUT_FILE_PATH), true };
+	pair<string, string> content = ReadJSONTestFileContents(INPUT_FILE_PATH);
+
+	return { content.first, content.second, true };
 }
 
 

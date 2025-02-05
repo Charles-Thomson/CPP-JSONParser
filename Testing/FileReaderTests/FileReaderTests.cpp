@@ -6,7 +6,10 @@
 #include <string>
 #include <list>
 #include <fstream>
+#include <tuple>
 
+
+using std::tuple;
 using std::string;
 using std::list;
 using std::ifstream;
@@ -35,13 +38,11 @@ TEST(FileReaderTests, ReadTestFiles) {
         ASSERT_TRUE(fileExists(fullPath)) << "File does not exist" << path;
 
         FileReader newFileReader(fullPath);
-        pair<string, bool> testData = newFileReader.GetFileContents();
+        tuple<string,string, bool> testData = newFileReader.GetFileContents();
 
+        ASSERT_TRUE(typeid(get<0>(testData)) == typeid(string)) << "Expected String got : " << typeid(get<0>(testData)).name();
 
-
-        ASSERT_TRUE(typeid(testData.first) == typeid(string)) << "Expected String got : " << typeid(testData.first).name();
-
-        ASSERT_FALSE(testData.first.empty()) << "File is empty : " << fullPath;
+        ASSERT_FALSE(get<0>(testData).empty()) << "File is empty : " << fullPath;
     }
 
 }

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <tuple>
 
 
 
@@ -16,12 +17,13 @@ using std::endl;
 using std::ifstream;
 using std::cerr;
 using std::pair;
+using std::tuple;
 
 class FileReader {
 private:
 	string INPUT_FILE_PATH;
 
-	string ReadFileContents(const string& filePath) const;
+	pair<string, string> ReadJSONTestFileContents(const string& filePath) const;
 
 	string BuildFilePath(const string& fileType) const;
 
@@ -34,7 +36,7 @@ public:
 
 	string GetTestInputFilePath() const;
 
-	pair<string, bool> GetFileContents() const;
+	tuple<string, string, bool> GetFileContents() const;
 
 };
 

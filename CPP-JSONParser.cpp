@@ -362,6 +362,7 @@ void PrintJson(const shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nest
 	else if (holds_alternative<double>(jsonValue->value)) {
 
 		cout << get<double>(jsonValue->value) << endl;
+		cout <<  "   " << endl;
 	}
 }
 
@@ -423,7 +424,7 @@ bool CheckKeyExists(const shared_ptr<JSONValue>& jsonValue, const string& key) {
 // @ return istringstream Of the given inputString
 // */
 istringstream preProcessing(string& inputString) {
-	RemoveExternalQuoteChar(inputString);
+	/*RemoveExternalQuoteChar(inputString);*/
 
 	return istringstream(inputString);
 }
