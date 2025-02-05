@@ -55,20 +55,6 @@ void SkipWhiteSpace(istringstream& stream) {
 }
 
 //*
-// @Brief Remove outermost ''
-// 
-// Remove the outer most set of ' ' from an input string if they are present
-// 
-// @param inputString The string to altered
-// */
-void RemoveExternalQuoteChar(string& inputString) {
-	if (inputString.front() == '\'') {
-		inputString.erase(inputString.size() - 2);
-		inputString.erase(0, 1);
-	}
-}
-
-//*
 // @Brief return a string from JSONValue type
 // 
 // Checks if the given JSONValue can return a string
@@ -160,7 +146,7 @@ shared_ptr<JSONValue> parseArray(istringstream& stream);
 // 
 // @return shared_ptr<JSONValue> ptr for the parsed result
 // */
-shared_ptr<JSONValue> parseJSON(istringstream& stream) {
+shared_ptr<JSONValue> determineJSONType(istringstream& stream) {
 	SkipWhiteSpace(stream);
 
 	char ch;
@@ -216,9 +202,6 @@ bool checkAndHandleEmptyCase(istringstream& stream, char matchCaseOpen, char mat
 
 }
 
-
-
-
 //*
 // @Brief Parse a string to JSONArray
 // 
@@ -239,7 +222,7 @@ shared_ptr<JSONValue> parseArray(istringstream& stream) {
 	do {
 		SkipWhiteSpace(stream);
 
-		shared_ptr<JSONValue> value = parseJSON(stream);
+		shared_ptr<JSONValue> value = determineJSONType(stream);
 		ary.emplace_back(value);
 
 		SkipWhiteSpace(stream);
@@ -277,7 +260,7 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 	do {
 		SkipWhiteSpace(stream);
 
-		shared_ptr<JSONValue> key = parseJSON(stream); // Get the key 
+		shared_ptr<JSONValue> key = determineJSONType(stream); // Get the key 
 		string keyString = getStringFromValue(*key); // Key is always a string
 
 		SkipWhiteSpace(stream);
@@ -285,16 +268,10 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 		if (stream.get(ch) && ch == ':') {
 			SkipWhiteSpace(stream);
 
-			shared_ptr<JSONValue> value = parseJSON(stream);
-
-			//// For Debug
-			//cout << "The key : " << key << endl;
-			//cout << "The reuturned value : " << value << endl;
+			shared_ptr<JSONValue> value = determineJSONType(stream);
 
 			obj[keyString] = value;  // save as key - value to obj
-			// For Debug
-			cout << "Object saved " << value << endl;
-
+			
 		}
 		else {
 			string found = string(1, ch);
@@ -305,18 +282,14 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 
 	} while (stream.get(ch) && ch == ','); // After the parse the next char should be a ","
 
-
 	if (ch != '}') {
 		cout << "The found char : " << ch << endl;
 		throw runtime_error("Expected '}' at the end of object.");
 	}
 
-
 	return make_shared<JSONValue>(obj);
 
 }
-
-// Pull this out ?
 
 //*
 // 
@@ -375,18 +348,28 @@ void PrintJson(const shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nest
 // @param inputPtr The given shared_ptr<JSONValue>
 // @retrun string, value pair
 // */
-//pair<string, shared_ptr<JSONValue>> GetByKey(const shared_ptr<JSONValue>& JSONObject, const string& key) {
-//
-//	if (JSONObject && holds_alternative<JSONValue>(JSONObject->value)) {
-//		
-//		const auto obj = get<JSONObject>(JSONObject->value);
-//		auto it obj.find(key);
-//
-//	
-//	
-//	}
-//
-//}
+shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& searchKey) {
+
+	// Passing in the full object
+
+	// Need to get the value from the objct
+
+	// Loop through to find the matching key 
+
+	if (holds_alternative<JSONObject>(JSONElement->value)) {
+
+		const JSONObject& obj = get<JSONObject>(JSONElement->value);
+
+		for(const auto& [key , value] : obj) {
+			if (key == searchKey) {
+				return value;
+			}
+		
+		}
+		
+	}
+	return JSONElement;
+}
 
 //*
 // @brief Check Key Exists 
@@ -429,26 +412,9 @@ istringstream preProcessing(string& inputString) {
 	return istringstream(inputString);
 }
 
-//int main()
-//{
-//	FileReader newFileReader("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
-//
-//	/*pair<string,bool> testData = newFileReader.GetFileContents("ValidString.txt");*/
-//	/*pair<string, bool> testData = newFileReader.GetFileContents("ValidStringWhiteSpace.txt");*/
-//	pair<string, bool> testData = newFileReader.GetFileContents();
-//
-//	istringstream stream = preProcessing(testData.first);
-//
-//	shared_ptr<JSONValue> returnedPtr = parseJSON(stream);
-//
-//	PrintJson(returnedPtr);
-//
-//	return 0;
-//}
-
 shared_ptr<JSONValue> ParseJson(string inputString) {
 	istringstream stream = preProcessing(inputString);
-	shared_ptr<JSONValue> returnedPtr = parseJSON(stream);
+	shared_ptr<JSONValue> returnedPtr = determineJSONType(stream);
 	return returnedPtr;
 
 }

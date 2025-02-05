@@ -28,15 +28,13 @@ using std::variant;
 
 void SkipWhiteSpace(istringstream& stream);
 
-void RemoveExternalQuoteChar(string& inputString);
-
 string getStringFromValue(const JSONValue& jv);
 
 shared_ptr<JSONValue> parseString(istringstream& stream);
 
 shared_ptr<JSONValue> parseNumber(istringstream& stream);
 
-shared_ptr<JSONValue> parseJSON(istringstream& stream);
+shared_ptr<JSONValue> determineJSONType(istringstream& stream);
 
 shared_ptr<JSONValue> parseArray(istringstream& stream);
 
@@ -52,6 +50,8 @@ bool CheckKeyExists(const shared_ptr<JSONValue>& jsonValue, const string& key);
 istringstream preProcessing(string& inputString);
 
 shared_ptr<JSONValue> ParseJson(string inputString);
+
+shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string&); 
 
 
 

@@ -43,6 +43,22 @@ list<string> keyStringToList(string& keyString) {
 }
 
 
+shared_ptr<JSONValue> getTestData() {
+	FileReader newFileReader("C:/Users/Charl/source/repos/C++/JSONParser/TestStrings/ValidString.txt");
+
+	tuple<string, string, bool> returnedData = newFileReader.GetFileContents();
+
+	string JSONTestString = get<0>(returnedData);
+
+	cout << JSONTestString << endl;
+
+	list<string> keyArray = keyStringToList(get<1>(returnedData));
+
+	shared_ptr<JSONValue> ParsedData = ParseJson(JSONTestString);
+
+	return ParsedData;
+}
+
 TEST(JSONParserTests, ValidStringTest) {
 	
 	FileReader newFileReader("C:/Users/Charl/source/repos/C++/JSONParser/TestStrings/ValidString.txt");
@@ -55,11 +71,33 @@ TEST(JSONParserTests, ValidStringTest) {
 
 	list<string> keyArray = keyStringToList(get<1>(returnedData));
 
-	shared_ptr <JSONValue> ParsedData = ParseJson(JSONTestString);
+	shared_ptr<JSONValue> ParsedData = ParseJson(JSONTestString);
 
 	for (string key : keyArray) {
 		bool holder = checkIfContainsKey(ParsedData, key);
 		cout << "The result of the key check: " << key << " is " << holder << endl;
 		ASSERT_TRUE(holder);
 	};	
+}
+
+string getStringFromJSONValue(shared_ptr<JSONValue>& inputValue) {
+	string data = get<string>(inputValue->value);
+
+	return data; 
+}
+
+
+// Working on this test 
+TEST(JSONParserTests, GetByKey) {
+	string testKey = "name";
+
+	shared_ptr<JSONValue> JSONTestData = getTestData();
+
+	shared_ptr<JSONValue> data = GetValueByKey(JSONTestData, testKey);
+
+	string value = getStringFromJSONValue(data);
+
+	cout << "The returned value is: " << value << endl;
+
+
 }
