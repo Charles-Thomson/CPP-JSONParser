@@ -26,7 +26,7 @@ using std::stringstream;
 using std::pair;
 
 // Constructor
-FileReader::FileReader(const string& filePath) : INPUT_FILE_PATH(filePath) {
+FileReader::FileReader() {
 }
 // Destructor
 FileReader::~FileReader() {
@@ -52,18 +52,6 @@ string FileReader::GetTestInputFilePath() const {
 bool FileReader::CheckFilePathValidity(const string& filePath) const {
 	ifstream inputFile(filePath);
 	return inputFile.is_open();
-}
-
-//*
-// @brief builds file path
-// 
-// Builds the file path based on the stored INPUT_FILE_PATH and the given file type(file name) 
-// 
-// @param fileType The type of file to be opened (Valid, invalid, nested .....)
-// @return The full file path comprised of INPUT_FILE_PATH and fileType
-// */
-string FileReader::BuildFilePath(const string& fileType) const {
-	return INPUT_FILE_PATH + fileType;
 }
 
 //*
@@ -97,11 +85,6 @@ pair<string, string> FileReader::ReadJSONTestFileContents(const string& filePath
 	};
 
 	cout << keysLine << endl; 
-
-
-	//while (getline(inputFile, line)) {
-	//	fileContent += line + "\n"; // Accumulate the lines
-	//}
 	return {contentLine, keysLine};
 }
 
@@ -114,18 +97,15 @@ pair<string, string> FileReader::ReadJSONTestFileContents(const string& filePath
 // @param fileType The type of file to be read(i.e valid, invalid, nested ...)
 // @Return The contents of the file as a single string, bool falg to indicate if read successful
 // */
-tuple<string,string,bool> FileReader::GetFileContents() const {
-
-	// Build the FullFile Path
-	/*string FullFilePath = BuildFilePath(fileType);*/
+tuple<string,string,bool> FileReader::GetFileContents(const string& filePath)  {
 
 	// Check the Path is valid
-	if (!CheckFilePathValidity(INPUT_FILE_PATH)) {
+	if (!CheckFilePathValidity(filePath)) {
 		cout << "File Path is Invalid" << endl;
 		return { "", "", false};
 	}
 
-	pair<string, string> content = ReadJSONTestFileContents(INPUT_FILE_PATH);
+	pair<string, string> content = ReadJSONTestFileContents(filePath);
 
 	return { content.first, content.second, true };
 }

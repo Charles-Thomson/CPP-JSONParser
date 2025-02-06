@@ -44,9 +44,9 @@ list<string> keyStringToList(string& keyString) {
 
 
 shared_ptr<JSONValue> getTestData() {
-	FileReader newFileReader("C:/Users/Charl/source/repos/C++/JSONParser/TestStrings/ValidString.txt");
+	FileReader newFileReader;
 
-	tuple<string, string, bool> returnedData = newFileReader.GetFileContents();
+	tuple<string, string, bool> returnedData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
 
 	string JSONTestString = get<0>(returnedData);
 
@@ -59,12 +59,16 @@ shared_ptr<JSONValue> getTestData() {
 	return ParsedData;
 }
 
+
+
 TEST(JSONParserTests, ValidStringTest) {
 	
-	FileReader newFileReader("C:/Users/Charl/source/repos/C++/JSONParser/TestStrings/ValidString.txt");
+	
+	FileReader newFileReader;
 
-	tuple<string,string, bool> returnedData = newFileReader.GetFileContents();
-
+	
+	tuple<string,string, bool> returnedData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
+	
 	string JSONTestString = get<0>(returnedData);
 
 	cout << JSONTestString << endl;
@@ -77,6 +81,7 @@ TEST(JSONParserTests, ValidStringTest) {
 		bool holder = checkIfContainsKey(ParsedData, key);
 		cout << "The result of the key check: " << key << " is " << holder << endl;
 		ASSERT_TRUE(holder);
+		
 	};	
 }
 

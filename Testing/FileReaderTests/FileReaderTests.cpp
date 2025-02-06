@@ -37,8 +37,9 @@ TEST(FileReaderTests, ReadTestFiles) {
 
         ASSERT_TRUE(fileExists(fullPath)) << "File does not exist" << path;
 
-        FileReader newFileReader(fullPath);
-        tuple<string,string, bool> testData = newFileReader.GetFileContents();
+        FileReader newFileReader;
+
+        tuple<string,string, bool> testData = newFileReader.GetFileContents(fullPath);
 
         ASSERT_TRUE(typeid(get<0>(testData)) == typeid(string)) << "Expected String got : " << typeid(get<0>(testData)).name();
 

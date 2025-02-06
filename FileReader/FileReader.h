@@ -25,18 +25,16 @@ private:
 
 	pair<string, string> ReadJSONTestFileContents(const string& filePath) const;
 
-	string BuildFilePath(const string& fileType) const;
-
 	bool CheckFilePathValidity(const string& filePath) const;
 
 public:
-	FileReader(const string& filePath);
+	FileReader();
 
 	~FileReader();
 
 	string GetTestInputFilePath() const;
 
-	tuple<string, string, bool> GetFileContents() const;
+	tuple<string, string, bool> GetFileContents(const string& fileName) ;
 
 };
 
