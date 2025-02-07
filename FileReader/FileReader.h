@@ -19,11 +19,13 @@ using std::cerr;
 using std::pair;
 using std::tuple;
 
+
+
 class FileReader {
 private:
 	string INPUT_FILE_PATH;
 
-	pair<string, string> ReadJSONTestFileContents(const string& filePath) const;
+	tuple<string, string, string> ReadJSONTestFileContents(const string& filePath) const;
 
 	bool CheckFilePathValidity(const string& filePath) const;
 
@@ -34,8 +36,9 @@ public:
 
 	string GetTestInputFilePath() const;
 
-	tuple<string, string, bool> GetFileContents(const string& fileName) ;
+	tuple<string, string, string, bool> GetFileContents(const string& fileName) ;
 
+	
 };
 
 

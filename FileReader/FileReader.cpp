@@ -1,3 +1,4 @@
+#include "FileReader.h"
 //*
 // ****FILE READER****
 // 
@@ -13,6 +14,9 @@
 #include <fstream>
 #include <string>
 #include <tuple>
+#include <list>
+#include <variant>
+#include <sstream>
 
 #include "FileReader.h"
 using std::tuple;
@@ -24,6 +28,9 @@ using std::cerr;
 using std::getline;
 using std::stringstream;
 using std::pair;
+using std::list;
+using std::variant;
+
 
 // Constructor
 FileReader::FileReader() {
@@ -62,31 +69,36 @@ bool FileReader::CheckFilePathValidity(const string& filePath) const {
 // @param filePath Path to the stored file
 // @Return The contents of the file as a single string
 // */
-pair<string, string> FileReader::ReadJSONTestFileContents(const string& filePath) const {
+tuple<string, string, string> FileReader::ReadJSONTestFileContents(const string& filePath) const {
 	ifstream inputFile(filePath);
 	if (!inputFile) {
 		cerr << "Error Opening File: " << filePath << endl;
-		return {"", ""};
+		return {"", "", ""};
 	}
 
 	string fileContent;
 	string contentLine;
 	string keysLine;
+	string valuesLine;
 	string line;
 
 	if (getline(inputFile, line)) {
 		contentLine = line;
-
 	};
 
 	if (getline(inputFile, line)) {
 		keysLine = line;
-		
 	};
 
+	if (getline(inputFile, line)) {
+		valuesLine = line;
+	};
+
+
 	cout << keysLine << endl; 
-	return {contentLine, keysLine};
+	return {contentLine, keysLine, valuesLine};
 }
+
 
 //*
 // @brief Main Function call - Get the contents of a file 
@@ -97,17 +109,17 @@ pair<string, string> FileReader::ReadJSONTestFileContents(const string& filePath
 // @param fileType The type of file to be read(i.e valid, invalid, nested ...)
 // @Return The contents of the file as a single string, bool falg to indicate if read successful
 // */
-tuple<string,string,bool> FileReader::GetFileContents(const string& filePath)  {
+tuple<string,string,string, bool> FileReader::GetFileContents(const string& filePath)  {
 
 	// Check the Path is valid
 	if (!CheckFilePathValidity(filePath)) {
 		cout << "File Path is Invalid" << endl;
-		return { "", "", false};
+		return { "", "", "", false};
 	}
 
-	pair<string, string> content = ReadJSONTestFileContents(filePath);
+	tuple<string, string, string> content = ReadJSONTestFileContents(filePath);
 
-	return { content.first, content.second, true };
+	return { get<0>(content), get<1>(content), get<2>(content), true };
 }
 
 

@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <fstream> 
+#include <tuple>
 
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
@@ -17,6 +18,7 @@ using std::list;
 using std::cout;
 using std::endl;
 using std::getline;
+using std::tuple;
 
 list<string> TEST_DATA_FILE_PATHS = {
 	"ValidStringWhiteSpace.txt",
@@ -31,42 +33,45 @@ list<string> VALID_STRING_TEST_KEYS = {
 	"street"
 };
 
-list<string> keyStringToList(string& keyString) {
-	list<string> keyArray;
-	stringstream ss(keyString);
+list<string> stringToList(const string& inputString) const {
+	list<string> stringList;
+	stringstream ss(inputString);
 	string word;
 
-	while(getline(ss, word, ',')) {
-		keyArray.push_back(word);
+	while (getline(ss, word, ',')) {
+		stringList.push_back(word);
 	}
-	return keyArray;
+	return stringList;
 }
 
+tuple<shared_ptr<JSONValue>, list<string>, list<string>> processTestData(const tuple<string, string, string, bool> rawTestData) {
 
-shared_ptr<JSONValue> getTestData() {
+	shared_ptr<JSONValue> JSONData = ParseJson(get<0>(rawTestData));
+
+	list<string> keyArray = stringToList(get<1>(rawTestData));
+
+	list<string> valueTypeArray = stringToList(get<2>(rawTestData));
+
+	return { JSONData, keyArray, valueTypeArray };
+}
+
+tuple<shared_ptr<JSONValue>, list<string>, list<string>> getTestData() {
 	FileReader newFileReader;
 
-	tuple<string, string, bool> returnedData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
+	tuple<string, string, string, bool> rawTestData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
 
-	string JSONTestString = get<0>(returnedData);
+	tuple<shared_ptr<JSONValue>, list<string>, list<string>> processedTestData = processTestData(rawTestData);
 
-	cout << JSONTestString << endl;
-
-	list<string> keyArray = keyStringToList(get<1>(returnedData));
-
-	shared_ptr<JSONValue> ParsedData = ParseJson(JSONTestString);
-
-	return ParsedData;
+	return processedTestData;
 }
+
 
 
 
 TEST(JSONParserTests, ValidStringTest) {
 	
-	
 	FileReader newFileReader;
 
-	
 	tuple<string,string, bool> returnedData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
 	
 	string JSONTestString = get<0>(returnedData);
@@ -93,10 +98,17 @@ string getStringFromJSONValue(shared_ptr<JSONValue>& inputValue) {
 
 
 // Working on this test 
-TEST(JSONParserTests, GetByKey) {
+TEST(JSONParserTests, GetValueByKey) {
 	string testKey = "name";
 
-	shared_ptr<JSONValue> JSONTestData = getTestData();
+	tuple<shared_ptr<JSONValue>,list<string>, list<string>> testData = getTestData();
+
+	
+	for (string key : get<1>(testData)) {
+		
+	}
+
+
 
 	shared_ptr<JSONValue> data = GetValueByKey(JSONTestData, testKey);
 
