@@ -39,7 +39,7 @@ TEST(FileReaderTests, ReadTestFiles) {
 
         FileReader newFileReader;
 
-        tuple<string,string, bool> testData = newFileReader.GetFileContents(fullPath);
+        tuple<string,string,string,  bool> testData = newFileReader.GetFileContents(fullPath);
 
         ASSERT_TRUE(typeid(get<0>(testData)) == typeid(string)) << "Expected String got : " << typeid(get<0>(testData)).name();
 

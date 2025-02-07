@@ -340,6 +340,9 @@ void PrintJson(const shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nest
 }
 
 
+
+
+
 //*
 // @Brief Get Key,value from shared_ptr<JSONValue>
 // 
@@ -350,11 +353,6 @@ void PrintJson(const shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nest
 // */
 shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& searchKey) {
 
-	// Passing in the full object
-
-	// Need to get the value from the objct
-
-	// Loop through to find the matching key 
 
 	if (holds_alternative<JSONObject>(JSONElement->value)) {
 
@@ -370,6 +368,7 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& 
 	}
 	return JSONElement;
 }
+
 
 //*
 // @brief Check Key Exists 
