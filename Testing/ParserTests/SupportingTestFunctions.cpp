@@ -1,10 +1,13 @@
 
 #include "SupportingTestFunctions.h"
 
-#include <istream>
-#include "Structs/JSONValueStruct.h"
-#include <variant>
+#include "../../HelperFunctions/TypeConversions.h"
+#include "../../Structs/JSONValueStruct.h"
 
+#include <variant>
+#include <istream>
+
+using std::string;
 using std::variant;
 using std::cout;
 using std::endl;
@@ -19,6 +22,17 @@ bool checkIfSearchKey(const string& searchKey, const string& key) {
 	return false;
 }
 
+//*
+// @brief Check Key Exists 
+// 
+// Check if a key is contained within a given JSONValue -> JSONObject
+// 
+// 
+// @param JSONObject Given ptr to JSONValue
+// @param key Checked value
+// 
+// @return bool If key value is contained in JSONValue -> JSONObject
+// */
 bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 
 	// If it contains a JSONObject, get the object

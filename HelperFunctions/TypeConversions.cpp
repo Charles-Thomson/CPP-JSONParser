@@ -1,10 +1,24 @@
 
 #include "TypeConversions.h"
+
+
 #include <vector>
+#include <variant> 
+#include <iostream>
+#include <string>
+#include <format>
+#include <memory>
+#include <unordered_map>
+#include <sstream>
+#include "../Structs/JSONValueStruct.h"
+
+
 using std::variant;
 using std::cout;
 using std::endl;
 using std::vector;
+using std::string;
+using std::stringstream;
 
 string GetStringFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 	return get<string>(pointer->value);

@@ -199,7 +199,6 @@ bool checkAndHandleEmptyCase(istringstream& stream, char matchCaseOpen, char mat
 
 	}
 	return false;
-
 }
 
 //*
@@ -292,58 +291,6 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 }
 
 //*
-// 
-// @Brief Print a JSONObject
-// 
-// Print the contents of a JSONObject 
-// 
-// @param jsonValue shared_ptr<JSONValue> a referance the the pointer of the object pointer
-// @param indent int The current indent, beased on depth of nesting
-//  @param nested Bool Indicates if there is object nesting in the Object
-// 
-// @return void
-// */
-void PrintJson(const shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nested = false) {
-
-	//If the value == JSONObject
-	if (holds_alternative<JSONObject>(jsonValue->value)) {
-		const JSONObject& obj = get<JSONObject>(jsonValue->value);
-		if (nested) {
-			cout << endl;
-		}
-
-		for (const auto& [key, value] : obj) {
-
-			cout << string(indent, ' ') << key << ": ";
-			PrintJson(value, indent + 2, true); // recursive call 
-		}
-	}
-	else if (holds_alternative<JSONArray>(jsonValue->value)) {
-		const JSONArray& ary = get<JSONArray>(jsonValue->value);
-
-
-		for (const auto& val : ary) {
-			cout << string(indent, ' ') << endl;
-			PrintJson(val, indent, true);
-		}
-		
-	}
-	else if (holds_alternative<string>(jsonValue->value)) {
-		cout << string(indent, ' ') << get<string>(jsonValue->value) << endl;
-	}
-
-	else if (holds_alternative<double>(jsonValue->value)) {
-
-		cout << get<double>(jsonValue->value) << endl;
-		cout <<  "   " << endl;
-	}
-}
-
-
-
-
-
-//*
 // @Brief Get Key,value from shared_ptr<JSONValue>
 // 
 // Get the stored key value pair from a shared_ptr<JSONValue>
@@ -369,32 +316,6 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& 
 	return JSONElement;
 }
 
-
-//*
-// @brief Check Key Exists 
-// 
-// Check if a key is contained within a given JSONValue -> JSONObject
-// 
-// 
-// @param JSONObject Given ptr to JSONValue
-// @param key Checked value
-// 
-// @return bool If key value is contained in JSONValue -> JSONObject
-// */
-bool CheckKeyExists(const shared_ptr<JSONValue>& jsonValue, const string& key) {
-
-	if (jsonValue && holds_alternative<JSONObject>(jsonValue->value)) {
-
-		const auto& obj = get<JSONObject>(jsonValue->value);
-		auto it = obj.find(key); // Search for the key
-
-		if (it != obj.end()) {  // Check if the key exists
-			return true;
-		}
-		return false;
-	}
-	return false;
-}
 
 //*
 // @Brief preProcessing of input string

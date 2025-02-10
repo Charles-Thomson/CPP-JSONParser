@@ -15,8 +15,9 @@
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
 #include "CPP-JSONParser.h"
-#include "ExposedParserFunctions.cpp"
-#include "Testing/TestDataPreProcessing/TestDataPreProcessing.h"
+
+#include "Testing/TestDataPreProcessing/TestDataPreProcessing.cpp"
+#include "SupportingTestFunctions.h"
 
 
 
@@ -58,11 +59,6 @@ TEST(JSONParserTests, GetValueByKey) {
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
 
 	auto [JSONData, keyList, valuesList] = testData;
-
-
-
-
-
 
 }
 
@@ -114,11 +110,3 @@ TEST(JSONParserTests, GetValueByKey) {
 //
 //
 //}
-
-TEST(JSONParserTests, GetValueByKey) {
-
-
-
-
-
-}

@@ -1,8 +1,10 @@
 
 #include "TestDataPreProcessing.h"
-#include "HelperParserTestFunctions.h"
+#include "../../FileReader/FileReader.h"
+#include "../../HelperFunctions/TypeConversions.h"
+#include "../../Structs/JSONValueStruct.h"
+#include "../../CPP-JSONParser.h"
 
-#include <gtest/gtest.h>
 #include <iostream>
 #include <string>
 #include <list>
@@ -17,6 +19,8 @@
 #include <memory>
 
 using std::tuple;
+using std::string;
+
 
 tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(const tuple<string, string, string, bool> rawTestData) {
 

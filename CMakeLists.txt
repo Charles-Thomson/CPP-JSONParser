@@ -28,8 +28,15 @@ add_library(CPP-JSONParser
     Structs/JSONValueStruct.h
     FileReader/FileReader.cpp
     FileReader/FileReader.h
-    ExposedParserFunctions.cpp
     
+    HelperFunctions/TypeConversions.h
+    HelperFunctions/TypeConversions.cpp
+    HelperFunctions/PrintJSON.h
+    HelperFunctions/PrintJSON.cpp
+    Testing/TestDataPreProcessing/TestDataPreProcessing.h
+    Testing/TestDataPreProcessing/TestDataPreProcessing.cpp
+    Testing/ParserTests/SupportingTestFunctions.h
+    Testing/ParserTests/SupportingTestFunctions.cpp
 )
 
 # Enable testing
@@ -69,12 +76,15 @@ target_include_directories(file_reader_tests PRIVATE
     "${CMAKE_SOURCE_DIR}"
     "${CMAKE_SOURCE_DIR}/FileReader"
     "${CMAKE_SOURCE_DIR}/Structs"
+    "${CMAKE_SOURCE_DIR}/HelperFunctions"
 )
 
 target_include_directories(json_parser_tests PRIVATE
     "${CMAKE_SOURCE_DIR}"
     "${CMAKE_SOURCE_DIR}/FileReader"
     "${CMAKE_SOURCE_DIR}/Structs"
+    "${CMAKE_SOURCE_DIR}/HelperFunctions"
+    "${CMAKE_SOURCE_DIR}/Testing"
 )
 
 
