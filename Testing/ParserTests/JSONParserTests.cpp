@@ -60,6 +60,17 @@ TEST(JSONParserTests, GetValueByKey) {
 
 	auto [JSONData, keyList, valuesList] = testData;
 
+	string testKey = keyList[0];
+
+	auto returnedValue = GetValueByKey(JSONData, testKey);
+
+	string value = GetStringFromJSONValue(returnedValue);
+
+	cout << "The key used: " << testKey << " The reutrned value: " << value << endl;
+
+	ASSERT_EQ(1, 2);
+
+
 }
 
 
