@@ -11,6 +11,7 @@
 #include <format>
 #include <map>
 #include <memory>
+#include <cassert>
 
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
@@ -30,6 +31,8 @@ using std::tuple;
 using std::type_index;
 using std::variant;
 using std::min;
+using std::visit;
+
 
 list<string> TEST_DATA_FILE_PATHS = {
 	"ValidStringWhiteSpace.txt",
@@ -62,13 +65,62 @@ TEST(JSONParserTests, GetValueByKey) {
 
 	string testKey = keyList[0];
 
-	auto returnedValue = GetValueByKey(JSONData, testKey);
+	auto rerurnedValue = GetValueByKey(JSONData, testKey);
 
-	string value = GetStringFromJSONValue(returnedValue);
+	
+	auto expectedValue = valuesList[0];
+	auto result = getCorrectTypeFromJSONValue(rerurnedValue);
 
-	cout << "The key used: " << testKey << " The reutrned value: " << value << endl;
+	string expectedValueAsString = std::any_cast<string>(expectedValue);
+
+	string resultAsString = std::any_cast<string>(result);
+
+	cout << "T he expected Value : " << expectedValueAsString << " The returned value: " << resultAsString << endl;
+
+	ASSERT_EQ(expectedValueAsString, resultAsString);
+
+}
+
+TEST(JSONParserTests, TestValueAssignments) {
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
+
+	auto [JSONData, keyList, valuesList] = testData;
+
+	string testKey = keyList[0];
+
+	auto rerurnedValue = GetValueByKey(JSONData, testKey);
+
+	any expectedValue = valuesList[0];
+
+	any result = getCorrectTypeFromJSONValue(rerurnedValue);
+
+	cout << typeid(result).name() << " " << typeid(expectedValue).name() << endl;
 
 	ASSERT_EQ(1, 2);
+
+
+
+
+
+	/*ASSERT_EQ(result, expectedValue);*/
+
+
+	//assert(keyList.size(), valuesList.size());
+
+
+	//for (int i = 0; keyList.size() > i; i++) {
+	//	auto rerurnedValue = GetValueByKey(JSONData, keyList[i]);
+
+	//	auto result = getCorrectType(rerurnedValue);
+
+	//	visit([](auto&& val) {
+	//		using T = std::decay_t<decltype(val)>;
+	//		}, result);
+
+	//	// Func to get the actual value of both returned and valuesList val
+	//
+	//	ASSERT_EQ(val, expectedValue);
+	//}
 
 
 }
