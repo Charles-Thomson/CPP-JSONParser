@@ -81,22 +81,43 @@ TEST(JSONParserTests, GetValueByKey) {
 
 }
 
+
+
+// Maybe change the incoming list to the ptr type ?
+// seperate method for the comparison ? chack if each can be converted to the corecttype ?
+
+
+// Work on having a seperate function for the comparison and then just confirm == true using google test
+// the return type conversions is the current issue
+// or pass both expected and actual to a seperate fun and let it work it out based on if they can be parsed to each type < TGIS !! 
 TEST(JSONParserTests, TestValueAssignments) {
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
 
 	auto [JSONData, keyList, valuesList] = testData;
 
-	string testKey = keyList[0];
+	// Get Value
+
+	string testKey = keyList[2];
 
 	auto rerurnedValue = GetValueByKey(JSONData, testKey);
 
-	any expectedValue = valuesList[0];
-
 	any result = getCorrectTypeFromJSONValue(rerurnedValue);
 
-	cout << typeid(result).name() << " " << typeid(expectedValue).name() << endl;
+
+	// Get expected value 
+	any expectedValue = valuesList[2];
+
+	
+	// Compare value to expected value 
+	bool valuesAreEquals = CompareJSONValueToTrueValue(expectedValue, result);
+
+
+	cout <<  "Values Result: "<< valuesAreEquals << endl;
+
+	
 
 	ASSERT_EQ(1, 2);
+	
 
 
 

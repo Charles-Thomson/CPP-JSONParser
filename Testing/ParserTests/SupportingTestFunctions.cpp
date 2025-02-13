@@ -11,6 +11,7 @@ using std::string;
 using std::variant;
 using std::cout;
 using std::endl;
+using std::any_cast;
 
 bool checkIfSearchKey(const string& searchKey, const string& key) {
 
@@ -82,6 +83,37 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 		}
 		return false;
 	}
+
+	return false;
+}
+
+bool CompareJSONValueToTrueValue(any& valueA, any& valueB) {
+	bool valuesAreEqual = false;
+
+	if (valueA.type() != valueB.type()) {
+		return false;
+	}
+
+	if (valueA.type() == typeid(double)) {
+		return any_cast<double>(valueA) == any_cast<double>(valueB);
+	}
+
+	if (valueA.type() == typeid(string)) {
+		return any_cast<string>(valueA) == any_cast<string>(valueB);
+	}
+
+	if (valueA.type() == typeid(bool)) {
+		return any_cast<bool>(valueA) == any_cast<bool>(valueB);
+	}
+
+	if (valueA.type() == typeid(JSONObject)) {
+		return any_cast<JSONObject>(valueA) == any_cast<JSONObject>(valueB);
+	}
+
+	if (valueA.type() == typeid(JSONArray)) {
+		return any_cast<JSONArray>(valueA) == any_cast<JSONArray>(valueB);
+	}
+
 
 	return false;
 }

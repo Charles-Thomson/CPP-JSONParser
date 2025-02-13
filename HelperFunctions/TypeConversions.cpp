@@ -21,7 +21,10 @@ using std::stringstream;
 using std::any;
 
 string GetStringFromJSONValue(const shared_ptr<JSONValue>& pointer) {
-	return get<string>(pointer->value);
+	string holder = get<string>(pointer->value);
+	
+	cout << "In the string get with value:" << holder << " " << typeid(holder).name() << endl;
+	return holder;
 }
 
 double GetDoubleFromJSONValue(const shared_ptr<JSONValue>& pointer) {
