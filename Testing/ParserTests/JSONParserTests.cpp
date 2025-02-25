@@ -95,84 +95,35 @@ TEST(JSONParserTests, TestValueAssignments) {
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
 
-	string testKey = keyList[2];
+	//string testKey = keyList[2];
 
-	// Get Value
-	shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, testKey);
-
-
-	// These are all of type string 
-	any expectedValue = correctValuesList[2];
-
-	cout << typeid(expectedValue).name() << endl;
-
-	// NEXT FROM HERE - need to fix the any to JSONObject/Array
-
-	/*JSONObject testObj = any_cast<JSONObject>(expectedValue);*/
-
-	try{
-		// Retrieve and cast back to JSONObject
-		JSONObject & obj = std::any_cast<JSONObject&>(expectedValue);
-		
-	}
-		catch (const std::bad_any_cast& e) {
-		std::cerr << "Failed to cast: " << e.what() << std::endl;
-	}
+	//// Get Value
+	//shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, testKey);
 
 
-	
-	
+	//// These are all of type string 
+	//any expectedValue = correctValuesList[2];
 
-
-
-	bool result1 = FinalCompareJSONValueToTestValue(rerurnedValue, expectedValue);
-
-	cout << "TestValueAssignment -> the reuslt of comparison : " << result1 << endl;
-
-	//double expectedValueDoubleTest = returnToCorrectType(expectedValue);
-
-	//cout << typeid(expectedValueDoubleTest).name() << endl;
-
-
-	//int holder = 24;
-	//any tester = holder;
 	//
-	//// Compare value to expected value 
-	//bool valuesAreEquals = CompareJSONValueToTrueValue(result, tester);
+	//bool result1 = FinalCompareJSONValueToTestValue(rerurnedValue, expectedValue);
 
+	cout << keyList.size() << endl;
 
-	//cout <<  "Values Result: "<< valuesAreEquals << endl;
+	cout << correctValuesList.size() << endl;
+	for (int i = 0; keyList.size() > i; i++) {
 
-	
+		string Key = keyList[i];
+		any expectedValue = correctValuesList[i];
+		
+		// Get the stored value
+		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, Key);
 
+		bool result1 = FinalCompareJSONValueToTestValue(rerurnedValue, expectedValue);
+
+		cout << "TestValueAssignment -> the reuslt of comparison : " << result1 << endl;
+	}
 	ASSERT_EQ(1, 2);
 	
-
-
-
-
-
-	/*ASSERT_EQ(result, expectedValue);*/
-
-
-	//assert(keyList.size(), valuesList.size());
-
-
-	//for (int i = 0; keyList.size() > i; i++) {
-	//	auto rerurnedValue = GetValueByKey(JSONData, keyList[i]);
-
-	//	auto result = getCorrectType(rerurnedValue);
-
-	//	visit([](auto&& val) {
-	//		using T = std::decay_t<decltype(val)>;
-	//		}, result);
-
-	//	// Func to get the actual value of both returned and valuesList val
-	//
-	//	ASSERT_EQ(val, expectedValue);
-	//}
-
-
 }
 
 

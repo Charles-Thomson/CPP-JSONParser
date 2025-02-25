@@ -129,29 +129,25 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 				finalResult.push_back(value);
 			}
 
-		}
-	
-		if (val == "true") {
+		} else if (val == "true") {
 			bool value = true;
 			finalResult.push_back(value);
 			break;
-		}
-
-		if (val == "false") {
+		}else if (val == "false") {
 			bool value = false;
 			finalResult.push_back(value);
-		}
-
-		if (val == "JSONObject") {
-			JSONObject obj{};
+		}else if (val == "JSONObject") {
+			JSONObject obj;
 			finalResult.push_back(obj);
-		}
-
-		if (val == "JSONArray") {
+		}else if (val == "JSONArray") {
 			JSONArray arr;
 			finalResult.push_back(arr);
 		}
+
+		// Issue is to do with not pushing back if it starts with a double but is an address ect
+
 		else {
+			cout << "Pushing back " << val << endl;
 			finalResult.push_back(val);
 	
 		}

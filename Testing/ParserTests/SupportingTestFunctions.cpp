@@ -148,13 +148,11 @@ bool FinalCompareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& 
 	}
 
 	if (holds_alternative<JSONObject>(pointerValue->value)) {
-		JSONObject value = GetJSONObjectFromJSONValue(pointerValue);
-		return value == any_cast<JSONObject>(anyValue);
+		return typeid(shared_ptr<JSONObject>).name() == typeid(any_cast<shared_ptr<JSONObject>>(anyValue)).name();
 	}
 
 	if (holds_alternative<JSONArray>(pointerValue->value)) {
-		JSONArray value = GetJSONArrayFromJSONValue(pointerValue);
-		return value == any_cast<JSONArray>(anyValue);
+		return typeid(shared_ptr<JSONArray>).name() == typeid(any_cast<shared_ptr<JSONArray>>(anyValue)).name();
 	}
 
 	return false;
