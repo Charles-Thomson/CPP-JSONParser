@@ -93,7 +93,7 @@ shared_ptr<JSONValue> parseString(istringstream& stream) {
 				break;
 			}
 			result += ch;
-			/*cout << result << endl;*/
+			
 		}
 	}
 	else {

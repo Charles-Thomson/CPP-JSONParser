@@ -24,9 +24,9 @@ bool checkIfSearchKey(const string& searchKey, const string& key);
 
 bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey);
 
-bool CompareJSONValueToTrueValue(any& pointerValue, any& expectedValueStr);
+//bool CompareJSONValueToTrueValue(any& pointerValue, any& expectedValueStr);
 
-bool FinalCompareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue);
+bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue);
 
 
 

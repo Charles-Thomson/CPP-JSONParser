@@ -14,7 +14,16 @@ using std::cout;
 using std::endl;
 using std::any_cast;
 
-
+//*
+// @ Check if two strings are equal
+// 
+//  Check if the given searchKey is equal to the given key
+// 
+// @ prama string& searchKey : key being searched for
+// @ param string& key : instance of a stored key
+// 
+// @ return bool: True If given param values are equal
+// */
 bool checkIfSearchKey(const string& searchKey, const string& key) {
 
 	cout << "Comparing: " << searchKey << " : " << key << endl;
@@ -47,10 +56,8 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 			if (checkIfSearchKey(searchKey, key)) {
 				return true;
 			}
-			else {
-				if (checkIfContainsKey(value, searchKey)) {
+			else if (checkIfContainsKey(value, searchKey)) {
 					return true;
-				};
 			};
 		};
 	};
@@ -60,8 +67,6 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 
 		for (const auto& val : ary) {
 
-			cout << "In the array checker with : " << val << endl;
-
 			if (holds_alternative<string>(val->value)) {
 				const string valueString = GetStringFromJSONValue(val);
 
@@ -69,10 +74,8 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 					return true;
 				}
 			}
-			else {
-				if (checkIfContainsKey(val, searchKey)) {
-					return true;
-				}
+			else if (checkIfContainsKey(val, searchKey)) {
+					return true;	
 			}
 		}
 	};
@@ -89,56 +92,25 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 	return false;
 }
 
-bool CompareJSONValueToTrueValue(any& valueA, any& valueB) {
-	bool valuesAreEqual = false;
 
-	if (valueA.type() != valueB.type()) {
-		return false;
-	}
-
-	if (valueA.type() == typeid(double)) {
-		cout << "CompareJSONValueToTrueValue -> Is Double" << endl;
-		return any_cast<double>(valueA) == any_cast<double>(valueB);
-	}
-
-	if (valueA.type() == typeid(string)) {
-		cout << "CompareJSONValueToTrueValue -> Is String" << endl;
-		return any_cast<string>(valueA) == any_cast<string>(valueB);
-	}
-
-	if (valueA.type() == typeid(bool)) {
-		return any_cast<bool>(valueA) == any_cast<bool>(valueB);
-	}
-
-	if (valueA.type() == typeid(JSONObject)) {
-		return any_cast<JSONObject>(valueA) == any_cast<JSONObject>(valueB);
-	}
-
-	if (valueA.type() == typeid(JSONArray)) {
-		return any_cast<JSONArray>(valueA) == any_cast<JSONArray>(valueB);
-	}
-	return false;
-}
-
-
-
-// This can be cleaned up
-bool FinalCompareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue) {
-
-	cout << "FinalCompareJSONValueToTestValue -> In the function call" << endl;
-	cout << " " << endl;
-	// Get the correct value of the pointer
+//*
+// @Brief compare shared_ptr<JSONValue> to any& 
+// 
+// Determine if a shared_ptr<JSONValue> and any type have the contained/held type
+// 
+// @ param shared_ptr<JSONValue>& pointerValue: The given shared pointer JSONValue
+// @ param any& anyValue : The any type to be compared against the shared_ptr type
+// @ return bool: True If the two contained/held type are equal
+// */
+bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue) {
 
 	if (holds_alternative<string>(pointerValue->value)) {
-		cout << "FinalCompareJSONValueToTestValue -> String Check " << endl;
 		string value = GetStringFromJSONValue(pointerValue);
 		return value == any_cast<string>(anyValue);
 	}
 
 	if (holds_alternative<double>(pointerValue->value)) {
-		cout << "FinalCompareJSONValueToTestValue -> Double Check " << endl;
 		double value = GetDoubleFromJSONValue(pointerValue);
-
 		return value == any_cast<double>(anyValue);
 	}
 

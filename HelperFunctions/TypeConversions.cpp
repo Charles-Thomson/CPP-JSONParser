@@ -58,15 +58,11 @@ vector<string> stringToVector(const string& inputString) {
 }
 
 
-// Have this return a lamda to be called to remove the return type issue ?
-// The return type going back to any is the issue here
-// Incoperate the functions together or return a lambda?
 any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	
 	if (holds_alternative<string>(pointer->value)) {
 		string value = GetStringFromJSONValue(pointer);
 		cout << "getCorrectTypeFromJSONValue ->  GetStringFromJSONValue -> " << value << endl;
-
 
 		return GetStringFromJSONValue(pointer);
 	}
@@ -74,13 +70,11 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 		double value = GetDoubleFromJSONValue(pointer);
 		cout << "getCorrectTypeFromJSONValue ->  GetDoubleFromJSONValue -> " << std::to_string(value) << endl;
 
-
 		return GetDoubleFromJSONValue(pointer);
 	}
 	if (holds_alternative<bool>(pointer->value)) {
 		bool value = GetBoolFromJSONValue(pointer);
 		cout << "getCorrectTypeFromJSONValue ->  GetDoubleFromJSONValue -> " << std::to_string(value) << endl;
-
 
 		return GetBoolFromJSONValue(pointer);
 	}
@@ -92,27 +86,15 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	}
 }
 
-double returnToCorrectType(any& value) {
-
-	return any_cast<double>(value);
-	
-
-
-
-}
 
 vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
-	cout <<  "ConvertVectorStringToVectorAny -> In the conversion" << endl;
 	vector<any> finalResult;
-
 
 	for (string val : inputVector) {
 		
 		istringstream stream = istringstream(val);
 
 		char ch = stream.peek();
-
-		cout << "ConvertVectorStringToVectorAny -> In the conversion " << val << endl;
 
 		if (isdigit(ch)) {
 			string result;
@@ -123,7 +105,8 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 			}
 
 			if (stream.get(ch) && !isdigit(ch)) {
-				stream.str(val);
+				finalResult.push_back(val); // If a combination of digit and none digit values
+
 			}else {
 				double value = std::stod(result);
 				finalResult.push_back(value);
@@ -132,22 +115,24 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 		} else if (val == "true") {
 			bool value = true;
 			finalResult.push_back(value);
-			break;
+
+
 		}else if (val == "false") {
 			bool value = false;
 			finalResult.push_back(value);
+
 		}else if (val == "JSONObject") {
 			JSONObject obj;
 			finalResult.push_back(obj);
+
 		}else if (val == "JSONArray") {
 			JSONArray arr;
 			finalResult.push_back(arr);
 		}
 
-		// Issue is to do with not pushing back if it starts with a double but is an address ect
-
+		// If the val is a string
 		else {
-			cout << "Pushing back " << val << endl;
+			
 			finalResult.push_back(val);
 	
 		}
