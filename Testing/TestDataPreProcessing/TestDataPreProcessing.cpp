@@ -28,10 +28,19 @@ tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(con
 
 	vector<string> keyArray = stringToVector(get<1>(rawTestData));
 
+
+
+
+	// Add in the conversion to get the resultsString to by of type Vectory any
 	vector<string> valueTypeArray = stringToVector(get<2>(rawTestData));
 
 	return { JSONData, keyArray, valueTypeArray };
 }
+
+
+
+
+
 
 tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData() {
 	FileReader newFileReader;
@@ -39,6 +48,8 @@ tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData() {
 	tuple<string, string, string, bool> rawTestData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
 
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processedTestData = processTestData(rawTestData);
+
+	
 
 	return processedTestData;
 }

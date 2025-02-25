@@ -128,7 +128,10 @@ shared_ptr<JSONValue> parseNumber(istringstream& stream) {
 		stream.putback(ch);  // Put the non-digit character back to stream
 	}
 
-	return make_shared<JSONValue>(result);
+
+	double resultAsDouble = std::stod(result);
+
+	return make_shared<JSONValue>(resultAsDouble);
 
 }
 
@@ -299,7 +302,6 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 // @retrun string, value pair
 // */
 shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& searchKey) {
-
 
 	if (holds_alternative<JSONObject>(JSONElement->value)) {
 

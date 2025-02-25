@@ -34,6 +34,7 @@ using std::min;
 using std::visit;
 
 
+
 list<string> TEST_DATA_FILE_PATHS = {
 	"ValidStringWhiteSpace.txt",
 	"ValidString.txt",
@@ -55,7 +56,7 @@ TEST(JSONParserTests, KeyExistsCheck) {
 	};	
 }
 
-
+using std::variant;
 
 TEST(JSONParserTests, GetValueByKey) {
 
@@ -66,19 +67,18 @@ TEST(JSONParserTests, GetValueByKey) {
 	string testKey = keyList[0];
 
 	auto rerurnedValue = GetValueByKey(JSONData, testKey);
-
-	
-	auto expectedValue = valuesList[0];
 	auto result = getCorrectTypeFromJSONValue(rerurnedValue);
+
+	any expectedValue = valuesList[0];
 
 	string expectedValueAsString = std::any_cast<string>(expectedValue);
 
+
 	string resultAsString = std::any_cast<string>(result);
 
-	cout << "T he expected Value : " << expectedValueAsString << " The returned value: " << resultAsString << endl;
+	cout << "The expected Value : " << expectedValueAsString << " The returned value: " << resultAsString << endl;
 
 	ASSERT_EQ(expectedValueAsString, resultAsString);
-
 }
 
 
@@ -87,32 +87,61 @@ TEST(JSONParserTests, GetValueByKey) {
 // seperate method for the comparison ? chack if each can be converted to the corecttype ?
 
 
-// Work on having a seperate function for the comparison and then just confirm == true using google test
-// the return type conversions is the current issue
-// or pass both expected and actual to a seperate fun and let it work it out based on if they can be parsed to each type < TGIS !! 
+// Values list has all its elements saved as string <- issue ?
 TEST(JSONParserTests, TestValueAssignments) {
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
 
 	auto [JSONData, keyList, valuesList] = testData;
 
-	// Get Value
+	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
 
 	string testKey = keyList[2];
 
-	auto rerurnedValue = GetValueByKey(JSONData, testKey);
+	// Get Value
+	shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, testKey);
 
-	any result = getCorrectTypeFromJSONValue(rerurnedValue);
 
+	// These are all of type string 
+	any expectedValue = correctValuesList[2];
 
-	// Get expected value 
-	any expectedValue = valuesList[2];
+	cout << typeid(expectedValue).name() << endl;
+
+	// NEXT FROM HERE - need to fix the any to JSONObject/Array
+
+	/*JSONObject testObj = any_cast<JSONObject>(expectedValue);*/
+
+	try{
+		// Retrieve and cast back to JSONObject
+		JSONObject & obj = std::any_cast<JSONObject&>(expectedValue);
+		
+	}
+		catch (const std::bad_any_cast& e) {
+		std::cerr << "Failed to cast: " << e.what() << std::endl;
+	}
+
 
 	
-	// Compare value to expected value 
-	bool valuesAreEquals = CompareJSONValueToTrueValue(expectedValue, result);
+	
 
 
-	cout <<  "Values Result: "<< valuesAreEquals << endl;
+
+	bool result1 = FinalCompareJSONValueToTestValue(rerurnedValue, expectedValue);
+
+	cout << "TestValueAssignment -> the reuslt of comparison : " << result1 << endl;
+
+	//double expectedValueDoubleTest = returnToCorrectType(expectedValue);
+
+	//cout << typeid(expectedValueDoubleTest).name() << endl;
+
+
+	//int holder = 24;
+	//any tester = holder;
+	//
+	//// Compare value to expected value 
+	//bool valuesAreEquals = CompareJSONValueToTrueValue(result, tester);
+
+
+	//cout <<  "Values Result: "<< valuesAreEquals << endl;
 
 	
 

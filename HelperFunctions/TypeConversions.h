@@ -27,4 +27,8 @@ JSONArray GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer);
 any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer);
 
 vector<string> stringToVector(const string& inputString);
+
+double returnToCorrectType(any& value);
+
+vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector);
 #endif // !TYPE_CONVERSIONS_H

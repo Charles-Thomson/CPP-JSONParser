@@ -19,15 +19,15 @@ using std::vector;
 using std::string;
 using std::stringstream;
 using std::any;
+using std::istringstream;
+
 
 string GetStringFromJSONValue(const shared_ptr<JSONValue>& pointer) {
-	string holder = get<string>(pointer->value);
-	
-	cout << "In the string get with value:" << holder << " " << typeid(holder).name() << endl;
-	return holder;
+	return get<string>(pointer->value);
 }
 
 double GetDoubleFromJSONValue(const shared_ptr<JSONValue>& pointer) {
+	
 	return get<double>(pointer->value);
 }
 
@@ -58,16 +58,30 @@ vector<string> stringToVector(const string& inputString) {
 }
 
 
-// Have this return a lamde to be called to remove the return type issue ?
+// Have this return a lamda to be called to remove the return type issue ?
+// The return type going back to any is the issue here
+// Incoperate the functions together or return a lambda?
 any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	
 	if (holds_alternative<string>(pointer->value)) {
+		string value = GetStringFromJSONValue(pointer);
+		cout << "getCorrectTypeFromJSONValue ->  GetStringFromJSONValue -> " << value << endl;
+
+
 		return GetStringFromJSONValue(pointer);
 	}
 	if (holds_alternative<double>(pointer->value)) {
+		double value = GetDoubleFromJSONValue(pointer);
+		cout << "getCorrectTypeFromJSONValue ->  GetDoubleFromJSONValue -> " << std::to_string(value) << endl;
+
+
 		return GetDoubleFromJSONValue(pointer);
 	}
 	if (holds_alternative<bool>(pointer->value)) {
+		bool value = GetBoolFromJSONValue(pointer);
+		cout << "getCorrectTypeFromJSONValue ->  GetDoubleFromJSONValue -> " << std::to_string(value) << endl;
+
+
 		return GetBoolFromJSONValue(pointer);
 	}
 	if (holds_alternative<JSONObject>(pointer->value)) {
@@ -77,6 +91,76 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 		return GetJSONArrayFromJSONValue(pointer);
 	}
 }
+
+double returnToCorrectType(any& value) {
+
+	return any_cast<double>(value);
+	
+
+
+
+}
+
+vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
+	cout <<  "ConvertVectorStringToVectorAny -> In the conversion" << endl;
+	vector<any> finalResult;
+
+
+	for (string val : inputVector) {
+		
+		istringstream stream = istringstream(val);
+
+		char ch = stream.peek();
+
+		cout << "ConvertVectorStringToVectorAny -> In the conversion " << val << endl;
+
+		if (isdigit(ch)) {
+			string result;
+
+			
+			while (stream.get(ch) && isdigit(ch)) {
+				result += ch;
+			}
+
+			if (stream.get(ch) && !isdigit(ch)) {
+				stream.str(val);
+			}else {
+				double value = std::stod(result);
+				finalResult.push_back(value);
+			}
+
+		}
+	
+		if (val == "true") {
+			bool value = true;
+			finalResult.push_back(value);
+			break;
+		}
+
+		if (val == "false") {
+			bool value = false;
+			finalResult.push_back(value);
+		}
+
+		if (val == "JSONObject") {
+			JSONObject obj{};
+			finalResult.push_back(obj);
+		}
+
+		if (val == "JSONArray") {
+			JSONArray arr;
+			finalResult.push_back(arr);
+		}
+		else {
+			finalResult.push_back(val);
+	
+		}
+	}
+
+	return finalResult;
+
+}
+
 
 
 

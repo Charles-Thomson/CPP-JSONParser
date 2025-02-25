@@ -6,12 +6,14 @@
 
 #include <variant>
 #include <istream>
+#include <format>
 
 using std::string;
 using std::variant;
 using std::cout;
 using std::endl;
 using std::any_cast;
+
 
 bool checkIfSearchKey(const string& searchKey, const string& key) {
 
@@ -95,10 +97,12 @@ bool CompareJSONValueToTrueValue(any& valueA, any& valueB) {
 	}
 
 	if (valueA.type() == typeid(double)) {
+		cout << "CompareJSONValueToTrueValue -> Is Double" << endl;
 		return any_cast<double>(valueA) == any_cast<double>(valueB);
 	}
 
 	if (valueA.type() == typeid(string)) {
+		cout << "CompareJSONValueToTrueValue -> Is String" << endl;
 		return any_cast<string>(valueA) == any_cast<string>(valueB);
 	}
 
@@ -113,12 +117,45 @@ bool CompareJSONValueToTrueValue(any& valueA, any& valueB) {
 	if (valueA.type() == typeid(JSONArray)) {
 		return any_cast<JSONArray>(valueA) == any_cast<JSONArray>(valueB);
 	}
-
-
 	return false;
 }
 
 
 
+// This can be cleaned up
+bool FinalCompareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue) {
 
+	cout << "FinalCompareJSONValueToTestValue -> In the function call" << endl;
+	cout << " " << endl;
+	// Get the correct value of the pointer
 
+	if (holds_alternative<string>(pointerValue->value)) {
+		cout << "FinalCompareJSONValueToTestValue -> String Check " << endl;
+		string value = GetStringFromJSONValue(pointerValue);
+		return value == any_cast<string>(anyValue);
+	}
+
+	if (holds_alternative<double>(pointerValue->value)) {
+		cout << "FinalCompareJSONValueToTestValue -> Double Check " << endl;
+		double value = GetDoubleFromJSONValue(pointerValue);
+
+		return value == any_cast<double>(anyValue);
+	}
+
+	if (holds_alternative<bool>(pointerValue->value)) {
+		bool value = GetBoolFromJSONValue(pointerValue);
+		return value == any_cast<bool>(anyValue);
+	}
+
+	if (holds_alternative<JSONObject>(pointerValue->value)) {
+		JSONObject value = GetJSONObjectFromJSONValue(pointerValue);
+		return value == any_cast<JSONObject>(anyValue);
+	}
+
+	if (holds_alternative<JSONArray>(pointerValue->value)) {
+		JSONArray value = GetJSONArrayFromJSONValue(pointerValue);
+		return value == any_cast<JSONArray>(anyValue);
+	}
+
+	return false;
+}
