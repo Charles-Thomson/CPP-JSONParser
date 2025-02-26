@@ -49,7 +49,7 @@ void PrintJson(shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nested = f
 
 istringstream preProcessing(string& inputString);
 
-shared_ptr<JSONValue> ParseJson(string inputString);
+shared_ptr<JSONValue> ParseToJSON(string inputString);
 
 shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string&); 
 

@@ -21,30 +21,70 @@ using std::stringstream;
 using std::any;
 using std::istringstream;
 
-
+//*
+// @ brief Get type string from JSONValue type
+// 
+// @ param shared_ptr<JSONValue>& pointer : referance pointer to the JSONValue
+// @ return Stored String value
+// */
 string GetStringFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 	return get<string>(pointer->value);
 }
 
+
+//*
+// @ brief Get type double from JSONValue type
+// 
+// @ param shared_ptr<JSONValue>& pointer : referance pointer to the JSONValue
+// @ return Stored double value
+// */
 double GetDoubleFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 	
 	return get<double>(pointer->value);
 }
 
+//*
+// @ brief Get type bool from JSONValue type
+// 
+// @ param shared_ptr<JSONValue>& pointer : referance pointer to the JSONValue
+// @ return Stored bool value
+// */
 bool GetBoolFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 	if (std::holds_alternative<bool>(pointer->value)) {
 		return std::get<bool>(pointer->value);
 	}
 }
 
+//*
+// @ brief Get type JSONObject from JSONValue type
+// 
+// @ param shared_ptr<JSONValue>& pointer : referance pointer to the JSONValue
+// @ return Stored JSONObject value
+// */
 JSONObject GetJSONObjectFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 	return get<JSONObject>(pointer->value);
 }
 
+//*
+// @ brief Get type JSONArray from JSONValue type
+// 
+// @ param shared_ptr<JSONValue>& pointer : referance pointer to the JSONValue
+// @ return Stored JSONArray value
+// */
 JSONArray GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 	return get<JSONArray>(pointer->value);
 
 }
+
+//*
+// @ brief Parse string to vector
+// 
+// Pareses the given input string to vector<string> on ',' deliminator
+// 
+// @ param string& inputString : Reference to string to be parsed
+// @ return vector<string> : Vaecot of parsed string
+// 
+// */
 
 vector<string> stringToVector(const string& inputString) {
 	vector<string> stringList;
@@ -57,6 +97,16 @@ vector<string> stringToVector(const string& inputString) {
 	return stringList;
 }
 
+
+
+//*
+// @ brief Retrive held type from JSONValue
+// 
+// Determines and retrives held type from JSONValue object
+// 
+// @ param shared_ptr<JSONValue>& pointer: reference to pointer of JSONValue
+// @ return any : The held type/value of the given JSONValue object
+// */
 
 any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	
@@ -86,7 +136,15 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	}
 }
 
-
+//*
+// @ brief Parse Vector<string> to vector<any>
+// 
+// Parses a vector<string>, where stored strings are string representations of other types
+// returns represented types to "held" type and stores in vector
+// 
+// @ param vector<string>& inputVector : reference to the vector to be parsed
+// @ param vector<any>: Vector containing the values of correct(held) type
+// */
 vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 	vector<any> finalResult;
 

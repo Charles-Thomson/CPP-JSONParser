@@ -37,8 +37,7 @@ bool checkIfSearchKey(const string& searchKey, const string& key) {
 //*
 // @brief Check Key Exists 
 // 
-// Check if a key is contained within a given JSONValue -> JSONObject
-// 
+// Check if a key is contained within a given JSONValue - recursively called to hendle nested instances
 // 
 // @param JSONObject Given ptr to JSONValue
 // @param key Checked value
@@ -47,7 +46,6 @@ bool checkIfSearchKey(const string& searchKey, const string& key) {
 // */
 bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 
-	// If it contains a JSONObject, get the object
 	if (holds_alternative<JSONObject>(pointer->value)) {
 		const JSONObject& obj = GetJSONObjectFromJSONValue(pointer);
 

@@ -1,11 +1,6 @@
 ﻿// CPP-JSONParser.cpp : Defines the entry point for the application.
-//
 
 #include "CPP-JSONParser.h"
-
-// JSONParser.cpp : Defines the entry point for the application.
-//
-
 
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
@@ -19,8 +14,6 @@
 #include <variant>
 #include <map>
 #include <memory>
-
-using namespace std;
 
 using std::string;
 using std::cout;
@@ -50,7 +43,6 @@ void SkipWhiteSpace(istringstream& stream) {
 			stream.putback(ch);
 			break;
 		}
-
 	}
 }
 
@@ -234,9 +226,6 @@ shared_ptr<JSONValue> parseArray(istringstream& stream) {
 	if (ch != ']') {
 		throw runtime_error("Expected ']' at the end of array");
 	}
-
-	/*cout << "Array parsed" << endl;*/
-
 	return make_shared<JSONValue>(ary);
 }
 
@@ -319,23 +308,8 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& 
 }
 
 
-//*
-// @Brief preProcessing of input string
-// 
-// Remove outermost quotes if present
-// convert to istringstream and return
-// 
-// @ param inputString The string to be preProcessed
-// @ return istringstream Of the given inputString
-// */
-istringstream preProcessing(string& inputString) {
-	/*RemoveExternalQuoteChar(inputString);*/
-
-	return istringstream(inputString);
-}
-
-shared_ptr<JSONValue> ParseJson(string inputString) {
-	istringstream stream = preProcessing(inputString);
+shared_ptr<JSONValue> ParseToJSON(string inputString) {
+	istringstream stream = istringstream(inputString);
 	shared_ptr<JSONValue> returnedPtr = determineJSONType(stream);
 	return returnedPtr;
 

@@ -38,6 +38,14 @@ list<string> TEST_DATA_FILE_PATHS = {
 };
 
 
+//*
+// @ brief Test if Key exists in JSON
+// 
+// Test if a given key ehas been correctly parsed to the JSON structure
+// - Retrives test data containing a list of expected keys
+// - Test each key to check it has been correctly parsed into the JSON structure
+// 
+// */
 TEST(JSONParserTests, KeyExistsCheck) {
 
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
@@ -51,12 +59,21 @@ TEST(JSONParserTests, KeyExistsCheck) {
 	};	
 }
 
-using std::variant;
 
+
+// Convert to use TEST_P to be able to use each of the TestData sets
+
+//*
+// @ brief Get a value by Key from JSON Structure
+// 
+// Test if a value can be retrieved for the JSON structure
+// - Retrives test data containing a list of the expected stored keys and values
+// - pulls from the JSON structure using given key
+// - compares result to expected result
+// 
+// */
 TEST(JSONParserTests, GetValueByKey) {
-
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
-
 	auto [JSONData, keyList, valuesList] = testData;
 
 	string testKey = keyList[0];
@@ -67,8 +84,6 @@ TEST(JSONParserTests, GetValueByKey) {
 	any expectedValue = valuesList[0];
 
 	string expectedValueAsString = std::any_cast<string>(expectedValue);
-
-
 	string resultAsString = std::any_cast<string>(result);
 
 	cout << "The expected Value : " << expectedValueAsString << " The returned value: " << resultAsString << endl;
@@ -77,19 +92,21 @@ TEST(JSONParserTests, GetValueByKey) {
 }
 
 
-
+//*
+// @ brief Test if key,value pairs have been correctly parsed into JSON structure
+// 
+//  Test if the key,vakue opairs are present and of the expercted type following JSON parsing
+// - retrieves test JSON data alogn side expected keys and values
+// - compares each value returned by key ref from the JSON structure to the expected value/type
+// 
+// */
 TEST(JSONParserTests, TestValueAssignments) {
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
-
 	auto [JSONData, keyList, valuesList] = testData;
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
 
-	cout << keyList.size() << endl;
-
-	cout << correctValuesList.size() << endl;
 	for (int i = 0; keyList.size() > i; i++) {
-
 		string Key = keyList[i];
 		any expectedValue = correctValuesList[i];
 		
@@ -99,6 +116,7 @@ TEST(JSONParserTests, TestValueAssignments) {
 		bool result = compareJSONValueToTestValue(rerurnedValue, expectedValue);
 
 		cout << "TestValueAssignment -> the reuslt of comparison : " << result << endl;
+
 		ASSERT_TRUE(result);
 	}
 }
