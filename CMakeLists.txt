@@ -93,6 +93,11 @@ target_compile_definitions(file_reader_tests PRIVATE
     TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
 )
 
+# Pass file path as a compile definition
+target_compile_definitions(json_parser_tests PRIVATE 
+    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
+)
+
 
 #Link Google Tests and project Libs
 target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser)

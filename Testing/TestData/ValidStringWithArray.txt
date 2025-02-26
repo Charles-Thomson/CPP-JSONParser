@@ -1,0 +1,3 @@
+{"name": "John Doe","age":30, "cats": ["jeff", "Bill"]}
+name,age,cats
+John Doe,30,JSONArray

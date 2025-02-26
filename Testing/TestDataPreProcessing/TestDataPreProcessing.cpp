@@ -47,10 +47,10 @@ tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(con
 // 
 // @return tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> : Formated test data -> JSONData, list of Keys in JSON, list of values JSON
 // */
-tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData() {
+tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData(string& filePath) {
 	FileReader newFileReader;
 
-	tuple<string, string, string, bool> rawTestData = newFileReader.GetFileContents("C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/ValidString.txt");
+	tuple<string, string, string, bool> rawTestData = newFileReader.GetFileContents(filePath);
 
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processedTestData = processTestData(rawTestData);
 

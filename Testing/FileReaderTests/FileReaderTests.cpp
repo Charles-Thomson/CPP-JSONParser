@@ -14,22 +14,33 @@ using std::string;
 using std::list;
 using std::ifstream;
 
-
+// Test File Paths
 list<string> TEST_FILE_PATHS = {
         "ValidStringWhiteSpace.txt",
         "ValidString.txt",
-        "ValidStringArray.txt"
+        "ValidStringWithArray.txt"
 };
 
 
-
+//*
+//  @ brief: Checks file exists
+// 
+// Checks if a file path is valid in the context of if the file exists
+// 
+// @param string& path : reference to the file path to be checked
+// @return bool: IF the file path is valid
+// */
 bool fileExists(const string& path) {
     ifstream file(path);
     return file.good();
 }
 
 
-
+//*
+// @ brief Test reading of test files
+// 
+//  Test if the test files can be read and return the expected data
+// */
 TEST(FileReaderTests, ReadTestFiles) {
 
     for (const string& path : TEST_FILE_PATHS) {

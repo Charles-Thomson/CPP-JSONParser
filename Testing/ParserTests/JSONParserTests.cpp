@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include <iostream>
 #include <string>
 #include <list>
@@ -16,7 +17,6 @@
 #include "FileReader/FileReader.h"
 #include "Structs/JSONValueStruct.h"
 #include "CPP-JSONParser.h"
-
 #include "Testing/TestDataPreProcessing/TestDataPreProcessing.cpp"
 #include "SupportingTestFunctions.h"
 
@@ -31,11 +31,19 @@ using std::variant;
 using std::min;
 using std::visit;
 
-list<string> TEST_DATA_FILE_PATHS = {
-	"ValidStringWhiteSpace.txt",
-	"ValidString.txt",
-	"ValidStringWithArray.txt"
-};
+vector<string> getTestFiles() {
+	return {
+		string(TEST_INPUT_FILE_PATH) + "ValidString.txt",
+		string(TEST_INPUT_FILE_PATH) + "ValidStringWhiteSpace.txt",
+		string(TEST_INPUT_FILE_PATH) + "ValidStringWithArray.txt"
+	};
+}
+// Define a test classes that inherit from TestWithParam<int>
+class TestKeyExists : public ::testing::TestWithParam<string> {};
+
+class TestGetValueByKey : public ::testing::TestWithParam<string> {};
+
+class TestValueAssignments : public ::testing::TestWithParam<string> {};
 
 
 //*
@@ -46,22 +54,19 @@ list<string> TEST_DATA_FILE_PATHS = {
 // - Test each key to check it has been correctly parsed into the JSON structure
 // 
 // */
-TEST(JSONParserTests, KeyExistsCheck) {
+TEST_P(TestKeyExists, KeyExistsTest) {
+	string testFilePath = GetParam();
+	cout << testFilePath << endl;
 
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
-	
-	auto [JSONData, keyList, typleList] = testData;
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFilePath);
+	auto [JSONData, keyList, valuesList] = testData;
 
 	for (string key : keyList) {
 		bool holder = checkIfContainsKey(JSONData, key);
 		cout << "The result of the key check: " << key << " is " << holder << endl;
-		ASSERT_TRUE(holder);	
-	};	
+		ASSERT_TRUE(holder);
+	};
 }
-
-
-
-// Convert to use TEST_P to be able to use each of the TestData sets
 
 //*
 // @ brief Get a value by Key from JSON Structure
@@ -72,8 +77,9 @@ TEST(JSONParserTests, KeyExistsCheck) {
 // - compares result to expected result
 // 
 // */
-TEST(JSONParserTests, GetValueByKey) {
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
+TEST_P(TestGetValueByKey, GetValueByKey) {
+	string testDataPath = GetParam();
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testDataPath);
 	auto [JSONData, keyList, valuesList] = testData;
 
 	string testKey = keyList[0];
@@ -91,7 +97,6 @@ TEST(JSONParserTests, GetValueByKey) {
 	ASSERT_EQ(expectedValueAsString, resultAsString);
 }
 
-
 //*
 // @ brief Test if key,value pairs have been correctly parsed into JSON structure
 // 
@@ -100,8 +105,10 @@ TEST(JSONParserTests, GetValueByKey) {
 // - compares each value returned by key ref from the JSON structure to the expected value/type
 // 
 // */
-TEST(JSONParserTests, TestValueAssignments) {
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData();
+TEST_P(TestValueAssignments, ValueAssignments) {
+
+	string testDataPath = GetParam();
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testDataPath);
 	auto [JSONData, keyList, valuesList] = testData;
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
@@ -109,7 +116,7 @@ TEST(JSONParserTests, TestValueAssignments) {
 	for (int i = 0; keyList.size() > i; i++) {
 		string Key = keyList[i];
 		any expectedValue = correctValuesList[i];
-		
+
 		// Get the stored value
 		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, Key);
 
@@ -120,6 +127,20 @@ TEST(JSONParserTests, TestValueAssignments) {
 		ASSERT_TRUE(result);
 	}
 }
+
+INSTANTIATE_TEST_SUITE_P(JSONParserTestKeyExists, TestKeyExists,  ::testing::ValuesIn(
+	getTestFiles()
+));
+
+INSTANTIATE_TEST_SUITE_P(JSONParserTestGetValueByKey, TestGetValueByKey, ::testing::ValuesIn(
+	getTestFiles()
+));
+
+INSTANTIATE_TEST_SUITE_P(JSONParserTestValueAssignments, TestValueAssignments, ::testing::ValuesIn(
+	getTestFiles()
+));
+
+
 
 
 

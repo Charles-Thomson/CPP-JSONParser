@@ -25,7 +25,7 @@ using std::string;
 
 tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(const tuple<string, string, string, bool> rawTestData);
 
-tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData();
+tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData(string& filePath);
 
 
 #endif TEST_DATA_PRE_PROCESSING_H
