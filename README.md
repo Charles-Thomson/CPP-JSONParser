@@ -2,12 +2,10 @@
 
 JSON Parser written in C++ 
 
-For usage with larger scope ANN pipe line project
+Written to be used in the scope of the ANN pipline project
 
-Implmenting Google Test Support.
+Curently stable with basic testing implmentetion
 
-Small updates to follow in tandum with main scope project 
-
-
+Not all fringe use cases are accounted for
 
 
