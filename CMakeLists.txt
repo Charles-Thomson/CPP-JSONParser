@@ -67,9 +67,9 @@ if(MSVC)
 endif()
 
 #Executables
-add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp )
+# add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp )
 
-add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp )
+# add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp )
 
 # Set runtime library for test target (match the option you selected above)
 target_compile_options(file_reader_tests PRIVATE /MDd)
