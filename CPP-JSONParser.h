@@ -44,10 +44,9 @@ bool checkAndHandleEmptyCase(istringstream& stream, char matchCaseOpen, char mat
 
 void PrintJson(shared_ptr<JSONValue>& jsonValue, int indent = 0, bool nested = false);
 
-
-
-
 istringstream preProcessing(string& inputString);
+
+string TestReturn();
 
 shared_ptr<JSONValue> ParseToJSON(string inputString);
 
