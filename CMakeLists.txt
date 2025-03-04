@@ -21,7 +21,7 @@ project ("CPP-JSONParser")
 # Add source to this project's executable.
 
 # Add a library
-add_library(CPP-JSONParser
+add_library(CPP-JSONParser SHARED
     CPP-JSONParser.cpp
     CPP-JSONParser.h
     Structs/JSONValueStruct.cpp
@@ -37,6 +37,11 @@ add_library(CPP-JSONParser
     Testing/TestDataPreProcessing/TestDataPreProcessing.cpp
     Testing/ParserTests/SupportingTestFunctions.h
     Testing/ParserTests/SupportingTestFunctions.cpp
+)
+
+add_library(CPP-JSONParserStatic STATIC 
+    CPP-JSONParser.cpp
+    CPP-JSONParser.h
 )
 
 # Enable testing
