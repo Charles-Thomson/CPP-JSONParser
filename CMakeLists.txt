@@ -72,48 +72,48 @@ endif()
 # add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp )
 
 # Set runtime library for test target (match the option you selected above)
-target_compile_options(file_reader_tests PRIVATE /MDd)
+#target_compile_options(file_reader_tests PRIVATE /MDd)
 
-target_compile_options(json_parser_tests PRIVATE /MDd)
+#target_compile_options(json_parser_tests PRIVATE /MDd)
 
 #Target Libs
-target_include_directories(file_reader_tests PRIVATE
-    "${CMAKE_SOURCE_DIR}"
-    "${CMAKE_SOURCE_DIR}/FileReader"
-    "${CMAKE_SOURCE_DIR}/Structs"
-    "${CMAKE_SOURCE_DIR}/HelperFunctions"
-)
+#target_include_directories(file_reader_tests PRIVATE
+#   "${CMAKE_SOURCE_DIR}"
+#  "${CMAKE_SOURCE_DIR}/FileReader"
+# "${CMAKE_SOURCE_DIR}/Structs"
+#"${CMAKE_SOURCE_DIR}/HelperFunctions"
+#)
 
-target_include_directories(json_parser_tests PRIVATE
-    "${CMAKE_SOURCE_DIR}"
-    "${CMAKE_SOURCE_DIR}/FileReader"
-    "${CMAKE_SOURCE_DIR}/Structs"
-    "${CMAKE_SOURCE_DIR}/HelperFunctions"
-    "${CMAKE_SOURCE_DIR}/Testing"
-)
+#target_include_directories(json_parser_tests PRIVATE
+#    "${CMAKE_SOURCE_DIR}"
+#    "${CMAKE_SOURCE_DIR}/FileReader"
+#    "${CMAKE_SOURCE_DIR}/Structs"
+#    "${CMAKE_SOURCE_DIR}/HelperFunctions"
+#    "${CMAKE_SOURCE_DIR}/Testing"
+#)
 
-
-# Pass file path as a compile definition
-target_compile_definitions(file_reader_tests PRIVATE 
-    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
-)
 
 # Pass file path as a compile definition
-target_compile_definitions(json_parser_tests PRIVATE 
-    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
-)
+#target_compile_definitions(file_reader_tests PRIVATE 
+#    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
+#)
+
+# Pass file path as a compile definition
+#target_compile_definitions(json_parser_tests PRIVATE 
+#    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
+#)
 
 
 #Link Google Tests and project Libs
-target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser)
-target_link_libraries(json_parser_tests PRIVATE gtest gtest_main CPP-JSONParser)
+#target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser)
+#target_link_libraries(json_parser_tests PRIVATE gtest gtest_main CPP-JSONParser)
 
 
 #Add Tests
-add_test(NAME FileReaderTests COMMAND file_reader_tests)
-add_test(NAME JSONParserTests COMMAND json_parser_tests)
+#add_test(NAME FileReaderTests COMMAND file_reader_tests)
+#add_test(NAME JSONParserTests COMMAND json_parser_tests)
 
 
 #Gtests Discovery 
-gtest_discover_tests(file_reader_tests)
-gtest_discover_tests(json_parser_tests)
+#gtest_discover_tests(file_reader_tests)
+#gtest_discover_tests(json_parser_tests)
