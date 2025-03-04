@@ -42,6 +42,15 @@ add_library(CPP-JSONParser SHARED
 add_library(CPP-JSONParserStatic STATIC 
     CPP-JSONParser.cpp
     CPP-JSONParser.h
+    Structs/JSONValueStruct.cpp
+    Structs/JSONValueStruct.h
+    FileReader/FileReader.cpp
+    FileReader/FileReader.h
+    
+    HelperFunctions/TypeConversions.h
+    HelperFunctions/TypeConversions.cpp
+    HelperFunctions/PrintJSON.h
+    HelperFunctions/PrintJSON.cpp
 )
 
 # Enable testing
