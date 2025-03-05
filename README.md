@@ -1,11 +1,14 @@
-# CPP-JSONParser - Devlopment in progress
+C++ JSON Parser
 
-JSON Parser written in C++ 
+Overview
 
-Written to be used in the scope of the ANN pipline project
+This project is a C++ implementation of a JSON parser built using CMake
 
-Curently stable with basic testing implmentetion
+Prerequisites
 
-Not all fringe use cases are accounted for
+To build and run the project, ensure you have the following dependencies installed:
 
+C++ Compiler (C++17 or later recommended)
+
+CMake (version 3.10 or later)
 
