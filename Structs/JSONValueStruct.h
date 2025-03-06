@@ -18,6 +18,10 @@ using std::variant;
 using std::nullptr_t;
 using std::optional;
 using std::nullopt;
+using std::visit;
+using std::decay_t;
+using std::is_same_v;
+
 
 struct JSONValue;
 
@@ -43,8 +47,24 @@ struct JSONValue {
             return *ptr;
         }
         return nullopt; // Empty if no type match
-    
-    
+     
+    }
+
+    const JSONValue::JSONType& getValue() const {
+        return value;
+    }
+
+    string getType() const {
+        return visit([](const auto& val) -> string {
+            using T = decay_t<decltype(val)>;  // Get type without const/reference
+            if constexpr (is_same_v<T, nullptr_t>) return "null";
+            else if constexpr (is_same_v<T, bool>) return "bool";
+            else if constexpr (is_same_v<T, double>) return "double";
+            else if constexpr (is_same_v<T, string>) return "string";
+            else if constexpr (is_same_v<T, JSONObject>) return "JSONObject";
+            else if constexpr (is_same_v<T, JSONArray>) return "JSONArray";
+            else return "unknown";
+            }, value);
     }
 
 

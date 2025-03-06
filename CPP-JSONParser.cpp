@@ -307,12 +307,13 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& 
 			if (key == searchKey) {
 				return value;
 			}
-		
 		}
-		
 	}
 	return JSONElement;
 }
+
+
+
 
 
 shared_ptr<JSONValue> ParseToJSON(string inputString) {
