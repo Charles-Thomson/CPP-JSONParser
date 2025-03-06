@@ -58,7 +58,7 @@ bool checkIfContainsKeyExposed(shared_ptr<JSONValue> pointer, string& searchKey)
 			if (checkIfSearchKey(searchKey, key)) {
 				return true;
 			}
-			else if (checkIfContainsKey(value, searchKey)) {
+			else if (checkIfContainsKeyExposed(value, searchKey)) {
 				return true;
 			};
 		};
@@ -76,7 +76,7 @@ bool checkIfContainsKeyExposed(shared_ptr<JSONValue> pointer, string& searchKey)
 					return true;
 				}
 			}
-			else if (checkIfContainsKey(val, searchKey)) {
+			else if (checkIfContainsKeyExposed(val, searchKey)) {
 				return true;
 			}
 		}
