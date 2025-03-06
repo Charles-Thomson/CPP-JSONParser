@@ -8,6 +8,7 @@
 #include<vector>
 #include<memory>
 #include <variant>
+#include <optional>
 
 using std::string;
 using std::shared_ptr;
@@ -15,6 +16,8 @@ using std::unordered_map;
 using std::vector;
 using std::variant;
 using std::nullptr_t;
+using std::optional;
+using std::nullopt;
 
 struct JSONValue;
 
@@ -33,6 +36,16 @@ struct JSONValue {
     JSONValue(const string& s);
     JSONValue(const JSONObject& obj);
     JSONValue(const JSONArray& arr);
+
+    template <typename T>
+    optional<T> get() const {
+        if (auto ptr = get_if<T>(&value)) {
+            return *ptr;
+        }
+        return nullopt; // Empty if no type match
+    
+    
+    }
 
 
 
