@@ -37,7 +37,7 @@ add_library(CPP-JSONParser SHARED
     Testing/TestDataPreProcessing/TestDataPreProcessing.cpp
     Testing/ParserTests/SupportingTestFunctions.h
     Testing/ParserTests/SupportingTestFunctions.cpp
-)
+ "ExposedFunctions/CheckIfContainsKey.h")
 
 add_library(CPP-JSONParserStatic STATIC 
     CPP-JSONParser.cpp
@@ -52,7 +52,7 @@ add_library(CPP-JSONParserStatic STATIC
     HelperFunctions/PrintJSON.h
     HelperFunctions/PrintJSON.cpp
     ExposedFunctions/CheckIfContainsKey.cpp
-)
+ "ExposedFunctions/CheckIfContainsKey.h")
 
 # Enable testing
 enable_testing()

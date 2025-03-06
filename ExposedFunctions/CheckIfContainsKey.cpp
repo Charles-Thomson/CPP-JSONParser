@@ -6,6 +6,8 @@
 #include <format>
 #include "../Testing/ParserTests/SupportingTestFunctions.h"
 
+#include "CheckIfContainsKey.h"
+
 using std::string;
 using std::variant;
 using std::cout;
@@ -25,7 +27,7 @@ using std::any_cast;
 // 
 // @return bool If key value is contained in JSONValue -> JSONObject
 // */
-bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
+bool checkIfContainsKeyExposed(shared_ptr<JSONValue> pointer, string& searchKey) {
 
 	if (holds_alternative<JSONObject>(pointer->value)) {
 		const JSONObject& obj = GetJSONObjectFromJSONValue(pointer);
