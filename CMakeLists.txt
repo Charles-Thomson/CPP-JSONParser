@@ -51,6 +51,7 @@ add_library(CPP-JSONParserStatic STATIC
     HelperFunctions/TypeConversions.cpp
     HelperFunctions/PrintJSON.h
     HelperFunctions/PrintJSON.cpp
+    ExposedFunctions/CheckIfContainsKey.cpp
 )
 
 # Enable testing
