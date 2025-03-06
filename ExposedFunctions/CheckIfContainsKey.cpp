@@ -4,7 +4,7 @@
 #include <variant>
 #include <istream>
 #include <format>
-#include "../Testing/ParserTests/SupportingTestFunctions.h"
+
 
 #include "CheckIfContainsKey.h"
 
@@ -13,6 +13,27 @@ using std::variant;
 using std::cout;
 using std::endl;
 using std::any_cast;
+
+
+//*
+// @ Check if two strings are equal
+// 
+//  Check if the given searchKey is equal to the given key
+// 
+// @ prama string& searchKey : key being searched for
+// @ param string& key : instance of a stored key
+// 
+// @ return bool: True If given param values are equal
+// */
+bool checkIfSearchKey(const string& searchKey, const string& key) {
+
+	cout << "Comparing: " << searchKey << " : " << key << endl;
+
+	if (key == searchKey) {
+		return true;
+	}
+	return false;
+}
 
 
 
