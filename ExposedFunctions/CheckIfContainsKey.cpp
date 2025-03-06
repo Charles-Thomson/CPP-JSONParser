@@ -1,9 +1,10 @@
-#include "../../HelperFunctions/TypeConversions.h"
-#include "../../Structs/JSONValueStruct.h"
+#include "../HelperFunctions/TypeConversions.h"
+#include "../Structs/JSONValueStruct.h"
 
 #include <variant>
 #include <istream>
 #include <format>
+#include "../Testing/ParserTests/SupportingTestFunctions.h"
 
 using std::string;
 using std::variant;
