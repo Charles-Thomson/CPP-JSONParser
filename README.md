@@ -12,3 +12,8 @@ C++ Compiler (C++17 or later recommended)
 
 CMake (version 3.10 or later)
 
+
+Road Map:
+
+FileReader refactoring to imporve decoupling with testing
+
