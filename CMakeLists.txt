@@ -58,6 +58,7 @@ add_library(CPP-JSONParserStatic STATIC
     ExposedFunctions/CheckIfContainsKey.h
  "FileReader/FileReaderNew.cpp" "FileReader/FileReaderNew.h")
 
+
 # Enable testing
 enable_testing()
 
@@ -97,6 +98,7 @@ target_include_directories(file_reader_tests PRIVATE
  "${CMAKE_SOURCE_DIR}/FileReader"
  "${CMAKE_SOURCE_DIR}/Structs"
  "${CMAKE_SOURCE_DIR}/HelperFunctions"
+ "${CMAKE_SOURCE_DIR}/Testing"
  "${gtest_SOURCE_DIR}/include"
 )
 
@@ -118,6 +120,19 @@ target_compile_definitions(file_reader_tests PRIVATE
 target_compile_definitions(json_parser_tests PRIVATE 
     TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
 )
+
+
+# Set the global path
+set(TEST_FILE_PATH "C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/")
+message(STATUS "TEST_FILE_PATH is set to: ${TEST_FILE_PATH}")  # Debugging output
+
+# Define the preprocessor definition for all targets
+add_compile_definitions(TEST_FILE_PATH="${TEST_FILE_PATH}")
+
+# Pass the file path as a compile definition to individual targets
+target_compile_definitions(file_reader_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(json_parser_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(CPP-JSONParser PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
 
 #Link Google Tests and project Libs
 target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser)

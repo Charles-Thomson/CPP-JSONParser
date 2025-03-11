@@ -22,8 +22,9 @@ using std::tuple;
 using std::vector;
 using std::string;
 
+tuple<string, string> GetTestFileKeysAndValues(string& testFileName);
 
-tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(const tuple<string, string, string, bool> rawTestData);
+tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(const string testData, const tuple<string, string> keyAndValueData);
 
 tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData(string& filePath);
 

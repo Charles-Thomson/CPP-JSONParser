@@ -1,3 +1,1 @@
 {"name":       "John Doe","age":30,"address": {"street":"123 Elm Street", "building": {"Old":"Yes","Tall": "no"}},"family": {"dad": "Dave", "mom":"Brenda"}}
-name,age,address,street,building,Old,Tall,family,dad,mom
-John Doe,30,JSONObject,123 Elm Street,JSONObject,Old,Tall,JSONObject,Dave,Brenda

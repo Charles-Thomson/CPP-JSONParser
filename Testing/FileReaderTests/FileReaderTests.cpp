@@ -2,12 +2,14 @@
 
 #include "CPP-JSONParser.h"
 #include "FileReader/FileReader.h"
-#include "FileReader/FileReaderNew.h"
+#include "TestDataPreProcessing/TestDataPreProcessing.h"
+//#include "FileReader/FileReaderNew.h"
 #include <iostream>
 #include <string>
 #include <list>
 #include <fstream>
 #include <tuple>
+
 
 
 
@@ -17,7 +19,7 @@ using std::list;
 using std::ifstream;
 
 // Test File Paths
-list<string> TEST_FILE_PATHS = {
+list<string> TEST_FILE_NAMES = {
         "ValidStringWhiteSpace",
         "ValidString",
         "ValidStringWithArray"
@@ -45,63 +47,29 @@ bool fileExists(const string& path) {
 // */
 TEST(FileReaderTests, ReadTestFiles) {
 
-    for (const string& path : TEST_FILE_PATHS) {
-        string fullPath = TEST_INPUT_FILE_PATH + path;
+    for (const string& fileName : TEST_FILE_NAMES) {
+        string fullPath = TEST_INPUT_FILE_PATH + fileName + ".txt";
 
-        ASSERT_TRUE(fileExists(fullPath)) << "File does not exist" << path;
+        ASSERT_TRUE(fileExists(fullPath)) << "File does not exist" << fullPath;
 
         FileReader newFileReader;
 
-        tuple<string,string,string,  bool> testData = newFileReader.GetFileContents(fullPath);
+        string testData = newFileReader.GetFileContents(fullPath);
 
-        ASSERT_TRUE(typeid(get<0>(testData)) == typeid(string)) << "Expected String got : " << typeid(get<0>(testData)).name();
+        ASSERT_TRUE(typeid(testData) == typeid(string)) << "Expected String got : " << typeid(testData).name();
 
-        ASSERT_FALSE(get<0>(testData).empty()) << "File is empty : " << fullPath;
+        ASSERT_FALSE(testData.empty()) << "File is empty : " << fullPath;
     }
 
 }
-
-
-
-tuple<string, string> GetTestFileKeysAndValues(string& testFileName) {
-    string fullPath = TEST_INPUT_FILE_PATH + testFileName + "KeysAndValues.txt";
-
-    ifstream inputfile(fullPath);
-    string testKeysIdentifier = "#TEST_KEYS#";
-    string testValuesIdentifier = "#TEST_VALUES#";
-
-    if (!inputfile) {
-        cerr << "Error Opening File : " << fullPath << endl;
-    }
-
-    string line;
-    string testKeys;
-    string testValues;
-
-    string stringHolder;
-
-    while (getline(inputfile, line)) {
-        stringHolder = line;
-
-        if (stringHolder.find(testKeysIdentifier) != string::npos) {
-            testKeys += line;
-        }
-        else if (stringHolder.find(testValuesIdentifier) != string::npos) {
-            testValues += line;
-        }
-    }
-    return {testKeys, testValues};
-
-}
-
 
 TEST(FileReaderTests, TestReadFile) {
     string fileName = "ValidMultiLine";
     string fullPath = TEST_INPUT_FILE_PATH + fileName + ".txt";
 
-    FileReaderNew fileReader = FileReaderNew();
+    FileReader fileReader = FileReader();
 
-    string result = fileReader.GetFileContentsTest(fullPath);
+    string result = fileReader.GetFileContents(fullPath);
 
     tuple<string, string> testKeysAndValues = GetTestFileKeysAndValues(fileName);
 
@@ -113,7 +81,7 @@ TEST(FileReaderTests, TestReadFile) {
 
     cout << "Test Return : " << result << endl;
 
-    ASSERT_EQ(1, 2);
+    /*ASSERT_EQ(1, 2);*/
 
 
 }

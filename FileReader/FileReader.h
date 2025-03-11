@@ -25,7 +25,7 @@ class FileReader {
 private:
 	string INPUT_FILE_PATH;
 
-	tuple<string, string, string> ReadJSONTestFileContents(const string& filePath) const;
+	string ReadJSONTestFileContents(const string& filePath) const;
 
 	bool CheckFilePathValidity(const string& filePath) const;
 
@@ -36,7 +36,7 @@ public:
 
 	string GetTestInputFilePath() const;
 
-	tuple<string, string, string, bool> GetFileContents(const string& fileName) ;
+	string GetFileContents(const string& fileName) ;
 
 	
 };

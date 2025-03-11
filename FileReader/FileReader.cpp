@@ -69,34 +69,22 @@ bool FileReader::CheckFilePathValidity(const string& filePath) const {
 // @param filePath Path to the stored file
 // @Return The contents of the file as a single string
 // */
-tuple<string, string, string> FileReader::ReadJSONTestFileContents(const string& filePath) const {
+string FileReader::ReadJSONTestFileContents(const string& filePath) const {
 	ifstream inputFile(filePath);
+
 	if (!inputFile) {
 		cerr << "Error Opening File: " << filePath << endl;
-		return {"", "", ""};
+		return "";
 	}
 
-	string fileContent;
-	string contentLine;
-	string keysLine;
-	string valuesLine;
 	string line;
+	string content;
+	
+	while (getline(inputFile, line)) {
+		content += line;
+	}
 
-	if (getline(inputFile, line)) {
-		contentLine = line;
-	};
-
-	if (getline(inputFile, line)) {
-		keysLine = line;
-	};
-
-	if (getline(inputFile, line)) {
-		valuesLine = line;
-	};
-
-
-	cout << keysLine << endl; 
-	return {contentLine, keysLine, valuesLine};
+	return content;
 }
 
 
@@ -109,17 +97,17 @@ tuple<string, string, string> FileReader::ReadJSONTestFileContents(const string&
 // @param fileType The type of file to be read(i.e valid, invalid, nested ...)
 // @Return The contents of the file as a single string, bool falg to indicate if read successful
 // */
-tuple<string,string,string, bool> FileReader::GetFileContents(const string& filePath)  {
+string FileReader::GetFileContents(const string& filePath)  {
 
 	// Check the Path is valid
 	if (!CheckFilePathValidity(filePath)) {
 		cout << "File Path is Invalid" << endl;
-		return { "", "", "", false};
+		return "";
 	}
 
-	tuple<string, string, string> content = ReadJSONTestFileContents(filePath);
+	string content = ReadJSONTestFileContents(filePath);
 
-	return { get<0>(content), get<1>(content), get<2>(content), true };
+	return content;
 }
 
 

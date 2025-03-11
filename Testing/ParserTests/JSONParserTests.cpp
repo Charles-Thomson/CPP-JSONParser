@@ -33,9 +33,9 @@ using std::visit;
 
 vector<string> getTestFiles() {
 	return {
-		string(TEST_INPUT_FILE_PATH) + "ValidString.txt",
-		string(TEST_INPUT_FILE_PATH) + "ValidStringWhiteSpace.txt",
-		string(TEST_INPUT_FILE_PATH) + "ValidStringWithArray.txt"
+		"ValidString",
+		"ValidStringWhiteSpace",
+		"ValidStringWithArray"
 	};
 }
 // Define a test classes that inherit from TestWithParam<int>
@@ -55,10 +55,10 @@ class TestValueAssignments : public ::testing::TestWithParam<string> {};
 // 
 // */
 TEST_P(TestKeyExists, KeyExistsTest) {
-	string testFilePath = GetParam();
-	cout << testFilePath << endl;
+	string testFileName = GetParam();
+	cout << testFileName << endl;
 
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFilePath);
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
 	auto [JSONData, keyList, valuesList] = testData;
 
 	for (string key : keyList) {
@@ -78,8 +78,9 @@ TEST_P(TestKeyExists, KeyExistsTest) {
 // 
 // */
 TEST_P(TestGetValueByKey, GetValueByKey) {
-	string testDataPath = GetParam();
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testDataPath);
+	string testFileName = GetParam();
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
+
 	auto [JSONData, keyList, valuesList] = testData;
 
 	string testKey = keyList[0];
@@ -107,8 +108,8 @@ TEST_P(TestGetValueByKey, GetValueByKey) {
 // */
 TEST_P(TestValueAssignments, ValueAssignments) {
 
-	string testDataPath = GetParam();
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testDataPath);
+	string testFileName = GetParam();
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
 	auto [JSONData, keyList, valuesList] = testData;
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);

@@ -75,26 +75,15 @@ string FileReaderNew::ReadFileContentsNew(string& filePath) const{
 		cerr << "Error Opening File : " << filePath << endl;
 	}
 
-	string fileContent;
+	
 	string contentLine;
-	string testKeys;
-	string testValues;
-	string holderString;
+	
 	string line;
 
 
 	while (getline(inputfile, line)) {
 		contentLine += line;
 
-		/*if (holderString.find(testKeysIdentifier) != string::npos) {
-			testKeys += holderString;
-		}else if (holderString.find(testValuesIdentifier) != string::npos) {
-			testValues += holderString;
-		}
-		else {
-			contentLine += holderString;
-		
-		}*/
 
 	}
 
