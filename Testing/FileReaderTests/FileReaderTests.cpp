@@ -3,15 +3,11 @@
 #include "CPP-JSONParser.h"
 #include "FileReader/FileReader.h"
 #include "TestDataPreProcessing/TestDataPreProcessing.h"
-//#include "FileReader/FileReaderNew.h"
 #include <iostream>
 #include <string>
 #include <list>
 #include <fstream>
 #include <tuple>
-
-
-
 
 using std::tuple;
 using std::string;
@@ -59,14 +55,11 @@ TEST(FileReaderTests, TestReadFile) {
 
     ASSERT_FALSE(result.empty()) << "File is empty : " << fullPath;
 
-
-
     cout << "Test Keys : " << get<0>(testKeysAndValues) << endl;
 
     cout << "Test Values : " << get<1>(testKeysAndValues) << endl;
 
     cout << "Test Return : " << result << endl;
-
 }
 
 

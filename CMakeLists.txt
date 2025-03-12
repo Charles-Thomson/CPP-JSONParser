@@ -38,8 +38,8 @@ add_library(CPP-JSONParser
     Testing/ParserTests/SupportingTestFunctions.h
     Testing/ParserTests/SupportingTestFunctions.cpp
     ExposedFunctions/CheckIfContainsKey.h
-    FileReader/FileReaderNew.cpp
-    FileReader/FileReaderNew.h
+    
+    
 )
 
 add_library(CPP-JSONParserStatic STATIC 
@@ -56,7 +56,7 @@ add_library(CPP-JSONParserStatic STATIC
     HelperFunctions/PrintJSON.cpp
     ExposedFunctions/CheckIfContainsKey.cpp
     ExposedFunctions/CheckIfContainsKey.h
- "FileReader/FileReaderNew.cpp" "FileReader/FileReaderNew.h")
+  )
 
 
 # Enable testing
@@ -82,9 +82,9 @@ if(MSVC)
 endif()
 
 #Executables
- add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp  "FileReader/FileReaderNew.cpp" "FileReader/FileReaderNew.h")
+ add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp   )
 
- add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp  "FileReader/FileReaderNew.cpp" "FileReader/FileReaderNew.h")
+ add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp   )
 
 # Set runtime library for test target (match the option you selected above)
 target_compile_options(file_reader_tests PRIVATE /MDd)
