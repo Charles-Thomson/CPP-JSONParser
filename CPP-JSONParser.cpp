@@ -29,12 +29,6 @@ using std::make_shared;
 using std::variant;
 
 
-
-string TestReturn() {
-	return "From Parser";
-
-}
-
 //*
 // @brief Remove whitespace from stream.
 // 

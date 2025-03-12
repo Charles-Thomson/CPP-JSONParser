@@ -22,7 +22,8 @@ using std::ifstream;
 list<string> TEST_FILE_NAMES = {
         "ValidStringWhiteSpace",
         "ValidString",
-        "ValidStringWithArray"
+        "ValidStringWithArray",
+        "ValidMultiLine"
 };
 
 

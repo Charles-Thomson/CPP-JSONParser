@@ -35,7 +35,8 @@ vector<string> getTestFiles() {
 	return {
 		"ValidString",
 		"ValidStringWhiteSpace",
-		"ValidStringWithArray"
+		"ValidStringWithArray",
+		"ValidMultiLine"
 	};
 }
 // Define a test classes that inherit from TestWithParam<int>

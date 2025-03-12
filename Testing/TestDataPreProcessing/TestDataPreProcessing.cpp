@@ -22,7 +22,15 @@ using std::tuple;
 using std::string;
 using std::size_t;
 
-
+//*
+//  @brief Get Test Keys and Valeus for given test file
+// 
+//  Read thet Keys and Values test data values for a given test file, remove 
+//  key idntifiers for Key and Value strings
+// @ param string reference to testFileName var
+// @ return tuple<string, string> testKeys and testValues strings 
+// 
+// */
 tuple<string, string> GetTestFileKeysAndValues(string& testFileName) {
     string fullPath = string(TEST_FILE_PATH) + testFileName + "KeysAndValues.txt";
 
@@ -37,7 +45,6 @@ tuple<string, string> GetTestFileKeysAndValues(string& testFileName) {
     string line;
     string testKeys;
     string testValues;
-
     string stringHolder;
 
     while (getline(inputfile, line)) {
@@ -52,25 +59,19 @@ tuple<string, string> GetTestFileKeysAndValues(string& testFileName) {
     }
 
     size_t testKeysIdentifierPos = testKeys.find(testKeysIdentifier);
-    size_t testValuesIdentifierPos = testKeys.find(testValuesIdentifier);
+    size_t testValuesIdentifierPos = testValues.find(testValuesIdentifier);
 
-    // Remove the Identifier tags from the strings
+    // Remove the Identifier tags from the strings - this needs to be tested 
     if (testKeysIdentifierPos != std::string::npos) {
         testKeys.erase(testKeysIdentifierPos, testKeysIdentifier.length());
     }
 
     if (testValuesIdentifierPos != std::string::npos) {
-        testKeys.erase(testValuesIdentifierPos, testValuesIdentifier.length());
+        testValues.erase(testValuesIdentifierPos, testValuesIdentifier.length());
     }
-    
-
-
-    // FROM HERE - NEDD TO CUT THE TAGS FROM THE STRINGS 
+ 
     return { testKeys, testValues };
-
 }
-
-
 
 
 //*
