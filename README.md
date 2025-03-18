@@ -15,5 +15,5 @@ CMake (version 3.10 or later)
 
 Road Map:
 
-FileReader refactoring to imporve decoupling with testing
+Refactor FileReader into seperate project
 
