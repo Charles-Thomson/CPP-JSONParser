@@ -9,8 +9,6 @@
 #include <string>
 #include <tuple>
 
-
-
 using std::string;
 using std::cout;
 using std::endl;
@@ -19,11 +17,9 @@ using std::cerr;
 using std::pair;
 using std::tuple;
 
-
-
 class FileReader {
 private:
-	string INPUT_FILE_PATH;
+	string input_file_path;
 
 	string ReadJSONTestFileContents(const string& filePath) const;
 

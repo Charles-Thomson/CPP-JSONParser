@@ -45,7 +45,7 @@ FileReader::~FileReader() {
 // Returns the stored const of the INPUT_FILE_PATH
 // */
 string FileReader::GetTestInputFilePath() const {
-	return INPUT_FILE_PATH;
+	return input_file_path;
 }
 
 
