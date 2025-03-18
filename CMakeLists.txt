@@ -51,7 +51,7 @@ add_library(CPP-JSONParserStatic STATIC
     FileReader/FileReader.h
     
     HelperFunctions/TypeConversions.h
-   HelperFunctions/TypeConversions.cpp
+    HelperFunctions/TypeConversions.cpp
     HelperFunctions/PrintJSON.h
     HelperFunctions/PrintJSON.cpp
     ExposedFunctions/CheckIfContainsKey.cpp
@@ -59,8 +59,7 @@ add_library(CPP-JSONParserStatic STATIC
   )
 
 
-# Enable testing
-enable_testing()
+
 
 # Fetch Google Test
 include(FetchContent)
@@ -80,6 +79,20 @@ if(MSVC)
     set_target_properties(gtest PROPERTIES COMPILE_OPTIONS "/MDd")
     set_target_properties(gtest_main PROPERTIES COMPILE_OPTIONS "/MDd")
 endif()
+
+
+
+#Testing
+
+
+option(CPP_JSONPARSER_BUILD_TESTS "Build tests for CPP-JSONParser" ON)
+
+if(CPP_JSONPARSER_BUILD_TESTS)
+    # Enable testing
+    enable_testing()
+endif()
+
+
 
 #Executables
  add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp   )
