@@ -14,10 +14,10 @@
 #include <memory>
 #include <cassert>
 
-#include "FileReader/FileReader.h"
-#include "Structs/JSONValueStruct.h"
-#include "CPP-JSONParser.h"
-#include "Testing/TestDataPreProcessing/TestDataPreProcessing.cpp"
+#include "../../FileReader/FileReader.h"
+#include "../../Structs/JSONValueStruct.h"
+#include "../../CPP-JSONParser.h"
+#include "../../Testing/TestDataPreProcessing/TestDataPreProcessing.cpp"
 #include "SupportingTestFunctions.h"
 
 using std::stringstream;
