@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "CPP-JSONParser.h"
-#include "FileReader/FileReader.h"
-#include "TestDataPreProcessing/TestDataPreProcessing.h"
+#include "../../CPP-JSONParser.h"
+#include "../../FileReader/FileReader.h"
+#include "../TestDataPreProcessing/TestDataPreProcessing.h"
 #include <iostream>
 #include <string>
 #include <list>
