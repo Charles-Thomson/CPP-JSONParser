@@ -17,3 +17,7 @@ Road Map:
 
 Refactor FileReader into seperate project
 
+Expand to cover wider range of use cases 
+
+
+
