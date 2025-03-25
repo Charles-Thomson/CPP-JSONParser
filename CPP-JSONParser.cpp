@@ -111,9 +111,8 @@ shared_ptr<JSONValue> parseNumber(istringstream& stream) {
 	char ch;
 
 	// Need to add in conditions for checking for . - ect 
-	while (stream.get(ch) && isdigit(ch)) {
+	while (stream.get(ch) && isdigit(ch) || ch == '.') {
 		result += ch;
-		/*cout << result << endl;*/
 	}
 
 	// If the next character isn't a digit, put it back in the stream
@@ -121,7 +120,7 @@ shared_ptr<JSONValue> parseNumber(istringstream& stream) {
 		stream.putback(ch);  // Put the non-digit character back to stream
 	}
 
-
+	cout << "parseNumber -> " << result << endl;
 	double resultAsDouble = std::stod(result);
 
 	return make_shared<JSONValue>(resultAsDouble);
@@ -263,7 +262,7 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 			shared_ptr<JSONValue> value = determineJSONType(stream);
 
 			obj[keyString] = value;  // save as key - value to obj
-			SkipWhiteSpace(stream);
+			SkipWhiteSpace(stream); // Skip any white space after the value
 		}
 		else {
 			string found = string(1, ch);

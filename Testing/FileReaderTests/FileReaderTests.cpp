@@ -20,6 +20,7 @@ list<string> TEST_FILE_NAMES = {
         "ValidString",
         "ValidStringWithArray",
         "ValidMultiLine"
+        "ValidStringWithDecimals"
 };
 
 
