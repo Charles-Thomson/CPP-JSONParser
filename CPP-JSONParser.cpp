@@ -276,6 +276,7 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 
 	if (ch != '}') {
 		cout << "The found char : " << ch << endl;
+		cout << "The remaining string to be parsed : " << stream.rdbuf() << endl;
 		throw runtime_error("Expected '}' at the end of object.");
 	}
 
