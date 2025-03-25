@@ -263,7 +263,7 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 			shared_ptr<JSONValue> value = determineJSONType(stream);
 
 			obj[keyString] = value;  // save as key - value to obj
-			
+			SkipWhiteSpace(stream);
 		}
 		else {
 			string found = string(1, ch);

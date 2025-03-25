@@ -2,7 +2,14 @@
 	"name":"John Doe",
 	"age":30,
 	"address": {
-		"street":"123 Elm Street"}
+		"street":"123 Elm Street"
+		},
+
+	"occupied": {
+		"family": "yes",
+		"single": "no"
+	
+	}
 }
 
 
