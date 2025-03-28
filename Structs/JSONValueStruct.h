@@ -9,6 +9,9 @@
 #include<memory>
 #include <variant>
 #include <optional>
+#include <typeindex>
+#include <any>
+#include <any>
 
 using std::string;
 using std::shared_ptr;
@@ -21,6 +24,8 @@ using std::nullopt;
 using std::visit;
 using std::decay_t;
 using std::is_same_v;
+using std::type_index;
+using std::any;
 
 
 struct JSONValue;
@@ -32,6 +37,7 @@ struct JSONValue {
     using JSONType = variant<nullptr_t, bool, double, string, JSONObject, JSONArray>;
 
     JSONType value;
+    
 
     JSONValue();
     JSONValue(nullptr_t);  // Declaration only
@@ -40,7 +46,43 @@ struct JSONValue {
     JSONValue(const string& s);
     JSONValue(const JSONObject& obj);
     JSONValue(const JSONArray& arr);
+    
 
+
+    // Set the held type
+    /*void setHeldType() {
+
+        return visit([this](const auto& val) -> decltype(auto) {
+            using T = decay_t<decltype(val)>;
+
+            if constexpr (is_same_v<T, nullptr_t>) {
+                heldValue = nullptr_t{};
+            }
+            else if constexpr (is_same_v<T, double>) {
+                valueType = double;
+            }
+            else if constexpr (is_same_v<T, string>) {
+                heldType = string;
+            }
+            else if constexpr (is_same_v<T, JSONObject>) {
+                heldType = JSONObject;
+            }
+            else if constexpr (is_same_v<T, JSONArray>) {
+                heldType = JSONArray;
+            }
+            else {
+                heldType = null;
+            }
+
+            }, value);
+    }*/
+
+    any returnThis() {
+        return 22.3;
+
+    }
+    
+    
 
     // Returns the value with the correct held type
     template <typename T>
@@ -52,11 +94,7 @@ struct JSONValue {
      
     }
 
-    // Returns the value of the type varient
-    const JSONValue::JSONType& getValue() const {
-        return value;
-    }
-
+    
 
     // Return the type of the value
     string getType() const {
@@ -72,7 +110,10 @@ struct JSONValue {
             }, value);
     }
 
-
+    // Returns the value of the type varient
+    const JSONValue::JSONType& getValue() const {
+        return value;
+    }
 
 };
 

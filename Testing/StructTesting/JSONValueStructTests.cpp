@@ -15,13 +15,16 @@ TEST(JSONStructTest, HeldValueRetrival) {
 	cout << "Held Value" << endl;
 	double testDouble = 22.2;
 
-	shared_ptr<JSONValue>testValue = make_shared<JSONValue>(testDouble);
+	shared_ptr<JSONValue> testValue = make_shared<JSONValue>(testDouble);
 
 	double returnedValue = *testValue->get<double>();
+	cout << "The returned Value: " << returnedValue << endl;
 
-	cout << "The returned Value :" << returnedValue << endl;
+	double returnedValueDouble = testValue->returnThis();
+	cout << "The returned Value Type : " << returnedValueDouble << endl;
 
-	cout << "The returned Value Type :" << typeid(returnedValue).name() << endl;
+
+	
 
 
 	ASSERT_EQ(1, 2);
