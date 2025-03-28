@@ -41,6 +41,8 @@ struct JSONValue {
     JSONValue(const JSONObject& obj);
     JSONValue(const JSONArray& arr);
 
+
+    // Returns the value with the correct held type
     template <typename T>
     optional<T> get() const {
         if (auto ptr = get_if<T>(&value)) {
@@ -50,10 +52,13 @@ struct JSONValue {
      
     }
 
+    // Returns the value of the type varient
     const JSONValue::JSONType& getValue() const {
         return value;
     }
 
+
+    // Return the type of the value
     string getType() const {
         return visit([](const auto& val) -> string {
             using T = decay_t<decltype(val)>;  // Get type without const/reference

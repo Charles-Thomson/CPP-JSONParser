@@ -120,7 +120,7 @@ shared_ptr<JSONValue> parseNumber(istringstream& stream) {
 		stream.putback(ch);  // Put the non-digit character back to stream
 	}
 
-	cout << "parseNumber -> " << result << endl;
+	/*cout << "parseNumber -> " << result << endl;*/
 	double resultAsDouble = std::stod(result);
 
 	return make_shared<JSONValue>(resultAsDouble);
