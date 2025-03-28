@@ -26,6 +26,9 @@ using std::decay_t;
 using std::is_same_v;
 using std::type_index;
 using std::any;
+using std::to_string;
+using std::endl;
+using std::cout;
 
 
 struct JSONValue;
@@ -77,8 +80,23 @@ struct JSONValue {
             }, value);
     }*/
 
-    any returnThis() {
-        return 22.3;
+
+    template<typename T>
+    T testVisit() {
+        return visit([](const auto& val) -> T{
+            using TArg = decay_t<decltype(val)>;
+
+            if constexpr (is_same_v<TArg, T>) {
+                return val; 
+            }
+            else {
+                return T{};
+            }
+        }, value);
+    }
+
+    string returnThis() {
+        return "hello";
 
     }
     
