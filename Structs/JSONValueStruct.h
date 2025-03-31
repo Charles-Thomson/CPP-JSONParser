@@ -49,40 +49,19 @@ struct JSONValue {
     JSONValue(const string& s);
     JSONValue(const JSONObject& obj);
     JSONValue(const JSONArray& arr);
-    
 
 
-    // Set the held type
-    /*void setHeldType() {
-
-        return visit([this](const auto& val) -> decltype(auto) {
-            using T = decay_t<decltype(val)>;
-
-            if constexpr (is_same_v<T, nullptr_t>) {
-                heldValue = nullptr_t{};
-            }
-            else if constexpr (is_same_v<T, double>) {
-                valueType = double;
-            }
-            else if constexpr (is_same_v<T, string>) {
-                heldType = string;
-            }
-            else if constexpr (is_same_v<T, JSONObject>) {
-                heldType = JSONObject;
-            }
-            else if constexpr (is_same_v<T, JSONArray>) {
-                heldType = JSONArray;
-            }
-            else {
-                heldType = null;
-            }
-
-            }, value);
-    }*/
-
-
+    //*
+    // @ brief Get the held value
+    // 
+    // Return the held value in the given type via templating(T). 
+    // If the given T value does not match the held type a empty of type T is returned
+    // 
+    // @template T The desiered return type
+    // @return The held value in type T
+    // */
     template<typename T>
-    T testVisit() {
+    T getV() {
         return visit([](const auto& val) -> T{
             using TArg = decay_t<decltype(val)>;
 
@@ -95,38 +74,38 @@ struct JSONValue {
         }, value);
     }
 
-    string returnThis() {
+    /*string returnThis() {
         return "hello";
 
-    }
+    }*/
     
     
 
     // Returns the value with the correct held type
-    template <typename T>
-    optional<T> get() const {
-        if (auto ptr = get_if<T>(&value)) {
-            return *ptr;
-        }
-        return nullopt; // Empty if no type match
-     
-    }
+    //template <typename T>
+    //optional<T> get() const {
+    //    if (auto ptr = get_if<T>(&value)) {
+    //        return *ptr;
+    //    }
+    //    return nullopt; // Empty if no type match
+    // 
+    //}
 
     
 
     // Return the type of the value
-    string getType() const {
-        return visit([](const auto& val) -> string {
-            using T = decay_t<decltype(val)>;  // Get type without const/reference
-            if constexpr (is_same_v<T, nullptr_t>) return "null";
-            else if constexpr (is_same_v<T, bool>) return "bool";
-            else if constexpr (is_same_v<T, double>) return "double";
-            else if constexpr (is_same_v<T, string>) return "string";
-            else if constexpr (is_same_v<T, JSONObject>) return "JSONObject";
-            else if constexpr (is_same_v<T, JSONArray>) return "JSONArray";
-            else return "unknown";
-            }, value);
-    }
+    //string getType() const {
+    //    return visit([](const auto& val) -> string {
+    //        using T = decay_t<decltype(val)>;  // Get type without const/reference
+    //        if constexpr (is_same_v<T, nullptr_t>) return "null";
+    //        else if constexpr (is_same_v<T, bool>) return "bool";
+    //        else if constexpr (is_same_v<T, double>) return "double";
+    //        else if constexpr (is_same_v<T, string>) return "string";
+    //        else if constexpr (is_same_v<T, JSONObject>) return "JSONObject";
+    //        else if constexpr (is_same_v<T, JSONArray>) return "JSONArray";
+    //        else return "unknown";
+    //        }, value);
+    //}
 
     // Returns the value of the type varient
     const JSONValue::JSONType& getValue() const {
