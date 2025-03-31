@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <fmt/core.h>
 
 #include <iostream>
 #include <string>
@@ -13,6 +14,7 @@
 #include <map>
 #include <memory>
 #include <cassert>
+
 
 #include "../../FileReader/FileReader.h"
 #include "../../Structs/JSONValueStruct.h"
@@ -30,6 +32,7 @@ using std::type_index;
 using std::variant;
 using std::min;
 using std::visit;
+using fmt::format;
 
 vector<string> getTestFiles() {
 	return {
@@ -79,12 +82,16 @@ TEST_P(TestKeyExists, KeyExistsTest) {
 // - compares result to expected result
 // 
 // */
-TEST_P(TestGetValueByKey, GetValueByKey) {
+TEST_P(TestGetValueByKey, GetValueByKey_FunctionTest) {
+
+	// Get the test file name
 	string testFileName = GetParam();
+
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
 
 	auto [JSONData, keyList, valuesList] = testData;
 
+	// Keys are always strings
 	string testKey = keyList[0];
 
 	auto rerurnedValue = GetValueByKey(JSONData, testKey);
@@ -95,10 +102,10 @@ TEST_P(TestGetValueByKey, GetValueByKey) {
 	string expectedValueAsString = std::any_cast<string>(expectedValue);
 	string resultAsString = std::any_cast<string>(result);
 
-	cout << "The expected Value : " << expectedValueAsString << " The returned value: " << resultAsString << endl;
-
+	SCOPED_TRACE(fmt::format("The expected Value : {} - The returned value: {}", expectedValueAsString, resultAsString));
 	ASSERT_EQ(expectedValueAsString, resultAsString);
 }
+
 
 //*
 // @ brief Test if key,value pairs have been correctly parsed into JSON structure
@@ -108,25 +115,30 @@ TEST_P(TestGetValueByKey, GetValueByKey) {
 // - compares each value returned by key ref from the JSON structure to the expected value/type
 // 
 // */
-TEST_P(TestValueAssignments, ValueAssignments) {
 
+
+// Issues arise from having to get the correct type for comparison
+// A lot of passing and type changes
+// Needs to be streamlined
+
+TEST_P(TestValueAssignments, ValueAssignments) {
+	// Get the test file names
 	string testFileName = GetParam();
+
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
 	auto [JSONData, keyList, valuesList] = testData;
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
 
 	for (int i = 0; keyList.size() > i; i++) {
-		string Key = keyList[i];
 		any expectedValue = correctValuesList[i];
 
 		// Get the stored value
-		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, Key);
+		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, keyList[i]);
 
 		bool result = compareJSONValueToTestValue(rerurnedValue, expectedValue);
 
-		cout << "TestValueAssignment -> the reuslt of comparison : " << result << endl;
-
+		SCOPED_TRACE(fmt::format("TestValueAssignment->the reuslt of comparison : {} ", result));
 		ASSERT_TRUE(result);
 	}
 }

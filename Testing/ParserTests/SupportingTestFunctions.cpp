@@ -65,6 +65,7 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 
 		for (const auto& val : ary) {
 
+			// Check if any of the keys in the array are the search key
 			if (holds_alternative<string>(val->value)) {
 				const string valueString = GetStringFromJSONValue(val);
 

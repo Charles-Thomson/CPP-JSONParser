@@ -86,11 +86,11 @@ tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> processTestData(con
 
 	shared_ptr<JSONValue> JSONData = ParseToJSON(testData);
 
-	vector<string> keyArray = stringToVector(get<0>(keyAndValueData));
+	vector<string> keyVector = stringToVector(get<0>(keyAndValueData));
 
-	vector<string> valueTypeArray = stringToVector(get<1>(keyAndValueData));
+	vector<string> valueVector = stringToVector(get<1>(keyAndValueData));
 
-	return { JSONData, keyArray, valueTypeArray };
+	return { JSONData, keyVector, valueVector };
 }
 
 //*

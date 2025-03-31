@@ -47,7 +47,7 @@ TEST(JSONStructTest, GetValueFromJSONValueStruct) {
 	typeComparisonHelper(
 		"Returned value from shared_ptr<JSONValue>->getV<string>() returned an incorrect type",
 		typeid(string).name(),
-		typeid(testPointer_string->getV<string>()).name()
+		typeid(get<string>(testPointer_string->value)).name()
 	);
 
 	typeComparisonHelper(

@@ -58,7 +58,15 @@ add_library(CPP-JSONParserStatic STATIC
     
   )
 
+# Fetch fmt library
+include(FetchContent)
 
+FetchContent_Declare(
+    fmt
+    GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+    GIT_TAG        8.0.1
+)
+FetchContent_MakeAvailable(fmt)
 
 
 # Fetch Google Test
@@ -167,9 +175,9 @@ target_compile_definitions(json_value_struct_tests PRIVATE TEST_FILE_PATH="${TES
 target_compile_definitions(CPP-JSONParser PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
 
 #Link Google Tests and project Libs
-target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser)
-target_link_libraries(json_parser_tests PRIVATE gtest gtest_main CPP-JSONParser)
-target_link_libraries(json_value_struct_tests PRIVATE gtest gtest_main CPP-JSONParser)
+target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
+target_link_libraries(json_parser_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
+target_link_libraries(json_value_struct_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
 
 #Add Tests
 add_test(NAME FileReaderTests COMMAND file_reader_tests)
