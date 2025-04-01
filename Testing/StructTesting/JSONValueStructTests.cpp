@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <variant>
-#include "../Structs/JSONValueStruct.h"
+#include "../../Structs/JSONValueStruct.h"
 
 using std::cout;
 using std::endl;
