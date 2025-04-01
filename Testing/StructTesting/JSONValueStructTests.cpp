@@ -1,13 +1,16 @@
 
+
 #include <gtest/gtest.h>
 #include <string>
 #include <iostream>
-#include "Structs/JSONValueStruct.h"
+#include <variant>
+#include "../../Structs/JSONValueStruct.h"
 
 using std::cout;
 using std::endl;
 using std::variant;
 using std::make_shared;
+using std::string;
 
 //*
 // @ brief Compare two given string for equality
@@ -69,10 +72,3 @@ TEST(JSONStructTest, GetValueFromJSONValueStruct) {
 	);	
 }
 
-
-
-TEST(JSONStructTest, HeldTypeRetrival) {
-	cout << "Held Type" << endl;
-	ASSERT_EQ(1, 2);
-
-}

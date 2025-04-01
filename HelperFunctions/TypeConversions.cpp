@@ -85,7 +85,6 @@ JSONArray GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 // @ return vector<string> : Vaecot of parsed string
 // 
 // */
-
 vector<string> stringToVector(const string& inputString) {
 	vector<string> stringList;
 	stringstream ss(inputString);
