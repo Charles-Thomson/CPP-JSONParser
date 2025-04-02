@@ -103,6 +103,21 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 // */
 bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue) {
 
+	try {
+
+		
+		string holder = any_cast<string>(anyValue);
+
+		cout << holder << endl;
+		
+		
+	
+	}
+	catch (const std::exception& e) {
+	
+	
+	}
+
 	if (holds_alternative<string>(pointerValue->value)) {
 		string value = GetStringFromJSONValue(pointerValue);
 		return value == any_cast<string>(anyValue);
@@ -125,6 +140,8 @@ bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyVa
 	if (holds_alternative<JSONArray>(pointerValue->value)) {
 		return typeid(shared_ptr<JSONArray>).name() == typeid(any_cast<shared_ptr<JSONArray>>(anyValue)).name();
 	}
+
+	
 
 	return false;
 }

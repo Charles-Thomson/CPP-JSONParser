@@ -11,7 +11,7 @@
 #include <optional>
 #include <typeindex>
 #include <any>
-#include <any>
+#include <format>
 
 using std::string;
 using std::shared_ptr;
@@ -35,6 +35,10 @@ struct JSONValue;
 
 using JSONObject = unordered_map<string, shared_ptr<JSONValue>>;
 using JSONArray = vector<shared_ptr<JSONValue>>;
+
+
+
+// Acts as a linked list data structure
 
 struct JSONValue {
     using JSONType = variant<nullptr_t, bool, double, string, JSONObject, JSONArray>;
@@ -73,6 +77,25 @@ struct JSONValue {
             }
         }, value);
     }
+
+    shared_ptr<JSONValue> GetValueFromKey(string searchKey) {
+        if (holds_alternative<JSONObject>(value)) {
+        
+            const JSONObject& obj = get<JSONObject>(value);
+
+            for (const auto& [key, valueI] : obj) {
+                if (key == searchKey) {
+                    return valueI;
+                
+                
+                }
+            }
+        }
+    }
+
+
+    // Refactored GetValueByKey
+    
 
     /*string returnThis() {
         return "hello";

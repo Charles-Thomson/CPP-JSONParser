@@ -94,7 +94,10 @@ TEST_P(TestGetValueByKey, GetValueByKey_FunctionTest) {
 	// Keys are always strings
 	string testKey = keyList[0];
 
-	auto rerurnedValue = GetValueByKey(JSONData, testKey);
+	/*auto rerurnedValue = GetValueByKey(JSONData, testKey);*/
+
+	auto rerurnedValue = JSONData->GetValueFromKey(testKey);
+
 	auto result = getCorrectTypeFromJSONValue(rerurnedValue);
 
 	any expectedValue = valuesList[0];
@@ -134,11 +137,17 @@ TEST_P(TestValueAssignments, ValueAssignments) {
 		any expectedValue = correctValuesList[i];
 
 		// Get the stored value
-		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, keyList[i]);
+		/*shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, keyList[i]);*/
 
-		bool result = compareJSONValueToTestValue(rerurnedValue, expectedValue);
+		cout << "The search Key : " << keyList[i] << endl;
+		cout << "The Expected value : " << valuesList[i] << endl;
+
+		shared_ptr<JSONValue> returnedValue = JSONData->GetValueFromKey(keyList[i]);
+
+		bool result = compareJSONValueToTestValue(returnedValue, expectedValue);
 
 		SCOPED_TRACE(fmt::format("TestValueAssignment->the reuslt of comparison : {} ", result));
+		SCOPED_TRACE(fmt::format("TestValueAssignment->Test File Name : {} ", testFileName));
 		ASSERT_TRUE(result);
 	}
 }
