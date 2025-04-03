@@ -132,6 +132,33 @@ shared_ptr<JSONValue> parseObject(istringstream& stream);
 shared_ptr<JSONValue> parseArray(istringstream& stream);
 
 
+
+//*
+// @ brief Parse tream to bool
+// 
+// 
+// */
+
+shared_ptr<JSONValue> parseBoolean(istringstream& stream) {
+	string result;
+	char ch;
+
+	while (stream.get(ch) && isalpha(ch)) {
+		result += ch;
+	}
+
+	if (result == "true") {
+		return make_shared<JSONValue>(true);
+	
+	}
+	else if (result == "false") {
+		return make_shared<JSONValue>(false);
+	}
+	else {
+		throw runtime_error("Invalid bool");
+	}
+}
+
 //*
 // @Brief Case Switch based on char
 // 
@@ -165,7 +192,27 @@ shared_ptr<JSONValue> determineJSONType(istringstream& stream) {
 		/*cout << "parsing double" << endl;*/
 		returnPtr = parseNumber(stream);
 	}
+	else {
+		if (isalpha(ch)) {
+			string token;
+			while (stream.get(ch) && isalpha(ch)) {
+				token += ch;
+			}
+			stream.putback(ch);
 
+
+			if (token == "true" ) {
+				return make_shared<JSONValue >(true);
+			
+			} else if (token == "true") {
+				return make_shared<JSONValue>(false);
+
+			}
+			else {
+				throw runtime_error("Unexpected Token " + token);
+			}
+		}
+	}
 	return returnPtr;
 }
 

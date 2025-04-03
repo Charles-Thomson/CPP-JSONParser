@@ -147,8 +147,13 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 	vector<any> finalResult;
 
+	/*cout << "Input Vector" << endl;
 	for (string val : inputVector) {
-		
+		cout << val << endl;
+	};*/
+
+	for (string val : inputVector) {
+		cout << "The orgional value : "  << val << endl;
 		istringstream stream = istringstream(val);
 
 		char ch = stream.peek();
@@ -156,33 +161,38 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 		if (isdigit(ch)) {
 			string result;
 
-			
 			while (stream.get(ch) && isdigit(ch)) {
 				result += ch;
 			}
 
 			if (stream.get(ch) && !isdigit(ch)) {
+				cout << "Core Type : " << "double" << endl;
 				finalResult.push_back(val); // If a combination of digit and none digit values
 
 			}else {
 				double value = std::stod(result);
+				cout << "Core Type : " << "double" << endl;
 				finalResult.push_back(value);
 			}
 
 		} else if (val == "true") {
+			cout << "Core Type : " << "boo" << endl;
 			bool value = true;
 			finalResult.push_back(value);
 
 
 		}else if (val == "false") {
+			cout << "Core Type : " << "bool" << endl;
 			bool value = false;
 			finalResult.push_back(value);
 
 		}else if (val == "JSONObject") {
+			cout << "Core Type : " << "JSONObject" << endl;
 			JSONObject obj;
 			finalResult.push_back(obj);
 
 		}else if (val == "JSONArray") {
+			cout << "Core Type : " << "JSONArray" << endl;
 			JSONArray arr;
 			finalResult.push_back(arr);
 		}

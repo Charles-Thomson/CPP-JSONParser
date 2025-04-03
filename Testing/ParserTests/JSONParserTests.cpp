@@ -94,9 +94,11 @@ TEST_P(TestGetValueByKey, GetValueByKey_FunctionTest) {
 	// Keys are always strings
 	string testKey = keyList[0];
 
-	/*auto rerurnedValue = GetValueByKey(JSONData, testKey);*/
+	auto rerurnedValue = GetValueByKey(JSONData, testKey);
 
-	auto rerurnedValue = JSONData->GetValueFromKey(testKey);
+	/*auto rerurnedValue = JSONData->GetValueFromKey(testKey);*/
+
+	
 
 	auto result = getCorrectTypeFromJSONValue(rerurnedValue);
 
@@ -133,16 +135,23 @@ TEST_P(TestValueAssignments, ValueAssignments) {
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
 
+
 	for (int i = 0; keyList.size() > i; i++) {
 		any expectedValue = correctValuesList[i];
 
 		// Get the stored value
-		/*shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, keyList[i]);*/
+		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, keyList[i]);
 
 		cout << "The search Key : " << keyList[i] << endl;
 		cout << "The Expected value : " << valuesList[i] << endl;
 
-		shared_ptr<JSONValue> returnedValue = JSONData->GetValueFromKey(keyList[i]);
+		shared_ptr<JSONValue> returnedValue = GetValueByKey(JSONData, keyList[i]);
+
+		
+
+		string valueType = returnedValue->getType();
+
+		cout << "The type of the held value : " << valueType << endl;
 
 		bool result = compareJSONValueToTestValue(returnedValue, expectedValue);
 
@@ -150,6 +159,8 @@ TEST_P(TestValueAssignments, ValueAssignments) {
 		SCOPED_TRACE(fmt::format("TestValueAssignment->Test File Name : {} ", testFileName));
 		ASSERT_TRUE(result);
 	}
+
+	ASSERT_EQ(1, 2);
 }
 
 INSTANTIATE_TEST_SUITE_P(JSONParserTestKeyExists, TestKeyExists,  ::testing::ValuesIn(

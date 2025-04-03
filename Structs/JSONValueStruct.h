@@ -117,18 +117,18 @@ struct JSONValue {
     
 
     // Return the type of the value
-    //string getType() const {
-    //    return visit([](const auto& val) -> string {
-    //        using T = decay_t<decltype(val)>;  // Get type without const/reference
-    //        if constexpr (is_same_v<T, nullptr_t>) return "null";
-    //        else if constexpr (is_same_v<T, bool>) return "bool";
-    //        else if constexpr (is_same_v<T, double>) return "double";
-    //        else if constexpr (is_same_v<T, string>) return "string";
-    //        else if constexpr (is_same_v<T, JSONObject>) return "JSONObject";
-    //        else if constexpr (is_same_v<T, JSONArray>) return "JSONArray";
-    //        else return "unknown";
-    //        }, value);
-    //}
+    string getType() const {
+        return visit([](const auto& val) -> string {
+            using T = decay_t<decltype(val)>;  // Get type without const/reference
+            if constexpr (is_same_v<T, nullptr_t>) return "null";
+            else if constexpr (is_same_v<T, bool>) return "bool";
+            else if constexpr (is_same_v<T, double>) return "double";
+            else if constexpr (is_same_v<T, string>) return "string";
+            else if constexpr (is_same_v<T, JSONObject>) return "JSONObject";
+            else if constexpr (is_same_v<T, JSONArray>) return "JSONArray";
+            else return "unknown";
+            }, value);
+    }
 
     // Returns the value of the type varient
     const JSONValue::JSONType& getValue() const {

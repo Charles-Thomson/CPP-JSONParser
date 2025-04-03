@@ -103,22 +103,12 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 // */
 bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyValue) {
 
-	try {
+	string typeHeld = pointerValue->getType();
 
-		
-		string holder = any_cast<string>(anyValue);
-
-		cout << holder << endl;
-		
-		
-	
-	}
-	catch (const std::exception& e) {
-	
-	
-	}
+	cout << "The type in compare function  " << typeHeld << endl;
 
 	if (holds_alternative<string>(pointerValue->value)) {
+		cout << "holding string" << endl;
 		string value = GetStringFromJSONValue(pointerValue);
 		return value == any_cast<string>(anyValue);
 	}
