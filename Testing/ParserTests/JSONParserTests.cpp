@@ -46,6 +46,8 @@ vector<string> getTestFiles() {
 // Define a test classes that inherit from TestWithParam<int>
 class TestKeyExists : public ::testing::TestWithParam<string> {};
 
+class TestGetValueByKeyWithTemplateType : public ::testing::TestWithParam<string> {};
+
 class TestValueAssignments : public ::testing::TestWithParam<string> {};
 
 
@@ -69,6 +71,23 @@ TEST_P(TestKeyExists, KeyExistsTest) {
 		SCOPED_TRACE(fmt::format("TestKeyExists-> The given key is not found : {} ", key));
 		ASSERT_TRUE(holder);
 	};
+}
+
+TEST_P(TestGetValueByKeyWithTemplateType, functionTest_GetValueByKeyWithT) {
+	string testFileName = GetParam();
+
+	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
+	auto [JSONData, keyList, valuesList] = testData;
+
+	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
+
+	any expectedValue = correctValuesList[0];
+	string returnedValue = GetValueByKeyWithType<string>(JSONData, keyList[0]);
+
+	cout << "The Returned Value : " << returnedValue << endl;
+
+	ASSERT_EQ(1, 2);
+
 }
 
 //*
@@ -108,6 +127,11 @@ TEST_P(TestValueAssignments, ValueAssignments) {
 }
 
 INSTANTIATE_TEST_SUITE_P(JSONParserTestKeyExists, TestKeyExists,  ::testing::ValuesIn(
+	getTestFiles()
+));
+
+
+INSTANTIATE_TEST_SUITE_P(JSONParserTestGetValueByKeyWithTemplateType, TestGetValueByKeyWithTemplateType, ::testing::ValuesIn(
 	getTestFiles()
 ));
 

@@ -338,12 +338,9 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 // @param inputPtr The given shared_ptr<JSONValue>
 // @retrun string, value pair
 // */
-
-// Adjust this function to return the value of the correct type 
-// Combining getV and current functunality
-// This shoudl be moved internally to the struct ?
 shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string searchKey) {
 
+	// Check a value is being held
 	if (holds_alternative<JSONObject>(JSONElement->value)) {
 
 		const JSONObject& obj = get<JSONObject>(JSONElement->value);
@@ -357,6 +354,16 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string s
 	return JSONElement;
 }
 
+
+
+// Rework of GetValueByKey
+
+//template <typename T>
+//T GetValueByKeyWithT(shared_ptr<JSONValue>& JSONElement, string searchKey) {
+//	shared_ptr<JSONValue> JSON = GetValueByKey(JSONElement, searchKey);
+//
+//	return JSON->getV<T>();
+//}
 
 shared_ptr<JSONValue> ParseToJSON(string inputString) {
 	istringstream stream = istringstream(inputString);

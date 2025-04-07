@@ -53,6 +53,14 @@ shared_ptr<JSONValue> ParseToJSON(string inputString);
 shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string); 
 
 
+//
+template <typename T>
+T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {
+    shared_ptr<JSONValue> JSON = GetValueByKey(JSONElement, searchKey);
+    return JSON->getV<T>();
+}
+
+
 
 #endif // !JSON_PARSER_H
 
