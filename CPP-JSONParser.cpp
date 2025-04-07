@@ -342,7 +342,7 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 // Adjust this function to return the value of the correct type 
 // Combining getV and current functunality
 // This shoudl be moved internally to the struct ?
-shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& searchKey) {
+shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string searchKey) {
 
 	if (holds_alternative<JSONObject>(JSONElement->value)) {
 

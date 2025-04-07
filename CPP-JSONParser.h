@@ -50,7 +50,7 @@ string TestReturn();
 
 shared_ptr<JSONValue> ParseToJSON(string inputString);
 
-shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string&); 
+shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string); 
 
 
 
