@@ -105,10 +105,7 @@ bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyVa
 
 	string typeHeld = pointerValue->getType();
 
-	cout << "The type in compare function  " << typeHeld << endl;
-
 	if (holds_alternative<string>(pointerValue->value)) {
-		cout << "holding string" << endl;
 		string value = GetStringFromJSONValue(pointerValue);
 		return value == any_cast<string>(anyValue);
 	}

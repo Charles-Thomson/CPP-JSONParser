@@ -147,11 +147,6 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 	vector<any> finalResult;
 
-	/*cout << "Input Vector" << endl;
-	for (string val : inputVector) {
-		cout << val << endl;
-	};*/
-
 	for (string val : inputVector) {
 		cout << "The orgional value : "  << val << endl;
 		istringstream stream = istringstream(val);
@@ -166,7 +161,7 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 			}
 
 			if (stream.get(ch) && !isdigit(ch)) {
-				cout << "Core Type : " << "double" << endl;
+				cout << "Core Type : " << "String - holding digit values" << endl;
 				finalResult.push_back(val); // If a combination of digit and none digit values
 
 			}else {
@@ -199,7 +194,7 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 
 		// If the val is a string
 		else {
-			
+			cout << "Core Type : " << "String" << endl;
 			finalResult.push_back(val);
 	
 		}

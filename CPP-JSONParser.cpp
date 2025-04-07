@@ -177,19 +177,19 @@ shared_ptr<JSONValue> determineJSONType(istringstream& stream) {
 	ch = stream.peek();
 
 	if (ch == '{') {
-		/*cout << "Parsing Object" << endl;*/
+		
 		returnPtr = parseObject(stream);
 	}
 	else if (ch == '[') {
-		/*cout << "Parsing Array" << endl;*/
+		
 		returnPtr = parseArray(stream);
 	}
 	else if (ch == '\"') {
-		/*cout << "Parsing String" << endl;*/
+		
 		returnPtr = parseString(stream);
 	}
 	else if (isdigit(ch)) {
-		/*cout << "parsing double" << endl;*/
+		
 		returnPtr = parseNumber(stream);
 	}
 	else {
@@ -204,7 +204,7 @@ shared_ptr<JSONValue> determineJSONType(istringstream& stream) {
 			if (token == "true" ) {
 				return make_shared<JSONValue >(true);
 			
-			} else if (token == "true") {
+			} else if (token == "false") {
 				return make_shared<JSONValue>(false);
 
 			}
@@ -299,7 +299,7 @@ shared_ptr<JSONValue> parseObject(istringstream& stream) {
 		SkipWhiteSpace(stream);
 
 		shared_ptr<JSONValue> key = determineJSONType(stream); // Get the key 
-		string keyString = getStringFromValue(*key); // Key is always a string
+		string keyString = key->getV<string>();
 
 		SkipWhiteSpace(stream);
 
@@ -356,12 +356,6 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>& JSONElement, string& 
 	}
 	return JSONElement;
 }
-
-
-
-
-
-
 
 
 shared_ptr<JSONValue> ParseToJSON(string inputString) {

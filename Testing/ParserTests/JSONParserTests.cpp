@@ -46,8 +46,6 @@ vector<string> getTestFiles() {
 // Define a test classes that inherit from TestWithParam<int>
 class TestKeyExists : public ::testing::TestWithParam<string> {};
 
-class TestGetValueByKey : public ::testing::TestWithParam<string> {};
-
 class TestValueAssignments : public ::testing::TestWithParam<string> {};
 
 
@@ -68,49 +66,10 @@ TEST_P(TestKeyExists, KeyExistsTest) {
 
 	for (string key : keyList) {
 		bool holder = checkIfContainsKey(JSONData, key);
-		cout << "The result of the key check: " << key << " is " << holder << endl;
+		SCOPED_TRACE(fmt::format("TestKeyExists-> The given key is not found : {} ", key));
 		ASSERT_TRUE(holder);
 	};
 }
-
-//*
-// @ brief Get a value by Key from JSON Structure
-// 
-// Test if a value can be retrieved for the JSON structure
-// - Retrives test data containing a list of the expected stored keys and values
-// - pulls from the JSON structure using given key
-// - compares result to expected result
-// 
-// */
-TEST_P(TestGetValueByKey, GetValueByKey_FunctionTest) {
-
-	// Get the test file name
-	string testFileName = GetParam();
-
-	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
-
-	auto [JSONData, keyList, valuesList] = testData;
-
-	// Keys are always strings
-	string testKey = keyList[0];
-
-	auto rerurnedValue = GetValueByKey(JSONData, testKey);
-
-	/*auto rerurnedValue = JSONData->GetValueFromKey(testKey);*/
-
-	
-
-	auto result = getCorrectTypeFromJSONValue(rerurnedValue);
-
-	any expectedValue = valuesList[0];
-
-	string expectedValueAsString = std::any_cast<string>(expectedValue);
-	string resultAsString = std::any_cast<string>(result);
-
-	SCOPED_TRACE(fmt::format("The expected Value : {} - The returned value: {}", expectedValueAsString, resultAsString));
-	ASSERT_EQ(expectedValueAsString, resultAsString);
-}
-
 
 //*
 // @ brief Test if key,value pairs have been correctly parsed into JSON structure
@@ -120,12 +79,6 @@ TEST_P(TestGetValueByKey, GetValueByKey_FunctionTest) {
 // - compares each value returned by key ref from the JSON structure to the expected value/type
 // 
 // */
-
-
-// Issues arise from having to get the correct type for comparison
-// A lot of passing and type changes
-// Needs to be streamlined
-
 TEST_P(TestValueAssignments, ValueAssignments) {
 	// Get the test file names
 	string testFileName = GetParam();
@@ -135,19 +88,10 @@ TEST_P(TestValueAssignments, ValueAssignments) {
 
 	vector<any> correctValuesList = ConvertVectorStringToVectorAny(valuesList);
 
-
 	for (int i = 0; keyList.size() > i; i++) {
 		any expectedValue = correctValuesList[i];
 
-		// Get the stored value
-		shared_ptr<JSONValue> rerurnedValue = GetValueByKey(JSONData, keyList[i]);
-
-		cout << "The search Key : " << keyList[i] << endl;
-		cout << "The Expected value : " << valuesList[i] << endl;
-
 		shared_ptr<JSONValue> returnedValue = GetValueByKey(JSONData, keyList[i]);
-
-		
 
 		string valueType = returnedValue->getType();
 
@@ -160,14 +104,10 @@ TEST_P(TestValueAssignments, ValueAssignments) {
 		ASSERT_TRUE(result);
 	}
 
-	ASSERT_EQ(1, 2);
+	/*ASSERT_EQ(1, 2);*/
 }
 
 INSTANTIATE_TEST_SUITE_P(JSONParserTestKeyExists, TestKeyExists,  ::testing::ValuesIn(
-	getTestFiles()
-));
-
-INSTANTIATE_TEST_SUITE_P(JSONParserTestGetValueByKey, TestGetValueByKey, ::testing::ValuesIn(
 	getTestFiles()
 ));
 
