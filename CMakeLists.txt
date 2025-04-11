@@ -40,7 +40,7 @@ add_library(CPP-JSONParser
     ExposedFunctions/CheckIfContainsKey.h
     
      
-)
+ )
 
 add_library(CPP-JSONParserStatic STATIC 
     CPP-JSONParser.cpp
@@ -56,7 +56,7 @@ add_library(CPP-JSONParserStatic STATIC
     ExposedFunctions/CheckIfContainsKey.cpp
     ExposedFunctions/CheckIfContainsKey.h
     
-  )
+   )
 
 # Fetch fmt library
 include(FetchContent)
@@ -103,11 +103,15 @@ endif()
 
 
 #Executables
- add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp)
+ add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp )
 
- add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp)
+ add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp )
 
- add_executable(json_value_struct_tests Testing/StructTesting/JSONValueStructTests.cpp)
+ add_executable(json_value_struct_tests Testing/StructTesting/JSONValueStructTests.cpp )
+
+ add_executable(parser_type_tests  Testing/ParserTests/TypeParsingTests/VectorParcingTests.cpp )
+
+
 
 # Set runtime library for test target (match the option you selected above)
 target_compile_options(file_reader_tests PRIVATE /MDd)
@@ -116,12 +120,14 @@ target_compile_options(json_parser_tests PRIVATE /MDd)
 
 target_compile_options(json_value_struct_tests PRIVATE /MDd)
 
+target_compile_options(parser_type_tests PRIVATE /MDd)
+
 
 #Target Libs
 target_include_directories(file_reader_tests PRIVATE
  "${CMAKE_SOURCE_DIR}"
  "${CMAKE_SOURCE_DIR}/FileReader"
- "${CMAKE_SOURCE_DIR}/Structs"
+ "${CMAKE_SOURCE_DIR}/Structs"_
  "${CMAKE_SOURCE_DIR}/HelperFunctions"
  "${CMAKE_SOURCE_DIR}/Testing"
  "${gtest_SOURCE_DIR}/include"
@@ -145,6 +151,15 @@ target_include_directories(json_value_struct_tests PRIVATE
    "${gtest_SOURCE_DIR}/include"
 )
 
+target_include_directories(parser_type_tests PRIVATE
+   "${CMAKE_SOURCE_DIR}"
+   "${CMAKE_SOURCE_DIR}/FileReader"
+   "${CMAKE_SOURCE_DIR}/Structs"
+   "${CMAKE_SOURCE_DIR}/HelperFunctions"
+   "${CMAKE_SOURCE_DIR}/Testing"
+   "${gtest_SOURCE_DIR}/include"
+)
+
 # Pass file path as a compile definition
 target_compile_definitions(json_value_struct_tests PRIVATE 
     TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
@@ -159,6 +174,15 @@ target_compile_definitions(file_reader_tests PRIVATE
 target_compile_definitions(json_parser_tests PRIVATE 
     TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
 )
+
+# Pass file path as a compile definition
+target_compile_definitions(parser_type_tests PRIVATE 
+    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/Type_testing/vector/"
+)
+
+
+
+
 
 
 # Set the global path
@@ -178,13 +202,16 @@ target_compile_definitions(CPP-JSONParser PRIVATE TEST_FILE_PATH="${TEST_FILE_PA
 target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
 target_link_libraries(json_parser_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
 target_link_libraries(json_value_struct_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
+target_link_libraries(parser_type_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)
 
 #Add Tests
 add_test(NAME FileReaderTests COMMAND file_reader_tests)
 add_test(NAME JSONParserTests COMMAND json_parser_tests)
 add_test(NAME JSONValueStructTests COMMAND json_value_struct_tests)
+add_test(NAME TypeParcingTests COMMAND parser_type_tests)
 
 #Gtests Discovery 
 gtest_discover_tests(file_reader_tests)
 gtest_discover_tests(json_parser_tests)
 gtest_discover_tests(json_value_struct_tests)
+gtest_discover_tests(parser_type_tests)
