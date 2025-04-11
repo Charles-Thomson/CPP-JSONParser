@@ -189,14 +189,22 @@ target_compile_definitions(parser_type_tests PRIVATE
 set(TEST_FILE_PATH "C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/")
 message(STATUS "TEST_FILE_PATH is set to: ${TEST_FILE_PATH}")  # Debugging output
 
+# Set the global path
+set(TYPE_TEST_FILE_PATH "C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/Type_testing/")
+message(STATUS "TYPE_TEST_FILE_PATH is set to: ${TYPE_TEST_FILE_PATH}")  # Debugging output
+
 # Define the preprocessor definition for all targets
 add_compile_definitions(TEST_FILE_PATH="${TEST_FILE_PATH}")
+
+# Define the preprocessor definition for all targets
+add_compile_definitions(TYPE_TEST_FILE_PATH="${TYPE_TEST_FILE_PATH}")
 
 # Pass the file path as a compile definition to individual targets
 target_compile_definitions(file_reader_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
 target_compile_definitions(json_parser_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
 target_compile_definitions(json_value_struct_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
 target_compile_definitions(CPP-JSONParser PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(parser_type_tests PRIVATE TYPE_TEST_FILE_PATH="${TYPE_TEST_FILE_PATH}")
 
 #Link Google Tests and project Libs
 target_link_libraries(file_reader_tests PRIVATE gtest gtest_main CPP-JSONParser fmt::fmt)

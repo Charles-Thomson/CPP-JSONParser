@@ -78,7 +78,7 @@ struct JSONValue {
         }, value);
     }
 
-    shared_ptr<JSONValue> GetValueFromKey(string searchKey) {
+   /* shared_ptr<JSONValue> GetValueFromKey(string searchKey) {
         if (holds_alternative<JSONObject>(value)) {
         
             const JSONObject& obj = get<JSONObject>(value);
@@ -91,28 +91,17 @@ struct JSONValue {
                 }
             }
         }
-    }
-
-
-    // Refactored GetValueByKey
-    
-
-    /*string returnThis() {
-        return "hello";
-
     }*/
-    
-    
 
     // Returns the value with the correct held type
-    //template <typename T>
-    //optional<T> get() const {
-    //    if (auto ptr = get_if<T>(&value)) {
-    //        return *ptr;
-    //    }
-    //    return nullopt; // Empty if no type match
-    // 
-    //}
+    template <typename T>
+    T getHeldValue() const {
+        if (auto ptr = get_if<T>(&value)) {
+            return *ptr;
+        }
+        return nullopt; // Empty if no type match
+     
+    }
 
     
 

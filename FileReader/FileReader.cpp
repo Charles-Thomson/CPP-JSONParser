@@ -101,7 +101,7 @@ string FileReader::GetFileContents(const string& filePath)  {
 
 	// Check the Path is valid
 	if (!CheckFilePathValidity(filePath)) {
-		cout << "File Path is Invalid" << endl;
+		cout << "File Path is Invalid : " << filePath << endl;
 		return "";
 	}
 

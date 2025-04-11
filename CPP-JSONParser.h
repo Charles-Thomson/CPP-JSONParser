@@ -53,12 +53,49 @@ shared_ptr<JSONValue> ParseToJSON(string inputString);
 shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string); 
 
 
+// The type passed is the type of the vector i.e vector<double> T = double
+template <typename T>
+vector<T> ConvertVectorValuesToHeldType(vector<shared_ptr<JSONValue>>& vectorToConvert) {
+    int vectorSize = vectorToConvert.size();
+
+    cout << "The size of the input vector : " << vectorSize << endl;
+
+    vector<T> resultVector;
+
+    for (int i = 0; vectorSize > i; i++) {
+        shared_ptr<JSONValue> ptr_val = vectorToConvert[i];
+
+        T val = ptr_val->getHeldValue<T>();
+
+        resultVector.push_back(val);
+    }
+
+    cout << "The size of the returned vector : " << resultVector.size() << endl;
+
+    return resultVector;
+}
+
 //
 template <typename T>
 T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {
     shared_ptr<JSONValue> JSON = GetValueByKey(JSONElement, searchKey);
+
+    string heldType = JSON->getType();
+
+    if (heldType == "JSONArray") {
+        cout << "Holding a JSON Array" << endl;
+
+        if (typeid(T) == typeid(vector<double>)) {
+            cout << "Of type double" << endl;
+            vector<shared_ptr<JSONValue>> value = JSON->getV<T>();
+            vector<double> convertedVector = ConvertVectorValuesToHeldType<double>(value);
+        }
+    }
+
     return JSON->getV<T>();
 }
+
+
 
 
 

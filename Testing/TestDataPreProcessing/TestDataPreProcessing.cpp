@@ -113,3 +113,19 @@ tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> getTestData(string&
 
 	return processedTestData;
 }
+
+//*
+// @brief Read the Type test files
+// 
+// 
+// @ param fileName the name of the test file
+// */
+shared_ptr<JSONValue> ReadAndParseTypeTestFile(string fileName) {
+    FileReader newFileReader;
+
+    string testData = newFileReader.GetFileContents(fileName);
+
+    shared_ptr<JSONValue> parsedData = ParseToJSON(testData);
+
+    return parsedData;
+}
