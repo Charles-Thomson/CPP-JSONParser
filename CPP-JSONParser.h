@@ -25,6 +25,7 @@ using std::stod;
 using std::get;
 using std::make_shared;
 using std::variant;
+using std::is_same_v;
 
 void SkipWhiteSpace(istringstream& stream);
 
@@ -55,7 +56,7 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string);
 
 // The type passed is the type of the vector i.e vector<double> T = double
 template <typename T>
-vector<T> ConvertVectorValuesToHeldType(vector<shared_ptr<JSONValue>>& vectorToConvert) {
+vector<T> ConvertVectorValuesToHeldType(JSONArray& vectorToConvert) {
     int vectorSize = vectorToConvert.size();
 
     cout << "The size of the input vector : " << vectorSize << endl;
@@ -65,7 +66,7 @@ vector<T> ConvertVectorValuesToHeldType(vector<shared_ptr<JSONValue>>& vectorToC
     for (int i = 0; vectorSize > i; i++) {
         shared_ptr<JSONValue> ptr_val = vectorToConvert[i];
 
-        T val = ptr_val->getHeldValue<T>();
+        T val = ptr_val->getV<T>();
 
         resultVector.push_back(val);
     }
@@ -77,25 +78,30 @@ vector<T> ConvertVectorValuesToHeldType(vector<shared_ptr<JSONValue>>& vectorToC
 
 
 template <typename T>
-T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {
+T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {\
+
     shared_ptr<JSONValue> JSON = GetValueByKey(JSONElement, searchKey);
 
     string heldType = JSON->getType();
 
     if (heldType == "JSONArray") {
         cout << "Holding a JSON Array" << endl;
+        cout << typeid(T).name() << endl;
 
-        if (typeid(T) == typeid(vector<double>)) {
-
-            cout << "Of type double" << endl;
-
-            //"Returning the vector - type shared_ptr<JSONArray>"
+        if constexpr (is_same_v <T, vector<double>>) {
             JSONArray value = JSON->getV<JSONArray>();
+            return ConvertVectorValuesToHeldType<double>(value);        
+        }
 
-            cout << value.size() << endl;
+        if constexpr (is_same_v <T, vector<string>>) {
+            JSONArray value = JSON->getV<JSONArray>();
+            return ConvertVectorValuesToHeldType<string>(value);
+        }
 
 
-            /*vector<double> convertedVector = ConvertVectorValuesToHeldType<double>(value);*/
+        if constexpr (is_same_v <T, vector<bool>>) {
+            JSONArray value = JSON->getV<JSONArray>();
+            return ConvertVectorValuesToHeldType<bool>(value);
         }
     }
 
