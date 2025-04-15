@@ -75,7 +75,7 @@ vector<T> ConvertVectorValuesToHeldType(vector<shared_ptr<JSONValue>>& vectorToC
     return resultVector;
 }
 
-//
+
 template <typename T>
 T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {
     shared_ptr<JSONValue> JSON = GetValueByKey(JSONElement, searchKey);
@@ -86,9 +86,16 @@ T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {
         cout << "Holding a JSON Array" << endl;
 
         if (typeid(T) == typeid(vector<double>)) {
+
             cout << "Of type double" << endl;
-            vector<shared_ptr<JSONValue>> value = JSON->getV<T>();
-            vector<double> convertedVector = ConvertVectorValuesToHeldType<double>(value);
+
+            //"Returning the vector - type shared_ptr<JSONArray>"
+            JSONArray value = JSON->getV<JSONArray>();
+
+            cout << value.size() << endl;
+
+
+            /*vector<double> convertedVector = ConvertVectorValuesToHeldType<double>(value);*/
         }
     }
 
