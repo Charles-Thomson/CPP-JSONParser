@@ -37,26 +37,12 @@ add_library(CPP-JSONParser
     Testing/TestDataPreProcessing/TestDataPreProcessing.cpp
     Testing/ParserTests/SupportingTestFunctions.h
     Testing/ParserTests/SupportingTestFunctions.cpp
-    ExposedFunctions/CheckIfContainsKey.h
-    
-     
- )
+    ExposedFunctions/CheckIfContainsKey.h   
+    ExposedFunctions/cppJSONParser.h)
 
-add_library(CPP-JSONParserStatic STATIC 
-    CPP-JSONParser.cpp
-    CPP-JSONParser.h
-    Structs/JSONValueStruct.cpp
-    Structs/JSONValueStruct.h
-    FileReader/FileReader.cpp
-    FileReader/FileReader.h
-    HelperFunctions/TypeConversions.h
-    HelperFunctions/TypeConversions.cpp
-    HelperFunctions/PrintJSON.h
-    HelperFunctions/PrintJSON.cpp
-    ExposedFunctions/CheckIfContainsKey.cpp
-    ExposedFunctions/CheckIfContainsKey.h
-    
-   )
+add_library(CPP-JSONParserStatic INTERFACE
+    ExposedFunctions/cppJSONParser.h
+)
 
 # Fetch fmt library
 include(FetchContent)
@@ -103,13 +89,13 @@ endif()
 
 
 #Executables
- add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp )
+ add_executable(file_reader_tests Testing/FileReaderTests/FileReaderTests.cpp  "ExposedFunctions/cppJSONParser.h")
 
- add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp )
+ add_executable(json_parser_tests Testing/ParserTests/JSONParserTests.cpp  "ExposedFunctions/cppJSONParser.h")
 
- add_executable(json_value_struct_tests Testing/StructTesting/JSONValueStructTests.cpp )
+ add_executable(json_value_struct_tests Testing/StructTesting/JSONValueStructTests.cpp  "ExposedFunctions/cppJSONParser.h")
 
- add_executable(parser_type_tests  Testing/ParserTests/TypeParsingTests/VectorParcingTests.cpp )
+ add_executable(parser_type_tests  Testing/ParserTests/TypeParsingTests/VectorParcingTests.cpp  "ExposedFunctions/cppJSONParser.h")
 
 
 

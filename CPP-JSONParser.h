@@ -98,7 +98,6 @@ T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {\
             return ConvertVectorValuesToHeldType<string>(value);
         }
 
-
         if constexpr (is_same_v <T, vector<bool>>) {
             JSONArray value = JSON->getV<JSONArray>();
             return ConvertVectorValuesToHeldType<bool>(value);
