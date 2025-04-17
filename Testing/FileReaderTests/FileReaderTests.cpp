@@ -19,7 +19,7 @@ list<string> TEST_FILE_NAMES = {
         "ValidStringWhiteSpace",
         "ValidString",
         "ValidStringWithArray",
-        "ValidMultiLine"
+        "ValidMultiLine",
         "ValidStringWithDecimals"
 };
 

@@ -37,9 +37,12 @@ add_library(CPP-JSONParser
     Testing/TestDataPreProcessing/TestDataPreProcessing.cpp
     Testing/ParserTests/SupportingTestFunctions.h
     Testing/ParserTests/SupportingTestFunctions.cpp
+    
     ExposedFunctions/CheckIfContainsKey.h   
     ExposedFunctions/cppJSONParser.h
 )
+
+
 
 add_library(CPP-JSONParserStatic INTERFACE 
     ExposedFunctions/cppJSONParser.h
@@ -109,67 +112,23 @@ target_compile_options(json_value_struct_tests PRIVATE /MDd)
 
 target_compile_options(parser_type_tests PRIVATE /MDd)
 
-
-#Target Libs
-target_include_directories(file_reader_tests PRIVATE
- "${CMAKE_SOURCE_DIR}"
- "${CMAKE_SOURCE_DIR}/FileReader"
- "${CMAKE_SOURCE_DIR}/Structs"_
- "${CMAKE_SOURCE_DIR}/HelperFunctions"
- "${CMAKE_SOURCE_DIR}/Testing"
- "${gtest_SOURCE_DIR}/include"
+set(TEST_TARGETS
+    file_reader_tests
+    json_parser_tests
+    json_value_struct_tests
+    parser_type_tests
 )
 
-target_include_directories(json_parser_tests PRIVATE
-   "${CMAKE_SOURCE_DIR}"
-   "${CMAKE_SOURCE_DIR}/FileReader"
-   "${CMAKE_SOURCE_DIR}/Structs"
-   "${CMAKE_SOURCE_DIR}/HelperFunctions"
-   "${CMAKE_SOURCE_DIR}/Testing"
-   "${gtest_SOURCE_DIR}/include"
-)
-
-target_include_directories(json_value_struct_tests PRIVATE
-   "${CMAKE_SOURCE_DIR}"
-   "${CMAKE_SOURCE_DIR}/FileReader"
-   "${CMAKE_SOURCE_DIR}/Structs"
-   "${CMAKE_SOURCE_DIR}/HelperFunctions"
-   "${CMAKE_SOURCE_DIR}/Testing"
-   "${gtest_SOURCE_DIR}/include"
-)
-
-target_include_directories(parser_type_tests PRIVATE
-   "${CMAKE_SOURCE_DIR}"
-   "${CMAKE_SOURCE_DIR}/FileReader"
-   "${CMAKE_SOURCE_DIR}/Structs"
-   "${CMAKE_SOURCE_DIR}/HelperFunctions"
-   "${CMAKE_SOURCE_DIR}/Testing"
-   "${gtest_SOURCE_DIR}/include"
-)
-
-# Pass file path as a compile definition
-target_compile_definitions(json_value_struct_tests PRIVATE 
-    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
-)
-
-# Pass file path as a compile definition
-target_compile_definitions(file_reader_tests PRIVATE 
-    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
-)
-
-# Pass file path as a compile definition
-target_compile_definitions(json_parser_tests PRIVATE 
-    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/"
-)
-
-# Pass file path as a compile definition
-target_compile_definitions(parser_type_tests PRIVATE 
-    TEST_INPUT_FILE_PATH="C:/Users/Charl/source/repos/C++/CPP-JSONParser/Testing/TestData/Type_testing/vector/"
-)
-
-
-
-
+foreach(target IN LISTS TEST_TARGETS)
+    target_include_directories(${target} PRIVATE 
+        "${CMAKE_SOURCE_DIR}"
+        "${CMAKE_SOURCE_DIR}/FileReader"
+        "${CMAKE_SOURCE_DIR}/Structs"
+        "${CMAKE_SOURCE_DIR}/HelperFunctions"
+        "${CMAKE_SOURCE_DIR}/Testing"
+        "${gtest_SOURCE_DIR}/include"
+    )
+endforeach()
 
 
 # Set the global path
@@ -187,10 +146,10 @@ add_compile_definitions(TEST_FILE_PATH="${TEST_FILE_PATH}")
 add_compile_definitions(TYPE_TEST_FILE_PATH="${TYPE_TEST_FILE_PATH}")
 
 # Pass the file path as a compile definition to individual targets
-target_compile_definitions(file_reader_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
-target_compile_definitions(json_parser_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
-target_compile_definitions(json_value_struct_tests PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
-target_compile_definitions(CPP-JSONParser PRIVATE TEST_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(file_reader_tests PRIVATE TEST_INPUT_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(json_parser_tests PRIVATE TEST_INPUT_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(json_value_struct_tests PRIVATE TEST_INPUT_FILE_PATH="${TEST_FILE_PATH}")
+target_compile_definitions(CPP-JSONParser PRIVATE TEST_INPUT_FILE_PATH="${TEST_FILE_PATH}")
 target_compile_definitions(parser_type_tests PRIVATE TYPE_TEST_FILE_PATH="${TYPE_TEST_FILE_PATH}")
 
 #Link Google Tests and project Libs
