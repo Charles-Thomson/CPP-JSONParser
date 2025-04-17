@@ -42,11 +42,53 @@ add_library(CPP-JSONParser
     ExposedFunctions/cppJSONParser.h
 )
 
-
-
-add_library(CPP-JSONParserStatic INTERFACE 
-    ExposedFunctions/cppJSONParser.h
+#Source Files
+set(SOURCES
+    CPP-JSONParser.cpp
+    Structs/JSONValueStruct.cpp
+    FileReader/FileReader.cpp
+    HelperFunctions/TypeConversions.cpp
+    HelperFunctions/PrintJSON.cpp
+    Testing/TestDataPreProcessing/TestDataPreProcessing.cpp
+    Testing/ParserTests/SupportingTestFunctions.cpp
 )
+
+#Private Headers - not exposed
+set(HEADERS_PRIVATE
+    CPP-JSONParser.h
+    Structs/JSONValueStruct.h
+    FileReader/FileReader.h
+    HelperFunctions/TypeConversions.h
+    HelperFunctions/PrintJSON.h
+    Testing/TestDataPreProcessing/TestDataPreProcessing.h
+    Testing/ParserTests/SupportingTestFunctions.h
+)
+
+#Public headers - exposed
+set(HEADERS_PUBLIC
+    ExposedFunctions/cppJSONParser.h
+    ExposedFunctions/CheckIfContainsKey.h
+)
+
+#Create Static Lib
+add_library(CPP-JSONParserStatic STATIC ${SOURCES} ${HEADERS_PRIVATE} ${HEADERS_PUBLIC})
+
+# Set up include directories
+target_include_directories(CPP-JSONParserStatic 
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/ExposedFunctions
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/HelperFunctions
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileReader
+        ${CMAKE_CURRENT_SOURCE_DIR}/Structs
+        ${CMAKE_CURRENT_SOURCE_DIR}/Testing
+)
+
+
+
+#add_library(CPP-JSONParserStatic STATIC PROPORTIES  
+#    ExposedFunctions/cppJSONParser.h
+#)
 
 # Fetch fmt library
 include(FetchContent)
@@ -60,7 +102,6 @@ FetchContent_MakeAvailable(fmt)
 
 
 # Fetch Google Test
-include(FetchContent)
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
