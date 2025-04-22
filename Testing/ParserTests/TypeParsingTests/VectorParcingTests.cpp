@@ -85,3 +85,19 @@ TEST(TypeParcingTests, TypeParcing_Vector_bool) {
 	};
 }
 
+TEST(TypeParcingTests, TypeParcing_nested_vector_double) {
+
+	string filePath = string(TYPE_TEST_FILE_PATH) + "vector/vector_type_nested_double.txt";
+	JSON testJson = ReadAndParseTypeTestFile(filePath);
+
+	cout << "TypeParcing_nested_vector_double -> File read OKAY" << endl;
+
+	JSON result = GetValueByKey(testJson, "test_vector");
+
+	vector<vector<bool>> testVector = GetValueByKeyWithType<vector<vector<bool>>>(testJson, "test_vector");
+
+	SCOPED_TRACE(format("Expected the size of the testVector to be non 0 : size found {}", testVector.size()));
+	ASSERT_TRUE(testVector.size() > 0);
+
+}
+
