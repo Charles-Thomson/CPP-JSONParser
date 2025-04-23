@@ -85,6 +85,10 @@ TEST(TypeParcingTests, TypeParcing_Vector_bool) {
 	};
 }
 
+// Test fails
+// Returns vecor of size 0 
+
+// The heldtype is shred_ptr -> needs to be unpacked correctly
 TEST(TypeParcingTests, TypeParcing_nested_vector_double) {
 
 	string filePath = string(TYPE_TEST_FILE_PATH) + "vector/vector_type_nested_double.txt";
@@ -94,7 +98,10 @@ TEST(TypeParcingTests, TypeParcing_nested_vector_double) {
 
 	JSON result = GetValueByKey(testJson, "test_vector");
 
-	vector<vector<bool>> testVector = GetValueByKeyWithType<vector<vector<bool>>>(testJson, "test_vector");
+	// should be vector<vector<double>>
+	vector<shared_ptr<JSONValue>> testVector = GetValueByKeyWithType<vector<shared_ptr<JSONValue>>>(testJson, "test_vector");
+	cout << "Returned vector size : " << testVector.size() << endl;
+
 
 	SCOPED_TRACE(format("Expected the size of the testVector to be non 0 : size found {}", testVector.size()));
 	ASSERT_TRUE(testVector.size() > 0);
