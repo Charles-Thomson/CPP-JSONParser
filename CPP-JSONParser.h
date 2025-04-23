@@ -76,6 +76,42 @@ vector<T> ConvertVectorValuesToHeldType(JSONArray& vectorToConvert) {
     return resultVector;
 }
 
+
+
+// Handle the nested / recurcive call 
+// this assunmes that a nested vector is held
+template<typename T>
+void HandleNestedVectors(JSONArray& nestedVector) {
+    cout << "In the handling of nested vectors func" << endl;
+    cout << nestedVector.size() << endl;
+
+    for (shared_ptr<JSONValue> held : nestedVector) {
+        cout << "Holding something" << endl;
+        // get the type that it is expected to be and getV of the type from -> held 
+    
+    
+    }
+
+    //T unNestedVector;
+
+
+    //// For each held vector
+    //for (vector<shared_ptr<JSONValue>> heldVec : nestedVector) {
+
+    //    cout << "In the loop for vectors" << endl; 
+    //    JSONArray heldVector = heldVec->getV<JSONArray>;
+    //    string heldType = heldVector->getType();
+
+
+    //    if constexpr (is_same_v<T, vector<vector<double>>>) {
+    //        cout << "Matched tot he nested vector type : vector<double>" << endl;
+    //        vector<double> convertedHeldVector = ConvertVectorValuesToHeldType<double>(heldVector);
+
+    //    }
+    //}
+   
+}
+
 // Needs to handle the unpacking of nested Vectors
 template <typename T>
 T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {\
@@ -84,23 +120,31 @@ T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {\
 
     string heldType = JSON->getType();
 
+    
+
     if (heldType == "JSONArray") {
         cout << "Holding a JSON Array" << endl;
         cout << typeid(T).name() << endl;
 
-        if constexpr (is_same_v <T, vector<double>>) {
-            JSONArray value = JSON->getV<JSONArray>();
+        JSONArray value = JSON->getV<JSONArray>();
+
+        if constexpr (is_same_v <T, vector<double>>) { 
             return ConvertVectorValuesToHeldType<double>(value);        
         }
 
-        if constexpr (is_same_v <T, vector<string>>) {
-            JSONArray value = JSON->getV<JSONArray>();
+        if constexpr (is_same_v <T, vector<string>>) {   
             return ConvertVectorValuesToHeldType<string>(value);
         }
 
         if constexpr (is_same_v <T, vector<bool>>) {
-            JSONArray value = JSON->getV<JSONArray>();
             return ConvertVectorValuesToHeldType<bool>(value);
+        }
+
+        if constexpr (is_same_v < T, vector<shared_ptr<JSONValue>>>) {
+            // T can be passed in as vector<vector<type>>
+            HandleNestedVectors<T>(value); // passing value, which will be JSONArray of shared_ptr<JSONValue>
+        
+        
         }
     }
 

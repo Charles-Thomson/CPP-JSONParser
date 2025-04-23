@@ -106,5 +106,7 @@ TEST(TypeParcingTests, TypeParcing_nested_vector_double) {
 	SCOPED_TRACE(format("Expected the size of the testVector to be non 0 : size found {}", testVector.size()));
 	ASSERT_TRUE(testVector.size() > 0);
 
+	ASSERT_TRUE(false);
+
 }
 
