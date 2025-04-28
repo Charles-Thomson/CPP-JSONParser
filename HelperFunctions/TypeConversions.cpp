@@ -111,19 +111,19 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	
 	if (holds_alternative<string>(pointer->value)) {
 		string value = GetStringFromJSONValue(pointer);
-		cout << "getCorrectTypeFromJSONValue ->  GetStringFromJSONValue -> " << value << endl;
+		
 
 		return GetStringFromJSONValue(pointer);
 	}
 	if (holds_alternative<double>(pointer->value)) {
 		double value = GetDoubleFromJSONValue(pointer);
-		cout << "getCorrectTypeFromJSONValue ->  GetDoubleFromJSONValue -> " << std::to_string(value) << endl;
+		
 
 		return GetDoubleFromJSONValue(pointer);
 	}
 	if (holds_alternative<bool>(pointer->value)) {
 		bool value = GetBoolFromJSONValue(pointer);
-		cout << "getCorrectTypeFromJSONValue ->  GetDoubleFromJSONValue -> " << std::to_string(value) << endl;
+		
 
 		return GetBoolFromJSONValue(pointer);
 	}

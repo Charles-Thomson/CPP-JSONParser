@@ -61,7 +61,6 @@ class TestValueAssignments : public ::testing::TestWithParam<string> {};
 // */
 TEST_P(TestKeyExists, KeyExistsTest) {
 	string testFileName = GetParam();
-	cout << testFileName << endl;
 
 	tuple<shared_ptr<JSONValue>, vector<string>, vector<string>> testData = getTestData(testFileName);
 	auto [JSONData, keyList, valuesList] = testData;

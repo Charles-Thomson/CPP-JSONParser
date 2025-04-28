@@ -59,8 +59,6 @@ template <typename T>
 vector<T> ConvertVectorValuesToHeldType(JSONVector& vectorToConvert) {
     int vectorSize = vectorToConvert.size();
 
-    cout << "The size of the input vector : " << vectorSize << endl;
-
     vector<T> resultVector;
 
     for (int i = 0; vectorSize > i; i++) {
@@ -70,9 +68,6 @@ vector<T> ConvertVectorValuesToHeldType(JSONVector& vectorToConvert) {
 
         resultVector.push_back(val);
     }
-
-    cout << "The size of the returned vector : " << resultVector.size() << endl;
-
     return resultVector;
 }
 
@@ -132,6 +127,8 @@ struct is_vector_of_vector<std::vector<std::vector<U>>> : std::true_type {};
 // */
 template <typename T>
 T HandleJSONVectorReturn(shared_ptr<JSONValue>& JSONData) {
+
+    cout << "HandleJSONVectorReturn -> handling a JSON ARRAY" << endl;
     
     T retrunData;
 
