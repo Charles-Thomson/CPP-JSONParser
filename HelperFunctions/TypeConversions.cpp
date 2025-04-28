@@ -71,8 +71,8 @@ JSONObject GetJSONObjectFromJSONValue(const shared_ptr<JSONValue>& pointer) {
 // @ param shared_ptr<JSONValue>& pointer : referance pointer to the JSONValue
 // @ return Stored JSONArray value
 // */
-JSONArray GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer) {
-	return get<JSONArray>(pointer->value);
+JSONVector GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer) {
+	return get<JSONVector>(pointer->value);
 
 }
 
@@ -130,7 +130,7 @@ any getCorrectTypeFromJSONValue(const shared_ptr<JSONValue>& pointer ) {
 	if (holds_alternative<JSONObject>(pointer->value)) {
 		return GetJSONObjectFromJSONValue(pointer);
 	}
-	if (holds_alternative<JSONArray>(pointer->value)) {
+	if (holds_alternative<JSONVector>(pointer->value)) {
 		return GetJSONArrayFromJSONValue(pointer);
 	}
 }
@@ -188,7 +188,7 @@ vector<any> ConvertVectorStringToVectorAny(vector<string>& inputVector) {
 
 		}else if (val == "JSONArray") {
 			cout << "Core Type : " << "JSONArray" << endl;
-			JSONArray arr;
+			JSONVector arr;
 			finalResult.push_back(arr);
 		}
 

@@ -36,8 +36,8 @@ void PrintJson(const shared_ptr<JSONValue>& jsonValue, int indent, bool nested) 
 			PrintJson(value, indent + 2, true); // recursive call 
 		}
 	}
-	else if (holds_alternative<JSONArray>(jsonValue->value)) {
-		const JSONArray& ary = get<JSONArray>(jsonValue->value);
+	else if (holds_alternative<JSONVector>(jsonValue->value)) {
+		const JSONVector& ary = get<JSONVector>(jsonValue->value);
 
 
 		for (const auto& val : ary) {

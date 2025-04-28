@@ -16,7 +16,7 @@ string GetStringFromJSONValue(const shared_ptr<JSONValue>& pointer);
 
 JSONObject GetJSONObjectFromJSONValue(const shared_ptr<JSONValue>& pointer);
 
-JSONArray GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer);
+JSONVector GetJSONArrayFromJSONValue(const shared_ptr<JSONValue>& pointer);
 
 vector<string> stringToVector(const string& inputString);
 

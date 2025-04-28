@@ -56,7 +56,7 @@ shared_ptr<JSONValue> GetValueByKey(shared_ptr<JSONValue>&, string);
 
 // The type passed is the type of the vector i.e vector<double> T = double
 template <typename T>
-vector<T> ConvertVectorValuesToHeldType(JSONArray& vectorToConvert) {
+vector<T> ConvertVectorValuesToHeldType(JSONVector& vectorToConvert) {
     int vectorSize = vectorToConvert.size();
 
     cout << "The size of the input vector : " << vectorSize << endl;
@@ -78,77 +78,100 @@ vector<T> ConvertVectorValuesToHeldType(JSONArray& vectorToConvert) {
 
 
 
-// Handle the nested / recurcive call 
-// this assunmes that a nested vector is held
+//*
+// @brief Handle nested vectors
+// 
+// Handle vectors nested within other vectors to a single level of nesting
+// 
+// @param nestedVector Vector that is known to contain nested vectors
+// @return rtnVector Vector containing nexted vecotors all parsed to correct type
+// */
 template<typename T>
-void HandleNestedVectors(JSONArray& nestedVector) {
-    cout << "In the handling of nested vectors func" << endl;
-    cout << nestedVector.size() << endl;
+T HandleNestedVectors(JSONVector& nestedVector) {
+    T rtnVector;
 
-    for (shared_ptr<JSONValue> held : nestedVector) {
-        cout << "Holding something" << endl;
-        // get the type that it is expected to be and getV of the type from -> held 
+    for (shared_ptr<JSONValue> ptr : nestedVector) {
+        
+        JSONVector vec = ptr->getV<JSONVector>();
+
+        if constexpr (is_same_v<T, vector<vector<double>>>) {
+            vector<double> convertedHeldVector = ConvertVectorValuesToHeldType<double>(vec);
+            rtnVector.push_back(convertedHeldVector); 
+        } 
+
+        if constexpr (is_same_v<T, vector<vector<string>>>) {
+            vector<double> convertedHeldVector = ConvertVectorValuesToHeldType<string>(vec);
+            rtnVector.push_back(convertedHeldVector);
+        }
+
+        if constexpr (is_same_v<T, vector<vector<bool>>>) {
+            vector<double> convertedHeldVector = ConvertVectorValuesToHeldType<bool>(vec);
+            rtnVector.push_back(convertedHeldVector);
+        }
+    }
+    return rtnVector;
+}
+
+
+// Helper trait to detect if T is a vector of vectors
+template<typename T>
+struct is_vector_of_vector : std::false_type {};
+
+template<typename U>
+struct is_vector_of_vector<std::vector<std::vector<U>>> : std::true_type {};
+
+
+
+//*
+// @ brief Handle the parsing of JSONVector 
+// 
+// Handle the parsing of the JSONVector to a vecotr of the correct held type
+// 
+// @param JSONData JSON(shared_ptr<JSONValuve>) data known to contain the vector
+// @return retrunData JSON data parsed to correct vector type
+// */
+template <typename T>
+T HandleJSONVectorReturn(shared_ptr<JSONValue>& JSONData) {
     
-    
+    T retrunData;
+
+    JSONVector vectorDataAsJSON = JSONData->getV<JSONVector>();
+
+    if constexpr (is_same_v <T, vector<double>>) {
+        return ConvertVectorValuesToHeldType<double>(vectorDataAsJSON);
     }
 
-    //T unNestedVector;
+    if constexpr (is_same_v <T, vector<string>>) {
+        return ConvertVectorValuesToHeldType<string>(vectorDataAsJSON);
+    }
 
+    if constexpr (is_same_v <T, vector<bool>>) {
+        return ConvertVectorValuesToHeldType<bool>(vectorDataAsJSON);
+    }
 
-    //// For each held vector
-    //for (vector<shared_ptr<JSONValue>> heldVec : nestedVector) {
+    if constexpr (is_vector_of_vector<T>::value) {
+        return HandleNestedVectors<T>(vectorDataAsJSON); // passing value, which will be JSONArray of shared_ptr<JSONValue>
+    }
 
-    //    cout << "In the loop for vectors" << endl; 
-    //    JSONArray heldVector = heldVec->getV<JSONArray>;
-    //    string heldType = heldVector->getType();
+    return retrunData;
 
-
-    //    if constexpr (is_same_v<T, vector<vector<double>>>) {
-    //        cout << "Matched tot he nested vector type : vector<double>" << endl;
-    //        vector<double> convertedHeldVector = ConvertVectorValuesToHeldType<double>(heldVector);
-
-    //    }
-    //}
-   
 }
+
+
 
 // Needs to handle the unpacking of nested Vectors
 template <typename T>
 T GetValueByKeyWithType(shared_ptr<JSONValue>& JSONElement, string searchKey) {\
 
-    shared_ptr<JSONValue> JSON = GetValueByKey(JSONElement, searchKey);
+    shared_ptr<JSONValue> JSONdata = GetValueByKey(JSONElement, searchKey);
 
-    string heldType = JSON->getType();
-
-    
+    string heldType = JSONdata->getType();
 
     if (heldType == "JSONArray") {
-        cout << "Holding a JSON Array" << endl;
-        cout << typeid(T).name() << endl;
-
-        JSONArray value = JSON->getV<JSONArray>();
-
-        if constexpr (is_same_v <T, vector<double>>) { 
-            return ConvertVectorValuesToHeldType<double>(value);        
-        }
-
-        if constexpr (is_same_v <T, vector<string>>) {   
-            return ConvertVectorValuesToHeldType<string>(value);
-        }
-
-        if constexpr (is_same_v <T, vector<bool>>) {
-            return ConvertVectorValuesToHeldType<bool>(value);
-        }
-
-        if constexpr (is_same_v < T, vector<shared_ptr<JSONValue>>>) {
-            // T can be passed in as vector<vector<type>>
-            HandleNestedVectors<T>(value); // passing value, which will be JSONArray of shared_ptr<JSONValue>
-        
-        
-        }
+        return HandleJSONVectorReturn<T>(JSONdata);
     }
 
-    return JSON->getV<T>();
+    return JSONdata->getV<T>();
 }
 
 

@@ -33,7 +33,7 @@ TEST(JSONStructTest, GetValueFromJSONValueStruct) {
 	string testString = "22.2";
 	bool testBool = false;
 	JSONObject testJSONObject = JSONObject();;
-	JSONArray testJSONArray = JSONArray();
+	JSONVector testJSONArray = JSONVector();
 
 	shared_ptr<JSONValue> testPointer_double = make_shared<JSONValue>(testDouble);
 	shared_ptr<JSONValue> testPointer_string = make_shared<JSONValue>(testString);
@@ -67,8 +67,8 @@ TEST(JSONStructTest, GetValueFromJSONValueStruct) {
 
 	typeComparisonHelper(
 		"Returned value from shared_ptr<JSONValue>->getV<JSONArray>() returned an incorrect type",
-		typeid(JSONArray).name(),
-		typeid(testPointer_JSONArray->getV<JSONArray>()).name()
+		typeid(JSONVector).name(),
+		typeid(testPointer_JSONArray->getV<JSONVector>()).name()
 	);	
 }
 

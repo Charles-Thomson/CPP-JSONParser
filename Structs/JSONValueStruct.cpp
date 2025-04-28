@@ -23,7 +23,7 @@ JSONValue::JSONValue(bool b) : value(b) {}
 JSONValue::JSONValue(double d) : value(d) {}
 JSONValue::JSONValue(const string& s) : value(s) {}
 JSONValue::JSONValue(const JSONObject& obj) : value(obj) {}
-JSONValue::JSONValue(const JSONArray& arr) : value(arr) {}
+JSONValue::JSONValue(const JSONVector& arr) : value(arr) {}
 
 
 

@@ -34,14 +34,14 @@ using std::cout;
 struct JSONValue;
 
 using JSONObject = unordered_map<string, shared_ptr<JSONValue>>;
-using JSONArray = vector<shared_ptr<JSONValue>>;
+using JSONVector = vector<shared_ptr<JSONValue>>;
 
 
 
 // Acts as a linked list data structure
 
 struct JSONValue {
-    using JSONType = variant<nullptr_t, bool, double, string, JSONObject, JSONArray>;
+    using JSONType = variant<nullptr_t, bool, double, string, JSONObject, JSONVector>;
 
     JSONType value;
     
@@ -52,7 +52,7 @@ struct JSONValue {
     JSONValue(double d);
     JSONValue(const string& s);
     JSONValue(const JSONObject& obj);
-    JSONValue(const JSONArray& arr);
+    JSONValue(const JSONVector& arr);
 
 
     //*
@@ -116,7 +116,7 @@ struct JSONValue {
             else if constexpr (is_same_v<T, double>) return "double";
             else if constexpr (is_same_v<T, string>) return "string";
             else if constexpr (is_same_v<T, JSONObject>) return "JSONObject";
-            else if constexpr (is_same_v<T, JSONArray>) return "JSONArray";
+            else if constexpr (is_same_v<T, JSONVector>) return "JSONArray";
             else return "unknown";
             }, value);
     }

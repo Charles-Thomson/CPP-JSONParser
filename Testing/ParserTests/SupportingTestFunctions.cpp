@@ -60,8 +60,8 @@ bool checkIfContainsKey(shared_ptr<JSONValue> pointer, string& searchKey) {
 		};
 	};
 
-	if (holds_alternative<JSONArray>(pointer->value)) {
-		const JSONArray& ary = GetJSONArrayFromJSONValue(pointer);
+	if (holds_alternative<JSONVector>(pointer->value)) {
+		const JSONVector& ary = GetJSONArrayFromJSONValue(pointer);
 
 		for (const auto& val : ary) {
 
@@ -124,8 +124,8 @@ bool compareJSONValueToTestValue(shared_ptr<JSONValue>& pointerValue, any& anyVa
 		return typeid(shared_ptr<JSONObject>).name() == typeid(any_cast<shared_ptr<JSONObject>>(anyValue)).name();
 	}
 
-	if (holds_alternative<JSONArray>(pointerValue->value)) {
-		return typeid(shared_ptr<JSONArray>).name() == typeid(any_cast<shared_ptr<JSONArray>>(anyValue)).name();
+	if (holds_alternative<JSONVector>(pointerValue->value)) {
+		return typeid(shared_ptr<JSONVector>).name() == typeid(any_cast<shared_ptr<JSONVector>>(anyValue)).name();
 	}
 
 	

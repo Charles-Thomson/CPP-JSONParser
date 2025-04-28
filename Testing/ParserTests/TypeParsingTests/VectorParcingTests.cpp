@@ -99,8 +99,9 @@ TEST(TypeParcingTests, TypeParcing_nested_vector_double) {
 	JSON result = GetValueByKey(testJson, "test_vector");
 
 	// should be vector<vector<double>>
-	vector<shared_ptr<JSONValue>> testVector = GetValueByKeyWithType<vector<shared_ptr<JSONValue>>>(testJson, "test_vector");
-	cout << "Returned vector size : " << testVector.size() << endl;
+	vector<vector<double>> testVector = GetValueByKeyWithType<vector<vector<double>>>(testJson, "test_vector");
+
+	cout << "TypeParcingTests -> Returned vector size : " << testVector.size() << endl;
 
 
 	SCOPED_TRACE(format("Expected the size of the testVector to be non 0 : size found {}", testVector.size()));

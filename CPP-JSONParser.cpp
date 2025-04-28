@@ -253,7 +253,7 @@ bool checkAndHandleEmptyCase(istringstream& stream, char matchCaseOpen, char mat
 // @return shared_ptr<JSONValue> ptr for the parsed JSONValue
 // */
 shared_ptr<JSONValue> parseArray(istringstream& stream) {
-	JSONArray ary;
+	JSONVector ary;
 	char ch;
 
 	if (checkAndHandleEmptyCase(stream, '[', ']')) {
