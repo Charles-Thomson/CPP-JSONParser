@@ -9,85 +9,90 @@ using std::format;
 
 using JSON = shared_ptr<JSONValue>;
 
-TEST(TypeParcingTests, TypeParcing_Vector_double) {
 
-	string filePath = string(TYPE_TEST_FILE_PATH) + "vector/vector_type_double.txt";
+template<typename T>
+T LoadVectorFromFile(const string& relitiveFilePath, const string& key) {
+	string filePath = string(TYPE_TEST_FILE_PATH) + relitiveFilePath;
+	JSON testJSON = ReadAndParseTypeTestFile(filePath);
+	return GetValueByKeyWithType<T>(testJSON, key);
+}
+template<typename T>
+void CheckVectorSize(vector<T>& vec, size_t expectedSize) {
+	ASSERT_EQ(vec.size(), expectedSize) << "Expected Vector size : " << expectedSize << " but got vector size : " << vec.size();
 
-	JSON testJson = ReadAndParseTypeTestFile(filePath);
+}
 
-	JSON result = GetValueByKey(testJson, "test_vector");
+TEST(TypeParsingTests, TypeParcing_Vector_double) {
+	string relitiveFilePath = "vector/vector_type_double.txt";
+	string key = "test_vector";
 
-	string heldType = result->getType();
+	vector<double> testVector = LoadVectorFromFile<vector<double>>(relitiveFilePath, key);
 
-	vector<double> testVector = GetValueByKeyWithType<vector<double>>(testJson, "test_vector");
+	ASSERT_EQ(typeid(testVector), typeid(vector<double>)) << "Expected Type : vector<double> - Returned Type " << typeid(testVector).name();
+	CheckVectorSize(testVector, 3);
 
-	
-	ASSERT_TRUE(typeid(testVector) == typeid(vector<double>)) << "The expected return type vector<double> - The actual return type : " << typeid(testVector).name();
-	ASSERT_TRUE(testVector.size() == 3) << "The size of the test vector : 3 - The size of the returned Vactor : " << testVector.size();
+	EXPECT_DOUBLE_EQ(testVector[0], 1);
+	EXPECT_DOUBLE_EQ(testVector[1], 2);
+	EXPECT_DOUBLE_EQ(testVector[2], 3.3);
 }
 
 
 
-TEST(TypeParcingTests, TypeParcing_Vector_string) {
+TEST(TypeParsingTests, TypeParcing_Vector_string) {
+	string relitiveFilePath = "vector/vector_type_string.txt";
+	string key = "test_vector";
 
-	string filePath = string(TYPE_TEST_FILE_PATH) + "vector/vector_type_string.txt";
+	vector<string> testVector = LoadVectorFromFile<vector<string>>(relitiveFilePath, key);
 
-	JSON testJson = ReadAndParseTypeTestFile(filePath);
+	ASSERT_EQ(typeid(testVector), typeid(vector<string>)) << "Expected Type : vector<string> - Returned Type :  " << typeid(testVector).name();
+	CheckVectorSize(testVector, 3);
 
-	JSON result = GetValueByKey(testJson, "test_vector");
-
-	string heldType = result->getType();
-
-	vector<string> testVector = GetValueByKeyWithType<vector<string>>(testJson, "test_vector");
-
-	
-	ASSERT_TRUE(typeid(testVector) == typeid(vector<string>)) << "The expected return type vector<string> - The actual return type : " << typeid(testVector).name();
-	ASSERT_TRUE(testVector.size() == 3) << "The size of the test vector : 3 - The size of the returned Vactor : " << testVector.size();
+	EXPECT_EQ(testVector[0], "Jeff");
+	EXPECT_EQ(testVector[1], "Bill");
+	EXPECT_EQ(testVector[2], "3.3");
 	
 }
 
-TEST(TypeParcingTests, TypeParcing_Vector_bool) {
+TEST(TypeParsingTests, TypeParcing_Vector_bool) {
+	string relitiveFilePath = "vector/vector_type_bool.txt";
+	string key = "test_vector";
 
-	string filePath = string(TYPE_TEST_FILE_PATH) + "vector/vector_type_bool.txt";
+	vector<bool> testVector = LoadVectorFromFile<vector<bool>>(relitiveFilePath, key);
 
-	JSON testJson = ReadAndParseTypeTestFile(filePath);
+	ASSERT_EQ(typeid(testVector), typeid(vector<bool>)) << "Expected Type : vector<bool> - Returned Type : {}" << typeid(testVector).name();
+	CheckVectorSize(testVector, 3);
 
-	
+	EXPECT_EQ(testVector[0], true);
+	EXPECT_EQ(testVector[1], false);
+	EXPECT_EQ(testVector[2], true);
 
-	JSON result = GetValueByKey(testJson, "test_vector");
-
-	string heldType = result->getType();
-
-	vector<bool> testVector = GetValueByKeyWithType<vector<bool>>(testJson, "test_vector");
-
-	SCOPED_TRACE(format("The expected return type vector<bool> - The actual return type : {}", typeid(testVector).name()));
-	ASSERT_TRUE(typeid(testVector) == typeid(vector<bool>));
-
-	SCOPED_TRACE(format("The size of the test vector : 3 - The size of the returned Vactor : {}", testVector.size()));
-	ASSERT_TRUE(testVector.size() == 3);
-
-	
 }
 
 
-TEST(TypeParcingTests, TypeParcing_nested_vector_double) {
+TEST(TypeParsingTests, TypeParcing_nested_vector_double) {
 
-	string filePath = string(TYPE_TEST_FILE_PATH) + "vector/vector_type_nested_double.txt";
-	JSON testJson = ReadAndParseTypeTestFile(filePath);
+	string relitiveFilePath = "vector/vector_type_nested_double.txt";
+	string key = "test_vector";
 
-	
+	vector<vector<double>> testVector = LoadVectorFromFile<vector<vector<double>>>(relitiveFilePath, key);
 
-	JSON result = GetValueByKey(testJson, "test_vector");
+	CheckVectorSize(testVector, 3);
+	CheckVectorSize(testVector[0], 3);
+	CheckVectorSize(testVector[1], 3);
+	CheckVectorSize(testVector[2], 3);
 
-	// should be vector<vector<double>>
-	vector<vector<double>> testVector = GetValueByKeyWithType<vector<vector<double>>>(testJson, "test_vector");
+	ASSERT_TRUE(testVector.size() > 0) << "Expected the size of the testVector to be non 0 : size found : " << testVector.size();
+	EXPECT_DOUBLE_EQ(testVector[0][0], 1);
+	EXPECT_DOUBLE_EQ(testVector[0][1], 2);
+	EXPECT_DOUBLE_EQ(testVector[0][2], 3);
 
-	
+	EXPECT_DOUBLE_EQ(testVector[1][0], 4);
+	EXPECT_DOUBLE_EQ(testVector[1][1], 5);
+	EXPECT_DOUBLE_EQ(testVector[1][2], 6);
 
-	SCOPED_TRACE(format("Expected the size of the testVector to be non 0 : size found {}", testVector.size()));
-	ASSERT_TRUE(testVector.size() > 0);
-
-	ASSERT_TRUE(false);
+	EXPECT_DOUBLE_EQ(testVector[2][0], 7);
+	EXPECT_DOUBLE_EQ(testVector[2][1], 8);
+	EXPECT_DOUBLE_EQ(testVector[2][2], 9);
 
 }
 
